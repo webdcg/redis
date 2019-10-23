@@ -79,7 +79,7 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_select()
     {
         $this->assertTrue($this->redis->connect('127.0.0.1', 6379));
-        for ($db = 0; $db < 16; ++$db) {
+        for ($db = 0; $db < 16; $db++) {
             $this->assertTrue($this->redis->select($db));
         }
     }
