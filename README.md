@@ -18,17 +18,36 @@ composer require webdcg/redis
 
 ## Usage
 
-``` php
+```php
 $redis = new Webdcg\Redis\Redis;
 ```
 
 ### Connection
 
-```
+```php
 $redis->connect('127.0.0.1', 6379);
 $redis->auth('secret');
 $redis->select(1);
 $redis->swapdb(0, 1);
+$redis->close();
+$redis->setOption(\Redis::OPT_PREFIX, 'redis:');
+$redis->getOption(\Redis::OPT_PREFIX)
+$redis->ping('pong');
+$redis->echo('redis');
+```
+
+### Strings
+
+```php
+// Simple key -> value set
+$redis->set('key', 'value');
+// Will redirect, and actually make an SETEX call
+$redis->set('key', 'value', 10);
+// Will set the key, if it doesn't exist, with a ttl of 10 seconds
+$redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
+// Will set a key, if it does exist, with a ttl of 1000 miliseconds
+$redis->set('key', 'value', ['xx', 'px' => 1000]);
+$redis->setEx('key', 10, 'value');
 ```
 
 ### Testing
