@@ -22,7 +22,7 @@ composer require webdcg/redis
 $redis = new Webdcg\Redis\Redis;
 ```
 
-### Connection
+### [Connection](docs/connection.md)
 
 ```php
 $redis->connect('127.0.0.1', 6379);
@@ -66,7 +66,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email roberto.luna.rojas@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email rluna@webdcg.com instead of using the issue tracker.
 
 ## Credits
 

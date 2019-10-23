@@ -1,9 +1,12 @@
 {
     "name": "webdcg/redis",
-    "description": "Object Oriented Redis",
+    "description": "Redis client for PHP using the PhpRedis C Extension",
     "keywords": [
         "webdcg",
-        "redis"
+        "redis",
+        "php",
+        "extension",
+        "phpredis"
     ],
     "homepage": "https://github.com/webdcg/redis",
     "license": "MIT",

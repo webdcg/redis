@@ -53,7 +53,9 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_persistent()
     {
         $this->assertTrue($this->redis->pconnect('127.0.0.1', 6379, 0, 'x'));
+        $this->assertTrue($this->redis->popen('127.0.0.1', 6379, 0, 'x'));
     }
+
 
     /** @test */
     public function redis_connection_persistent_exception()
