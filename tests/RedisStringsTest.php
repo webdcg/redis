@@ -28,4 +28,10 @@ class RedisStringsTest extends TestCase
         // Will set a key, if it does exist, with a ttl of 1000 miliseconds
         $this->assertTrue($this->redis->set('key', 'value', ['xx', 'px' => 1000]));
     }
+
+    /** @test */
+    public function redis_strings_setex()
+    {
+        $this->assertTrue($this->redis->setEx('key', 10, 'value'));
+    }
 }

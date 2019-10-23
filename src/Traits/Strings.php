@@ -12,6 +12,8 @@ trait Strings
      * @param mixed $value
      * @param mixed $args Timeout or Options Array (optional). If you pass an integer, phpredis will redirect to SETEX,
      *                    and will try to use Redis >= 2.6.12 extended options if you pass an array with valid values
+     *
+     * @return bool TRUE if the command is successful.
      */
     public function set(string $key, $value, ...$args) : bool
     {
@@ -20,5 +22,19 @@ trait Strings
         }
 
         return $this->redis->set($key, $value, $args[0]);
+    }
+
+    /**
+     * Set the string value in argument as value of the key, with a time to live. PSETEX uses a TTL in milliseconds.
+     *
+     * @param string $key
+     * @param int   $timeout seconds
+     * @param mixed $value
+     *
+     * @return bool TRUE if the command is successful.
+     */
+    public function setEx(string $key, int $timeout, $value) : bool
+    {
+        return $this->redis->setEx($key, $timeout, $value);
     }
 }
