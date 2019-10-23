@@ -118,7 +118,7 @@ trait Connection
     }
 
     /**
-     * Swap one Redis database with another atomically
+     * Swap one Redis database with another atomically.
      *
      * @param  int    $db1
      * @param  int    $db2
