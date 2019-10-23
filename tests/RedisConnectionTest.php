@@ -5,7 +5,7 @@ namespace Webdcg\Redis\Tests;
 use Webdcg\Redis\Redis;
 use PHPUnit\Framework\TestCase;
 
-class RedisTest extends TestCase
+class RedisConnectionTest extends TestCase
 {
     /** @test */
     public function true_is_true()
@@ -64,5 +64,21 @@ class RedisTest extends TestCase
         $redis = new Redis;
         $this->expectException(\RedisException::class);
         $this->assertTrue($redis->pconnect('127.0.0.1', 9736, 0, 'x'));
+    }
+
+    /** @test */
+    public function redis_connection_authenticate()
+    {
+        $redis = new Redis;
+        $this->assertTrue($redis->connect('127.0.0.1', 6379));
+        $this->assertTrue($redis->auth('secret'));
+    }
+
+    /** @test */
+    public function redis_connection_authenticate_exception()
+    {
+        $redis = new Redis;
+        $this->assertTrue($redis->connect('127.0.0.1', 6379));
+        $this->assertFalse($redis->auth('password'));
     }
 }

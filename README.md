@@ -1,4 +1,4 @@
-# Very short description of the package
+# Object Oriented Redis Data Structures
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webdcg/redis.svg?style=flat-square)](https://packagist.org/packages/webdcg/redis)
 [![Build Status](https://img.shields.io/travis/webdcg/redis/master.svg?style=flat-square)](https://travis-ci.org/webdcg/redis)
@@ -18,7 +18,8 @@ composer require webdcg/redis
 ## Usage
 
 ``` php
-// Usage description here
+$redis = new Redis;
+$redis->connect('127.0.0.1', 6379)
 ```
 
 ### Testing

@@ -92,4 +92,16 @@ trait Connection
     {
         return $this->pconnect($host, $port, $timeout, $persistent_id, $retry_interval, $read_timeout);
     }
+
+    /**
+     * Authenticate the connection using a password. Warning: The password is sent in plain-text over the network.
+     *
+     * @param  string $password
+     *
+     * @return bool             TRUE if the connection is authenticated, FALSE otherwise.
+     */
+    public function auth(string $password) : bool
+    {
+        return $this->redis->auth($password);
+    }
 }
