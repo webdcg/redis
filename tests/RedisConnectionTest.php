@@ -79,7 +79,7 @@ class RedisConnectionTest extends TestCase
     /** @test */
     public function redis_connection_select()
     {
-        for ($db = 0; $db < 16; ++$db) {
+        for ($db = 0; $db < 16; $db++) {
             $this->assertTrue($this->redis->select($db));
         }
     }
