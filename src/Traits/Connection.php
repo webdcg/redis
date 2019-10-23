@@ -125,7 +125,7 @@ trait Connection
      *
      * @return bool     TRUE in case of success, FALSE in case of failure.
      */
-    public function swapdb(int $db1, int $db2)
+    public function swapdb(int $db1, int $db2) : bool
     {
         return $this->redis->swapdb($db1, $db2);
     }
@@ -137,8 +137,32 @@ trait Connection
      *
      * @return bool     TRUE on success, FALSE on failure.
      */
-    public function close()
+    public function close() : bool
     {
         return $this->redis->close();
+    }
+
+    /**
+     * Set client option.
+     *
+     * @param string $name
+     * @param string $value
+     *
+     * @return bool     TRUE on success, FALSE on error.
+     */
+    public function setOption(string $name, string $value) : bool
+    {
+        return $this->redis->setOption($name, $value);
+    }
+
+    /**
+     * Get client option.
+     *
+     * @param  string $name
+     * @return mixed|string|int
+     */
+    public function getOption(string $name)
+    {
+        return $this->redis->getOption($name);
     }
 }

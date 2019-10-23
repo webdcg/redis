@@ -107,4 +107,17 @@ class RedisConnectionTest extends TestCase
     {
         $this->assertTrue($this->redis->close());
     }
+
+    /** @test */
+    public function redis_connection_setoption()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'webdcg:'));
+    }
+
+    /** @test */
+    public function redis_connection_getoption()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'webdcg:'));
+        $this->assertEquals('webdcg:', $this->redis->getOption(\Redis::OPT_PREFIX));
+    }
 }

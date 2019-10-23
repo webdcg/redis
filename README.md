@@ -1,4 +1,4 @@
-# Object Oriented Redis Data Structures
+# Redis client for PHP using the PhpRedis C Extension
 
 [![StyleCI](https://github.styleci.io/repos/217066042/shield)](https://github.styleci.io/repos/217066042/shield)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webdcg/redis.svg?style=flat-square)](https://packagist.org/packages/webdcg/redis)
@@ -20,8 +20,15 @@ composer require webdcg/redis
 
 ``` php
 $redis = new Webdcg\Redis\Redis;
-$redis->connect('127.0.0.1', 6379)
-$redis->auth('secret')
+```
+
+### Connection
+
+```
+$redis->connect('127.0.0.1', 6379);
+$redis->auth('secret');
+$redis->select(1);
+$redis->swapdb(0, 1);
 ```
 
 ### Testing
