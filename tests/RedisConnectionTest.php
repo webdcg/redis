@@ -12,6 +12,7 @@ class RedisConnectionTest extends TestCase
     protected function setUp(): void
     {
         $this->redis = new Redis;
+        $this->redis->connect();
     }
 
     /** @test */
@@ -78,7 +79,6 @@ class RedisConnectionTest extends TestCase
     /** @test */
     public function redis_connection_select()
     {
-        $this->assertTrue($this->redis->connect('127.0.0.1', 6379));
         for ($db = 0; $db < 16; ++$db) {
             $this->assertTrue($this->redis->select($db));
         }
@@ -87,7 +87,18 @@ class RedisConnectionTest extends TestCase
     /** @test */
     public function redis_connection_select_out_range()
     {
-        $this->assertTrue($this->redis->connect('127.0.0.1', 6379));
         $this->assertFalse($this->redis->select(17));
+    }
+
+    /** @test */
+    public function redis_connection_swapdb()
+    {
+        $this->assertTrue($this->redis->swapdb(0, 1));
+    }
+
+    /** @test */
+    public function redis_connection_swapdb_out_range()
+    {
+        $this->assertFalse($this->redis->swapdb(15, 16));
     }
 }

@@ -116,4 +116,17 @@ trait Connection
     {
         return $this->redis->select($db);
     }
+
+    /**
+     * Swap one Redis database with another atomically
+     *
+     * @param  int    $db1
+     * @param  int    $db2
+     *
+     * @return bool     TRUE in case of success, FALSE in case of failure.
+     */
+    public function swapdb(int $db1, int $db2)
+    {
+        return $this->redis->swapdb($db1, $db2);
+    }
 }
