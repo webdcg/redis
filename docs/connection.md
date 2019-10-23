@@ -20,13 +20,13 @@ $redis = new Webdcg\Redis\Redis;
 ```
 
 ## connect, open
------
+
 _**Description**_: Connects to a Redis instance.
 
 ##### *Prototype*  
-~~~php
-$redis->connect(string $host = '127.0.0.1', int $port = 6379, float $timeout = 0, $reserved = null, int $retry_interval = 0, float $read_timeout = 0); // (bool)
-~~~
+```php
+public function connect(string $host = '127.0.0.1', int $port = 6379, float $timeout = 0, $reserved = null, int $retry_interval = 0, float $read_timeout = 0) : bool
+```
 
 ##### *Parameters*
 

@@ -7,19 +7,26 @@ trait Connection
     /**
      * Connects to a Redis instance.
      *
-     * @param  string        $host           can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is possible to specify
-     * @param  int|int   $port           optional defaults to 6379
-     * @param  float|int $timeout        value in seconds (optional, default is 0 meaning unlimited)
+     * @param  string       $host           can be a host, or the path to a unix domain socket. Starting from
+     *                                       version 5.0.0 it is possible to specify
+     * @param  int|int      $port           optional defaults to 6379
+     * @param  float|int    $timeout        value in seconds (optional, default is 0 meaning unlimited)
      * @param  null         $reserved       should be NULL if retry_interval is specified
-     * @param  int|int   $retry_interval value in milliseconds (optional)
-     * @param  float|int $read_timeout   value in seconds (optional, default is 0 meaning unlimited)
+     * @param  int|int      $retry_interval value in milliseconds (optional)
+     * @param  float|int    $read_timeout   value in seconds (optional, default is 0 meaning unlimited)
      *
      * @return bool                         true on success, false on error
      *
      * @throws RedisException
      */
-    public function connect(string $host = '127.0.0.1', int $port = 6379, float $timeout = 0, $reserved = null, int $retry_interval = 0, float $read_timeout = 0) : bool
-    {
+    public function connect(
+        string $host = '127.0.0.1',
+        int $port = 6379,
+        float $timeout = 0,
+        $reserved = null,
+        int $retry_interval = 0,
+        float $read_timeout = 0
+    ) : bool {
         return $this->redis->connect($host, $port, $timeout, $reserved, $retry_interval, $read_timeout);
     }
 
