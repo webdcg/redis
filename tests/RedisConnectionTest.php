@@ -120,4 +120,11 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'webdcg:'));
         $this->assertEquals('webdcg:', $this->redis->getOption(\Redis::OPT_PREFIX));
     }
+
+    /** @test */
+    public function redis_connection_ping()
+    {
+        $this->assertEquals('pong', $this->redis->ping('pong'));
+        $this->assertTrue($this->redis->ping());
+    }
 }

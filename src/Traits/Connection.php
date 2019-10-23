@@ -165,4 +165,18 @@ trait Connection
     {
         return $this->redis->getOption($name);
     }
+
+    /**
+     * Check the current connection status.
+     *
+     * Note: Prior to PhpRedis 5.0.0 this command simply returned the string +PONG.
+     *
+     * @param  string|null $message
+     *
+     * @return Mixed: This method returns TRUE on success, or the passed string if called with an argument.
+     */
+    public function ping(?string $message = null)
+    {
+        return $message ? $this->redis->ping($message) : $this->redis->ping();
+    }
 }
