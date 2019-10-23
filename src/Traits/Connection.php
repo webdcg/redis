@@ -104,4 +104,16 @@ trait Connection
     {
         return $this->redis->auth($password);
     }
+
+    /**
+     * Change the selected database for the current connection.
+     *
+     * @param  int    $db the database number to switch to (0 - 15).
+     *
+     * @return bool     TRUE in case of success, FALSE in case of failure.
+     */
+    public function select(int $db) : bool
+    {
+        return $this->redis->select($db);
+    }
 }

@@ -1,6 +1,5 @@
 # Object Oriented Redis Data Structures
 
-[![Build Status](https://travis-ci.org/webdcg/redis.svg?branch=master)](https://travis-ci.org/webdcg/redis)
 [![StyleCI](https://github.styleci.io/repos/217066042/shield)](https://github.styleci.io/repos/217066042/shield)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webdcg/redis.svg?style=flat-square)](https://packagist.org/packages/webdcg/redis)
 [![Build Status](https://img.shields.io/travis/webdcg/redis/master.svg?style=flat-square)](https://travis-ci.org/webdcg/redis)
@@ -20,7 +19,7 @@ composer require webdcg/redis
 ## Usage
 
 ``` php
-$redis = new Redis;
+$redis = new Webdcg\Redis\Redis;
 $redis->connect('127.0.0.1', 6379)
 $redis->auth('secret')
 ```
