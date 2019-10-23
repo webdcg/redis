@@ -181,7 +181,7 @@ trait Connection
     }
 
     /**
-     * Sends a string to Redis, which replies with the same string
+     * Sends a string to Redis, which replies with the same string.
      *
      * @param  string $message The message to send.
      *

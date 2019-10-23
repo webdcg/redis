@@ -6,7 +6,7 @@ trait Strings
 {
     /**
      * Set the string value in argument as value of the key. If you're using Redis >= 2.6.12, you can pass extended
-     * options as explained below
+     * options as explained below.
      *
      * @param string $key
      * @param mixed $value
