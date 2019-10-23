@@ -7,6 +7,10 @@ php:
   - 7.2
   - 7.3
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 services:
   - redis-server
 
@@ -22,7 +26,7 @@ before_install:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - sudo redis-server /etc/redis/redis.conf --port 6379 --requirepass 'secret'
+  - sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover

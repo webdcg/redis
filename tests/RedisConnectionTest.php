@@ -70,7 +70,7 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_authenticate()
     {
         $redis = new Redis;
-        $this->assertTrue($redis->connect('127.0.0.1', 6379));
+        $this->assertTrue($redis->connect('127.0.0.1', 6380));
         $this->assertTrue($redis->auth('secret'));
     }
 
@@ -78,7 +78,7 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_authenticate_exception()
     {
         $redis = new Redis;
-        $this->assertTrue($redis->connect('127.0.0.1', 6379));
+        $this->assertTrue($redis->connect('127.0.0.1', 6380));
         $this->assertFalse($redis->auth('password'));
     }
 }
