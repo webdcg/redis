@@ -179,4 +179,16 @@ trait Connection
     {
         return $message ? $this->redis->ping($message) : $this->redis->ping();
     }
+
+    /**
+     * Sends a string to Redis, which replies with the same string
+     *
+     * @param  string $message The message to send.
+     *
+     * @return string the same message.
+     */
+    public function echo(string $message) : string
+    {
+        return $this->redis->echo($message);
+    }
 }

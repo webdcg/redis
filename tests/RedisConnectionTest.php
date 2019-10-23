@@ -111,14 +111,14 @@ class RedisConnectionTest extends TestCase
     /** @test */
     public function redis_connection_setoption()
     {
-        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'webdcg:'));
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'redis:'));
     }
 
     /** @test */
     public function redis_connection_getoption()
     {
-        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'webdcg:'));
-        $this->assertEquals('webdcg:', $this->redis->getOption(\Redis::OPT_PREFIX));
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'redis:'));
+        $this->assertEquals('redis:', $this->redis->getOption(\Redis::OPT_PREFIX));
     }
 
     /** @test */
@@ -126,5 +126,11 @@ class RedisConnectionTest extends TestCase
     {
         $this->assertEquals('pong', $this->redis->ping('pong'));
         $this->assertTrue($this->redis->ping());
+    }
+
+    /** @test */
+    public function redis_connection_echo()
+    {
+        $this->assertEquals('redis', $this->redis->echo('redis'));
     }
 }
