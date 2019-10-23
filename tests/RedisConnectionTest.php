@@ -101,4 +101,10 @@ class RedisConnectionTest extends TestCase
     {
         $this->assertFalse($this->redis->swapdb(15, 16));
     }
+
+    /** @test */
+    public function redis_connection_close()
+    {
+        $this->assertTrue($this->redis->close());
+    }
 }

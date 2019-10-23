@@ -129,4 +129,16 @@ trait Connection
     {
         return $this->redis->swapdb($db1, $db2);
     }
+
+    /**
+     * Disconnects from the Redis instance.
+     *
+     * Note: Closing a persistent connection requires PhpRedis >= 4.2.0.
+     *
+     * @return bool     TRUE on success, FALSE on failure.
+     */
+    public function close()
+    {
+        return $this->redis->close();
+    }
 }
