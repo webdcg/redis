@@ -1,4 +1,4 @@
-### Redis client for PHP using the PhpRedis C Extension
+### [Redis client for PHP using the PhpRedis C Extension](README.md)
 
 # [Connection](docs/connection.md)
 
@@ -38,7 +38,8 @@ public function connect(
 
 ##### *Parameters*
 
-- *host*: string. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is possible to specify schema 
+- *host*: string. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is 
+            possible to specify schema 
 - *port*: int, optional  
 - *timeout*: float, value in seconds (optional, default is 0 meaning unlimited)  
 - *reserved*: should be NULL if retry_interval is specified  
