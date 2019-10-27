@@ -30,7 +30,6 @@ trait Connection
         return $this->redis->connect($host, $port, $timeout, $reserved, $retry_interval, $read_timeout);
     }
 
-
     /**
      * Connects to a Redis instance.
      *
@@ -56,7 +55,6 @@ trait Connection
     ) : bool {
         return $this->connect($host, $port, $timeout, $reserved, $retry_interval, $read_timeout);
     }
-
 
     /**
      * Connects to a Redis instance or reuse a connection already established with pconnect/popen.
@@ -97,7 +95,6 @@ trait Connection
         return $this->redis->pconnect($host, $port, $timeout, $persistent_id, $retry_interval, $read_timeout);
     }
 
-
     /**
      * Connects to a Redis instance or reuse a connection already established with pconnect/popen.
      *
@@ -137,7 +134,6 @@ trait Connection
         return $this->pconnect($host, $port, $timeout, $persistent_id, $retry_interval, $read_timeout);
     }
 
-
     /**
      * Authenticate the connection using a password. Warning: The password is sent in plain-text over the network.
      *
@@ -145,10 +141,10 @@ trait Connection
      *
      * @return bool     TRUE if the connection is authenticated, FALSE otherwise.
      */
-    public function auth(string $password) : bool {
+    public function auth(string $password) : bool
+    {
         return $this->redis->auth($password);
     }
-
 
     /**
      * Change the selected database for the current connection.
@@ -157,10 +153,10 @@ trait Connection
      *
      * @return bool     TRUE in case of success, FALSE in case of failure.
      */
-    public function select(int $db) : bool {
+    public function select(int $db) : bool
+    {
         return $this->redis->select($db);
     }
-
 
     /**
      * Swap one Redis database with another atomically.
@@ -170,10 +166,10 @@ trait Connection
      *
      * @return bool     TRUE in case of success, FALSE in case of failure.
      */
-    public function swapdb(int $db1, int $db2) : bool {
+    public function swapdb(int $db1, int $db2) : bool
+    {
         return $this->redis->swapdb($db1, $db2);
     }
-
 
     /**
      * Disconnects from the Redis instance.
@@ -182,10 +178,10 @@ trait Connection
      *
      * @return bool     TRUE on success, FALSE on failure.
      */
-    public function close() : bool {
+    public function close() : bool
+    {
         return $this->redis->close();
     }
-
 
     /**
      * Set client option.
@@ -195,10 +191,10 @@ trait Connection
      *
      * @return bool     TRUE on success, FALSE on error.
      */
-    public function setOption(string $name, string $value) : bool {
+    public function setOption(string $name, string $value) : bool
+    {
         return $this->redis->setOption($name, $value);
     }
-
 
     /**
      * Get client option.
@@ -206,10 +202,10 @@ trait Connection
      * @param  string $name
      * @return mixed|string|int
      */
-    public function getOption(string $name) {
+    public function getOption(string $name)
+    {
         return $this->redis->getOption($name);
     }
-
 
     /**
      * Check the current connection status.
@@ -220,10 +216,10 @@ trait Connection
      *
      * @return Mixed: This method returns TRUE on success, or the passed string if called with an argument.
      */
-    public function ping(?string $message = null) {
+    public function ping(?string $message = null)
+    {
         return $message ? $this->redis->ping($message) : $this->redis->ping();
     }
-
 
     /**
      * Sends a string to Redis, which replies with the same string.
@@ -232,7 +228,8 @@ trait Connection
      *
      * @return string the same message.
      */
-    public function echo(string $message) : string {
+    public function echo(string $message) : string
+    {
         return $this->redis->echo($message);
     }
 }
