@@ -2,8 +2,8 @@
 
 namespace Webdcg\Redis\Tests;
 
-use Webdcg\Redis\Redis;
 use PHPUnit\Framework\TestCase;
+use Webdcg\Redis\Redis;
 
 class RedisStringsTest extends TestCase
 {

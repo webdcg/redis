@@ -2,8 +2,8 @@
 
 namespace Webdcg\Redis;
 
-use Webdcg\Redis\Traits\Strings;
 use Webdcg\Redis\Traits\Connection;
+use Webdcg\Redis\Traits\Strings;
 
 class Redis
 {
