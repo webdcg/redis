@@ -85,9 +85,9 @@ trait Connection
      * @throws RedisException
      */
     public function pconnect(
-        string $host = '127.0.0.1',
-        int $port = 6379,
-        float $timeout = 0.0,
+        string $host,
+        int $port,
+        float $timeout,
         string $persistent_id,
         ?int $retry_interval = 0,
         ?float $read_timeout = 0
@@ -124,9 +124,9 @@ trait Connection
      * @throws RedisException
      */
     public function popen(
-        string $host = '127.0.0.1',
-        int $port = 6379,
-        float $timeout = 0.0,
+        string $host,
+        int $port,
+        float $timeout,
         string $persistent_id,
         ?int $retry_interval = 0,
         ?float $read_timeout = 0
