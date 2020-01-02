@@ -6,7 +6,7 @@
 - [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
 - [auth](#auth) - Authenticate to the server
 - [select](#select) - Change the selected database for the current connection
-- [swapdb]() - Swaps two Redis databases
+- [swapdb](#swapdb) - Swaps two Redis databases
 - [close]() - Close the connection
 - [setOption]() - Set client option
 - [getOption]() - Get client option
@@ -48,7 +48,7 @@ public function connect(
 
 ##### *Return value*
 
-*Bool*: `true` on success, `false` on error.
+*bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
@@ -105,7 +105,7 @@ public function pconnect(
 
 ##### *Return value*
 
-*Bool*: `true` on success, `false` on error.
+*bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
@@ -138,7 +138,7 @@ public function auth(string $password) : bool {
 
 ##### *Return value*
 
-*Bool*: `true` on success, `false` on error.
+*bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
@@ -164,11 +164,40 @@ public function select(int $db) : bool {
 
 ##### *Return value*
 
-*Bool*: `true` on success, `false` on error.
+*bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
 ```php
 $db = 0; // Valid DBs 0 - 15
 $this->redis->select($db)
+```
+
+## swapdb
+
+_**Description**_: Swap one Redis database with another atomically.
+
+##### *Prototype*  
+
+```php
+public function swapdb(int $db1, int $db2) : bool {
+    return $this->redis->swapdb($db1, $db2);
+}
+```
+
+##### *Parameters*
+
+- *db1*: Integer. Database to Switch From (valid 0 - 15)
+- *db2*: Integer. Database to Switch To  (valid 0 - 15)
+
+##### *Return value*
+
+*bool*: `true` on success, `false` on error.
+
+##### *Example*
+
+```php
+$dbFrom = 0;
+$dbTo = 1;
+$this->redis->swapdb($dbFrom, $dbTo)
 ```

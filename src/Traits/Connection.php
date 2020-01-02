@@ -139,7 +139,7 @@ trait Connection
      *
      * @param  string $password
      *
-     * @return bool     TRUE if the connection is authenticated, FALSE otherwise.
+     * @return bool     true if the connection is authenticated, false otherwise.
      */
     public function auth(string $password) : bool
     {
@@ -151,7 +151,7 @@ trait Connection
      *
      * @param  int    $db   the database number to switch to (0 - 15).
      *
-     * @return bool     TRUE in case of success, FALSE in case of failure.
+     * @return bool     true in case of success, false in case of failure.
      */
     public function select(int $db) : bool
     {
@@ -161,10 +161,10 @@ trait Connection
     /**
      * Swap one Redis database with another atomically.
      *
-     * @param  int    $db1
-     * @param  int    $db2
+     * @param  int    $db1  Database to Switch From  (valid 0 - 15)
+     * @param  int    $db2  Database to Switch To  (valid 0 - 15)
      *
-     * @return bool     TRUE in case of success, FALSE in case of failure.
+     * @return bool     true in case of success, false in case of failure.
      */
     public function swapdb(int $db1, int $db2) : bool
     {

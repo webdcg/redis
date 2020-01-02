@@ -94,13 +94,17 @@ class RedisConnectionTest extends TestCase
     /** @test */
     public function redis_connection_swapdb()
     {
-        $this->assertTrue($this->redis->swapdb(0, 1));
+        $dbFrom = 0;
+        $dbTo = 1;
+        $this->assertTrue($this->redis->swapdb($dbFrom, $dbTo));
     }
 
     /** @test */
     public function redis_connection_swapdb_out_range()
     {
-        $this->assertFalse($this->redis->swapdb(15, 16));
+        $dbFrom = 15;
+        $dbTo = 16;
+        $this->assertFalse($this->redis->swapdb($dbFrom, $dbTo));
     }
 
     /** @test */
