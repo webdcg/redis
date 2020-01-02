@@ -1,11 +1,11 @@
-### [Redis client for PHP using the PhpRedis C Extension](README.md)
+### [Redis client for PHP using the PhpRedis C Extension](../README.md)
 
 # [Connection](docs/connection.md)
 
 - [connect, open](#connect-open) - Connect to a server
 - [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
 - [auth](#auth) - Authenticate to the server
-- [select]() - Change the selected database for the current connection
+- [select](#select) - Change the selected database for the current connection
 - [swapdb]() - Swaps two Redis databases
 - [close]() - Close the connection
 - [setOption]() - Set client option
@@ -48,7 +48,7 @@ public function connect(
 
 ##### *Return value*
 
-*Bool*: `TRUE` on success, `FALSE` on error.
+*Bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
@@ -105,7 +105,7 @@ public function pconnect(
 
 ##### *Return value*
 
-*Bool*: `TRUE` on success, `FALSE` on error.
+*Bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
@@ -138,10 +138,37 @@ public function auth(string $password) : bool {
 
 ##### *Return value*
 
-*Bool*: `TRUE` on success, `FALSE` on error.
+*Bool*: `true` on success, `false` on error.
 
 ##### *Example*
 
 ```php
 $this->redis->auth('secret')
+```
+
+## select
+
+_**Description**_: Change the selected database for the current connection.
+
+##### *Prototype*  
+
+```php
+public function select(int $db) : bool {
+    return $this->redis->select($db);
+}
+```
+
+##### *Parameters*
+
+- *db*: Integer. the database number to switch to (valid 0 - 15)
+
+##### *Return value*
+
+*Bool*: `true` on success, `false` on error.
+
+##### *Example*
+
+```php
+$db = 0; // Valid DBs 0 - 15
+$this->redis->select($db)
 ```
