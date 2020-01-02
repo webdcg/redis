@@ -4,7 +4,7 @@
 
 - [connect, open](#connect-open) - Connect to a server
 - [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
-- [auth]() - Authenticate to the server
+- [auth](#auth) - Authenticate to the server
 - [select]() - Change the selected database for the current connection
 - [swapdb]() - Swaps two Redis databases
 - [close]() - Close the connection
@@ -38,17 +38,17 @@ public function connect(
 
 ##### *Parameters*
 
-- *host*: string. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is 
+- *host*: String. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is 
             possible to specify schema 
-- *port*: int. (optional)  
-- *timeout*: float. value in seconds (optional, default is 0 meaning unlimited)  
+- *port*: Integer. (optional)  
+- *timeout*: Float. value in seconds (optional, default is 0 meaning unlimited)  
 - *reserved*: should be NULL if retry_interval is specified  
-- *retry_interval*: int. value in milliseconds (optional)  
-- *read_timeout*: float. value in seconds (optional, default is 0 meaning unlimited)  
+- *retry_interval*: Integer. value in milliseconds (optional)  
+- *read_timeout*: Float. value in seconds (optional, default is 0 meaning unlimited)  
 
 ##### *Return value*
 
-*BOOL*: `TRUE` on success, `FALSE` on error.
+*Bool*: `TRUE` on success, `FALSE` on error.
 
 ##### *Example*
 
@@ -95,17 +95,17 @@ public function pconnect(
 
 ##### *Parameters*
 
-- *host*: string. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is 
+- *host*: String. can be a host, or the path to a unix domain socket. Starting from version 5.0.0 it is 
             possible to specify schema 
-- *port*: int. (optional)  
-- *timeout*: float. value in seconds (optional, default is 0 meaning unlimited)  
-- *persistent_id*: string. identity for the requested persistent connection
-- *retry_interval*: int. value in milliseconds (optional)  
-- *read_timeout*: float. value in seconds (optional, default is 0 meaning unlimited)  
+- *port*: Integer. (optional)  
+- *timeout*: Float. value in seconds (optional, default is 0 meaning unlimited)  
+- *persistent_id*: String. identity for the requested persistent connection
+- *retry_interval*: Integer. value in milliseconds (optional)  
+- *read_timeout*: Float. value in seconds (optional, default is 0 meaning unlimited)  
 
 ##### *Return value*
 
-*BOOL*: `TRUE` on success, `FALSE` on error.
+*Bool*: `TRUE` on success, `FALSE` on error.
 
 ##### *Example*
 
@@ -118,4 +118,30 @@ $redis->pconnect('127.0.0.1', 6379, 2.5); // 2.5 sec timeout.
 $redis->pconnect('/tmp/redis.sock'); // unix domain socket.
 $redis->pconnect('127.0.0.1', 6379, 1, NULL, 100); // 1 sec timeout, 100ms delay between reconnection attempts.
 $redis->pconnect('unix://redis.sock'); // relative path to unix domain socket requires version 5.0.0 or higher.
+```
+
+## auth
+
+_**Description**_: Authenticate the connection using a password. Warning: The password is sent in plain-text over the network.
+
+##### *Prototype*  
+
+```php
+public function auth(string $password) : bool {
+    return $this->redis->auth($password);
+}
+```
+
+##### *Parameters*
+
+- *password*: String.
+
+##### *Return value*
+
+*Bool*: `TRUE` on success, `FALSE` on error.
+
+##### *Example*
+
+```php
+$this->redis->auth('secret')
 ```

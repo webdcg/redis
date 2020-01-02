@@ -1,4 +1,4 @@
-# Redis client for PHP using the PhpRedis C Extension
+# Redis client for PHP using the [PhpRedis](https://github.com/phpredis/phpredis) C Extension
 
 [![StyleCI](https://github.styleci.io/repos/217066042/shield)](https://github.styleci.io/repos/217066042/shield)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/webdcg/redis.svg?style=flat-square)](https://packagist.org/packages/webdcg/redis)
@@ -6,7 +6,16 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/webdcg/redis.svg?style=flat-square)](https://scrutinizer-ci.com/g/webdcg/redis)
 [![Total Downloads](https://img.shields.io/packagist/dt/webdcg/redis.svg?style=flat-square)](https://packagist.org/packages/webdcg/redis)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+OOP Redis client for PHP using the [PhpRedis](https://github.com/phpredis/phpredis) C Extension
+
+Table of contents
+----
+
+1. [Installation](#installation)
+2. [Classes and methods](#classes-and-methods)
+    - [Usage](#usage)
+    - [Connection](#connection)
+    - [Strings](#strings)
 
 ## Installation
 
@@ -15,6 +24,8 @@ You can install the package via composer:
 ```bash
 composer require webdcg/redis
 ```
+
+## Classes and methods
 
 ## Usage
 
