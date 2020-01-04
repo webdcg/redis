@@ -154,7 +154,7 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($this->redis->set('keySerializerPHP', 'value'));
         $this->assertEquals('value', $this->redis->get('keySerializerPHP'));
     }
-    
+
     // ToDo: Test with igBinary
     public function redis_connection_options_serializer_igbinary()
     {
