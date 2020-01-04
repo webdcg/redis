@@ -15,7 +15,7 @@ trait Strings
      *
      * @return bool TRUE if the command is successful.
      */
-    public function set(string $key, $value, ...$args) : bool
+    public function set(string $key, $value, ...$args): bool
     {
         if (empty($args)) {
             return $this->redis->set($key, $value);
@@ -33,7 +33,7 @@ trait Strings
      *
      * @return bool TRUE if the command is successful.
      */
-    public function setEx(string $key, int $timeout, $value) : bool
+    public function setEx(string $key, int $timeout, $value): bool
     {
         return $this->redis->setEx($key, $timeout, $value);
     }
