@@ -127,7 +127,7 @@ class RedisConnectionTest extends TestCase
         var_dump(gettype($this->redis->getOption(\Redis::OPT_PREFIX)));
     }
 
-     /** @test */
+    /** @test */
     public function redis_connection_getoption_prefix_integer()
     {
         $date = (int) date('Ymd');
