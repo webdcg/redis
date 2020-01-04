@@ -26,7 +26,7 @@ trait Connection
         $reserved = null,
         int $retry_interval = 0,
         float $read_timeout = 0
-    ) : bool {
+    ): bool {
         return $this->redis->connect($host, $port, $timeout, $reserved, $retry_interval, $read_timeout);
     }
 
@@ -52,7 +52,7 @@ trait Connection
         $reserved = null,
         int $retry_interval = 0,
         float $read_timeout = 0
-    ) : bool {
+    ): bool {
         return $this->connect($host, $port, $timeout, $reserved, $retry_interval, $read_timeout);
     }
 
@@ -91,7 +91,7 @@ trait Connection
         string $persistent_id,
         ?int $retry_interval = 0,
         ?float $read_timeout = 0
-    ) : bool {
+    ): bool {
         return $this->redis->pconnect($host, $port, $timeout, $persistent_id, $retry_interval, $read_timeout);
     }
 
@@ -130,7 +130,7 @@ trait Connection
         string $persistent_id,
         ?int $retry_interval = 0,
         ?float $read_timeout = 0
-    ) : bool {
+    ): bool {
         return $this->pconnect($host, $port, $timeout, $persistent_id, $retry_interval, $read_timeout);
     }
 
@@ -141,7 +141,7 @@ trait Connection
      *
      * @return bool     true if the connection is authenticated, false otherwise.
      */
-    public function auth(string $password) : bool
+    public function auth(string $password): bool
     {
         return $this->redis->auth($password);
     }
@@ -153,7 +153,7 @@ trait Connection
      *
      * @return bool     true in case of success, false in case of failure.
      */
-    public function select(int $db) : bool
+    public function select(int $db): bool
     {
         return $this->redis->select($db);
     }
@@ -166,7 +166,7 @@ trait Connection
      *
      * @return bool     true in case of success, false in case of failure.
      */
-    public function swapdb(int $db1, int $db2) : bool
+    public function swapdb(int $db1, int $db2): bool
     {
         return $this->redis->swapdb($db1, $db2);
     }
@@ -178,7 +178,7 @@ trait Connection
      *
      * @return bool     TRUE on success, FALSE on failure.
      */
-    public function close() : bool
+    public function close(): bool
     {
         return $this->redis->close();
     }
@@ -191,7 +191,7 @@ trait Connection
      *
      * @return bool     true on success, false on error.
      */
-    public function setOption(string $name, string $value) : bool
+    public function setOption(string $name, string $value): bool
     {
         return $this->redis->setOption($name, $value);
     }
@@ -228,7 +228,7 @@ trait Connection
      *
      * @return string the same message.
      */
-    public function echo(string $message) : string
+    public function echo(string $message): string
     {
         return $this->redis->echo($message);
     }
