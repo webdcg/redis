@@ -189,7 +189,7 @@ trait Connection
      * @param string $name
      * @param string $value
      *
-     * @return bool     TRUE on success, FALSE on error.
+     * @return bool     true on success, false on error.
      */
     public function setOption(string $name, string $value) : bool
     {

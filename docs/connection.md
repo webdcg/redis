@@ -60,7 +60,7 @@ public function connect(
 
 *bool*: `true` on success, `false` on error.
 
-##### *Example*
+##### *Examples*
 
 ```php
 $redis->connect('127.0.0.1'); // port 6379 by default
@@ -117,7 +117,7 @@ public function pconnect(
 
 *bool*: `true` on success, `false` on error.
 
-##### *Example*
+##### *Examples*
 
 ```php
 $redis->pconnect('127.0.0.1'); // port 6379 by default
@@ -236,4 +236,45 @@ public function close() : bool {
 
 ```php
 $this->redis->close();
+```
+
+## setOption
+
+_**Description**_: Set a client option.
+
+##### *Prototype*  
+
+```php
+public function setOption(string $name, string $value) : bool {
+    return $this->redis->setOption($name, $value);
+}
+```
+
+##### *Parameters*
+
+- *name*: String. Option Name
+- *value*: String. Option Value
+
+##### *Return value*
+
+*bool*: `true` on success, `false` on error.
+
+##### *Example*
+
+```php
+$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);     // Don't serialize data
+$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);      // Use built-in serialize/unserialize
+$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY); // Use igBinary serialize/unserialize
+$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_MSGPACK);  // Use msgpack serialize/unserialize
+
+$this->redis->setOption(Redis::OPT_PREFIX, 'myAppName:'); // use custom prefix on all keys
+
+/* Options for the SCAN family of commands, indicating whether to abstract
+   empty results from the user.  If set to SCAN_NORETRY (the default), phpredis
+   will just issue one SCAN command at a time, sometimes returning an empty
+   array of results.  If set to SCAN_RETRY, phpredis will retry the scan command
+   until keys come back OR Redis returns an iterator of zero
+*/
+$this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
+$this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
 ```

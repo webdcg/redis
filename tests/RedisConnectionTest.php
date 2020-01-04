@@ -114,16 +114,63 @@ class RedisConnectionTest extends TestCase
     }
 
     /** @test */
-    public function redis_connection_setoption()
+    public function redis_connection_setoption_prefix()
     {
         $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'redis:'));
     }
 
     /** @test */
-    public function redis_connection_getoption()
+    public function redis_connection_getoption_prefix()
     {
         $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'redis:'));
         $this->assertEquals('redis:', $this->redis->getOption(\Redis::OPT_PREFIX));
+    }
+
+    /** @test */
+    public function redis_connection_options_prefix()
+    {
+        $this->redis_connection_setoption_prefix();
+        $this->redis_connection_getoption_prefix();
+        // Actual key name will be redis:key
+        $this->assertTrue($this->redis->set('key', 'value'));
+        // We're actually fetching redis:key
+        $this->assertEquals('value', $this->redis->get('key'));
+    }
+
+    /** @test */
+    public function redis_connection_options_serializer_none()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE));
+        $this->assertEquals(\Redis::SERIALIZER_NONE, $this->redis->getOption(\Redis::OPT_SERIALIZER));
+        $this->assertTrue($this->redis->set('keySerializerNone', 'value'));
+        $this->assertEquals('value', $this->redis->get('keySerializerNone'));
+    }
+
+    /** @test */
+    public function redis_connection_options_serializer_php()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_PHP));
+        $this->assertEquals(\Redis::SERIALIZER_PHP, $this->redis->getOption(\Redis::OPT_SERIALIZER));
+        $this->assertTrue($this->redis->set('keySerializerPHP', 'value'));
+        $this->assertEquals('value', $this->redis->get('keySerializerPHP'));
+    }
+    
+    // ToDo: Test with igBinary
+    public function redis_connection_options_serializer_igbinary()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_IGBINARY));
+        $this->assertEquals(\Redis::SERIALIZER_IGBINARY, $this->redis->getOption(\Redis::OPT_SERIALIZER));
+        $this->assertTrue($this->redis->set('keySerializerIgBinary', 'value'));
+        $this->assertEquals('value', $this->redis->get('keySerializerIgBinary'));
+    }
+
+    // ToDo: Test with msgpack
+    public function redis_connection_options_serializer_msgpack()
+    {
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_MSGPACK));
+        $this->assertEquals(\Redis::SERIALIZER_MSGPACK, $this->redis->getOption(\Redis::OPT_SERIALIZER));
+        $this->assertTrue($this->redis->set('keySerializerMsgPack', 'value'));
+        $this->assertEquals('value', $this->redis->get('keySerializerMsgPack'));
     }
 
     /** @test */

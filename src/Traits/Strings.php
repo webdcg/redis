@@ -37,4 +37,9 @@ trait Strings
     {
         return $this->redis->setEx($key, $timeout, $value);
     }
+
+    public function get(string $key)
+    {
+        return $this->redis->get($key);
+    }
 }
