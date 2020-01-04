@@ -8,10 +8,10 @@
 - [select](#select) - Change the selected database for the current connection
 - [swapdb](#swapdb) - Swaps two Redis databases
 - [close](#close) - Close the connection
-- [setOption]() - Set client option
-- [getOption]() - Get client option
-- [ping]() - Ping the server
-- [echo]() - Echo the given string
+- [setOption](#setoption) - Set client option
+- [getOption](#getoption) - Get client option
+- [ping](#ping) - Ping the server
+- [echo](#echo) - Echo the given string
 
 ## Usage
 
@@ -277,4 +277,32 @@ $this->redis->setOption(Redis::OPT_PREFIX, 'myAppName:'); // use custom prefix o
 */
 $this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
 $this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+```
+
+## getOption
+
+_**Description**_: Get a client's option value.
+
+##### *Prototype*  
+
+```php
+public function getOption(string $name) {
+    return $this->redis->getOption($name);
+}
+```
+
+##### *Parameters*
+
+- *name*: String. Option Name
+
+##### *Return value*
+
+*string*: Option value.
+
+##### *Example*
+
+```php
+// return Redis::SERIALIZER_NONE, Redis::SERIALIZER_PHP, 
+//        Redis::SERIALIZER_IGBINARY, or Redis::SERIALIZER_MSGPACK
+$this->redis->getOption(Redis::OPT_SERIALIZER);
 ```

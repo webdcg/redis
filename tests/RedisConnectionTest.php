@@ -120,20 +120,38 @@ class RedisConnectionTest extends TestCase
     }
 
     /** @test */
-    public function redis_connection_getoption_prefix()
+    public function redis_connection_getoption_prefix_string()
     {
         $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, 'redis:'));
         $this->assertEquals('redis:', $this->redis->getOption(\Redis::OPT_PREFIX));
+        var_dump(gettype($this->redis->getOption(\Redis::OPT_PREFIX)));
+    }
+
+     /** @test */
+    public function redis_connection_getoption_prefix_integer()
+    {
+        $date = (int) date('Ymd');
+        $this->assertTrue($this->redis->setOption(\Redis::OPT_PREFIX, $date));
+        $this->assertEquals($date, $this->redis->getOption(\Redis::OPT_PREFIX));
     }
 
     /** @test */
-    public function redis_connection_options_prefix()
+    public function redis_connection_options_prefix_string()
     {
-        $this->redis_connection_setoption_prefix();
-        $this->redis_connection_getoption_prefix();
+        $this->redis_connection_getoption_prefix_string();
         // Actual key name will be redis:key
         $this->assertTrue($this->redis->set('key', 'value'));
         // We're actually fetching redis:key
+        $this->assertEquals('value', $this->redis->get('key'));
+    }
+
+    /** @test */
+    public function redis_connection_options_prefix_integer()
+    {
+        $this->redis_connection_getoption_prefix_integer();
+        // Actual key name will be 20200104key
+        $this->assertTrue($this->redis->set('key', 'value'));
+        // We're actually fetching 20200104key
         $this->assertEquals('value', $this->redis->get('key'));
     }
 

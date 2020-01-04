@@ -200,7 +200,8 @@ trait Connection
      * Get client option.
      *
      * @param  string $name
-     * @return mixed|string|int
+     *
+     * @return string
      */
     public function getOption(string $name)
     {
