@@ -7,7 +7,7 @@
 - [auth](#auth) - Authenticate to the server
 - [select](#select) - Change the selected database for the current connection
 - [swapdb](#swapdb) - Swaps two Redis databases
-- [close]() - Close the connection
+- [close](#close) - Close the connection
 - [setOption]() - Set client option
 - [getOption]() - Get client option
 - [ping]() - Ping the server
@@ -17,6 +17,16 @@
 
 ```php
 $redis = new Webdcg\Redis\Redis;
+
+$redis->connect('127.0.0.1', 6379);
+$redis->auth('secret');
+$redis->select(1);
+$redis->swapdb(0, 1);
+$redis->close();
+$redis->setOption(\Redis::OPT_PREFIX, 'redis:');
+$redis->getOption(\Redis::OPT_PREFIX)
+$redis->ping('pong');
+$redis->echo('redis');
 ```
 
 ## connect, open
@@ -200,4 +210,30 @@ public function swapdb(int $db1, int $db2) : bool {
 $dbFrom = 0;
 $dbTo = 1;
 $this->redis->swapdb($dbFrom, $dbTo)
+```
+
+## close
+
+_**Description**_: Disconnects from the Redis instance.
+
+##### *Prototype*  
+
+```php
+public function close() : bool {
+    return $this->redis->close();
+}
+```
+
+##### *Parameters*
+
+- None.
+
+##### *Return value*
+
+*bool*: `true` on success, `false` on error.
+
+##### *Example*
+
+```php
+$this->redis->close();
 ```
