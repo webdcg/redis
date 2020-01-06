@@ -1,6 +1,6 @@
 ### [Redis client for PHP using the PhpRedis C Extension](../README.md)
 
-# [Connection](docs/connection.md)
+# [Connection](/docs/connection.md)
 
 - [connect, open](#connect-open) - Connect to a server
 - [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
