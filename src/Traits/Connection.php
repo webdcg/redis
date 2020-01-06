@@ -203,7 +203,7 @@ trait Connection
      *
      * @return string
      */
-    public function getOption(string $name) : string
+    public function getOption(string $name): string
     {
         return $this->redis->getOption($name);
     }
