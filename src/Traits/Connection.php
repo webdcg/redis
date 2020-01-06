@@ -203,7 +203,7 @@ trait Connection
      *
      * @return string
      */
-    public function getOption(string $name)
+    public function getOption(string $name) : string
     {
         return $this->redis->getOption($name);
     }
@@ -215,7 +215,7 @@ trait Connection
      *
      * @param  string|null $message
      *
-     * @return Mixed: This method returns TRUE on success, or the passed string if called with an argument.
+     * @return Mixed: This method returns true on success, or the passed string if called with an argument.
      */
     public function ping(?string $message = null)
     {

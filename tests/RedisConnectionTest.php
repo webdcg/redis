@@ -195,6 +195,7 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_ping()
     {
         $this->assertEquals('pong', $this->redis->ping('pong'));
+        $this->assertEquals('redis', $this->redis->ping('redis'));
         $this->assertTrue($this->redis->ping());
     }
 

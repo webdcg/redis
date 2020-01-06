@@ -306,3 +306,34 @@ public function getOption(string $name) {
 //        Redis::SERIALIZER_IGBINARY, or Redis::SERIALIZER_MSGPACK
 $this->redis->getOption(Redis::OPT_SERIALIZER);
 ```
+
+## ping
+
+_**Description**_: Check the current connection status.  
+Note: Prior to PhpRedis 5.0.0 this command simply returned the string +PONG.
+
+##### *Prototype*  
+
+```php
+public function ping(?string $message = null) {
+    return $message ? $this->redis->ping($message) : $this->redis->ping();
+}
+```
+
+##### *Parameters*
+
+- *name*: String. Option Name 
+
+##### *Return value*
+
+*mixed*: `true` on success, , or the passed `string` if called with an argument.
+
+##### *Example*
+
+```php
+/* When called without an argument, PING returns `TRUE` */
+$this->redis->ping();
+
+/* If passed an argument, that argument is returned.  Here 'hello' will be returned */
+$this->redis->ping('redis');
+```
