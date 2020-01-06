@@ -337,3 +337,29 @@ $this->redis->ping();
 /* If passed an argument, that argument is returned.  Here 'hello' will be returned */
 $this->redis->ping('redis');
 ```
+
+## echo
+
+_**Description**_: Sends a string to Redis, which replies with the same string.
+
+##### *Prototype*  
+
+```php
+public function echo(string $message): string {
+    return $this->redis->echo($message);
+}
+```
+
+##### *Parameters*
+
+- *message*: String. The message to send 
+
+##### *Return value*
+
+*string*: The same message sent.
+
+##### *Example*
+
+```php
+$this->redis->echo('redis')
+```

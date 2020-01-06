@@ -203,5 +203,6 @@ class RedisConnectionTest extends TestCase
     public function redis_connection_echo()
     {
         $this->assertEquals('redis', $this->redis->echo('redis'));
+        $this->assertNotEquals('sider', $this->redis->echo('redis'));
     }
 }
