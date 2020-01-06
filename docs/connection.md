@@ -153,7 +153,7 @@ public function auth(string $password) : bool {
 ##### *Example*
 
 ```php
-$this->redis->auth('secret')
+$redis->auth('secret')
 ```
 
 ## select
@@ -180,7 +180,7 @@ public function select(int $db) : bool {
 
 ```php
 $db = 0; // Valid DBs 0 - 15
-$this->redis->select($db)
+$redis->select($db)
 ```
 
 ## swapdb
@@ -209,7 +209,7 @@ public function swapdb(int $db1, int $db2) : bool {
 ```php
 $dbFrom = 0;
 $dbTo = 1;
-$this->redis->swapdb($dbFrom, $dbTo)
+$redis->swapdb($dbFrom, $dbTo)
 ```
 
 ## close
@@ -235,7 +235,7 @@ public function close() : bool {
 ##### *Example*
 
 ```php
-$this->redis->close();
+$redis->close();
 ```
 
 ## setOption
@@ -262,12 +262,12 @@ public function setOption(string $name, string $value) : bool {
 ##### *Example*
 
 ```php
-$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);     // Don't serialize data
-$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);      // Use built-in serialize/unserialize
-$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY); // Use igBinary serialize/unserialize
-$this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_MSGPACK);  // Use msgpack serialize/unserialize
+$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);     // Don't serialize data
+$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);      // Use built-in serialize/unserialize
+$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY); // Use igBinary serialize/unserialize
+$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_MSGPACK);  // Use msgpack serialize/unserialize
 
-$this->redis->setOption(Redis::OPT_PREFIX, 'myAppName:'); // use custom prefix on all keys
+$redis->setOption(Redis::OPT_PREFIX, 'myAppName:'); // use custom prefix on all keys
 
 /* Options for the SCAN family of commands, indicating whether to abstract
    empty results from the user.  If set to SCAN_NORETRY (the default), phpredis
@@ -275,8 +275,8 @@ $this->redis->setOption(Redis::OPT_PREFIX, 'myAppName:'); // use custom prefix o
    array of results.  If set to SCAN_RETRY, phpredis will retry the scan command
    until keys come back OR Redis returns an iterator of zero
 */
-$this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
-$this->redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
+$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
 ```
 
 ## getOption
@@ -304,7 +304,7 @@ public function getOption(string $name) {
 ```php
 // return Redis::SERIALIZER_NONE, Redis::SERIALIZER_PHP, 
 //        Redis::SERIALIZER_IGBINARY, or Redis::SERIALIZER_MSGPACK
-$this->redis->getOption(Redis::OPT_SERIALIZER);
+$redis->getOption(Redis::OPT_SERIALIZER);
 ```
 
 ## ping
@@ -332,10 +332,10 @@ public function ping(?string $message = null) {
 
 ```php
 /* When called without an argument, PING returns `TRUE` */
-$this->redis->ping();
+$redis->ping();
 
 /* If passed an argument, that argument is returned.  Here 'hello' will be returned */
-$this->redis->ping('redis');
+$redis->ping('redis');
 ```
 
 ## echo
@@ -361,5 +361,5 @@ public function echo(string $message): string {
 ##### *Example*
 
 ```php
-$this->redis->echo('redis')
+$redis->echo('redis')
 ```
