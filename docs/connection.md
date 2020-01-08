@@ -1,6 +1,6 @@
 ### [Redis client for PHP using the PhpRedis C Extension](../README.md)
 
-# [Connection](/docs/connection.md)
+# [Connection](docs/connection.md)
 
 - [connect, open](#connect-open) - Connect to a server
 - [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
@@ -331,10 +331,10 @@ public function ping(?string $message = null) {
 ##### *Example*
 
 ```php
-/* When called without an argument, PING returns `TRUE` */
+/* When called without an argument, ping returns `true` */
 $redis->ping();
 
-/* If passed an argument, that argument is returned.  Here 'hello' will be returned */
+/* If passed an argument, that argument is returned.  Here 'redis' will be returned */
 $redis->ping('redis');
 ```
 
@@ -361,5 +361,5 @@ public function echo(string $message): string {
 ##### *Example*
 
 ```php
-$redis->echo('redis')
+$redis->echo('redis'); // returns redis
 ```

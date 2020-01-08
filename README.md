@@ -47,7 +47,7 @@ $redis->ping('pong');
 $redis->echo('redis');
 ```
 
-### Strings
+### [Strings](docs/strings.md)
 
 ```php
 // Simple key -> value set

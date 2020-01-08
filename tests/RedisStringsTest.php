@@ -16,6 +16,14 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_append()
+    {
+        $this->assertTrue($this->redis->set('key', 'value1'));
+        $this->assertEquals(12, $this->redis->append('key', 'value2'));
+        $this->assertEquals('value1value2', $this->redis->get('key'));
+    }
+
+    /** @test */
     public function redis_strings_set()
     {
         // Simple key -> value set
