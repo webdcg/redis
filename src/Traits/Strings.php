@@ -12,7 +12,7 @@ trait Strings
      *
      * @return int Size of the value after the append.
      */
-    public function append(string $key, string $value) : int
+    public function append(string $key, string $value): int
     {
         return $this->redis->append($key, $value);
     }
