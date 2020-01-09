@@ -21,7 +21,7 @@ class RedisBitsTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'a'));
         $value = $this->redis->get('key');
         $this->assertEquals(97, ord($value));
-        $this->assertEquals("1100001", base_convert(unpack('H*', $value)[1], 16, 2));
+        $this->assertEquals('1100001', base_convert(unpack('H*', $value)[1], 16, 2));
         $this->assertEquals(3, $this->redis->bitCount('key'));
     }
 }
