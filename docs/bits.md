@@ -39,6 +39,6 @@ public function bitCount(string $key) : int {
 ##### *Example*
 
 ```php
-$redis->set('key', 'value');
-$redis->bitCount('key'); /* 12 */
+$redis->set('key', 'a');
+$redis->bitCount('key'); // 3
 ```
