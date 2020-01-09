@@ -69,6 +69,14 @@ $redis->setEx('key', 10, 'value');
 $redis->bitCount('key');
 ```
 
+### [Keys](docs/keys.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
 ### Testing
 
 ``` bash
