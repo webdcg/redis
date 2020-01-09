@@ -3,11 +3,8 @@
 # [Strings](docs/strings.md)
 
 - [append](#append) - Append a value to a key
-- [bitCount](#bitCount) - Count set bits in a string
-- [bitOp](#bitOp) - Perform bitwise operations between strings
 - [decr](#decr), decrBy - Decrement the value of a key
 - [get](#get) - Get the value of a key
-- [getBit](#getBit) - Returns the bit value at offset in the string value stored at key
 - [getRange](#getRange) - Get a substring of the string stored at a key
 - [getSet](#getSet) - Set the string value of a key and return its old value
 - [incr](#incr), incrBy - Increment the value of a key
@@ -15,7 +12,6 @@
 - [mGet](#mGet), getMultiple - Get the values of all the given keys
 - [mSet](#mSet), mSetNX - Set multiple keys to multiple values
 - [set](#set) - Set the string value of a key
-- [setBit](#setBit) - Sets or clears the bit at offset in the string value stored at key
 - [setEx](#setEx), pSetEx - Set the value and expiration of a key
 - [setNx](#setNx) - Set the value of a key, only if the key does not exist
 - [setRange](#setRange) - Overwrite part of a string at key starting at the specified offset

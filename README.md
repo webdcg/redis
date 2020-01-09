@@ -16,6 +16,7 @@ Table of contents
     - [Usage](#usage)
     - [Connection](#connection)
     - [Strings](#strings)
+    - [Bits](#bits)
 
 ## Installation
 
@@ -59,6 +60,13 @@ $redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
 // Will set a key, if it does exist, with a ttl of 1000 miliseconds
 $redis->set('key', 'value', ['xx', 'px' => 1000]);
 $redis->setEx('key', 10, 'value');
+```
+
+### [Bits](docs/bits.md)
+
+```php
+// Count set bits in a string
+$redis->bitCount('key');
 ```
 
 ### Testing
