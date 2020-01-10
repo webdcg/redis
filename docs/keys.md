@@ -24,7 +24,8 @@
 
 ## del, delete
 
-_**Description**_: Remove specified keys [Blocking].
+_**Description**_: Remove specified keys [Blocking].  
+Note: Should be avoided, *unlink* is recommended.
 
 ##### *Prototype*  
 
@@ -88,4 +89,31 @@ $redis->set('key2', 'val2');
 $redis->unlink('key1'); // 1
 $redis->unlink('key1', 'key2'); // 2
 $redis->unlink(['key1', 'key2']); // 2
+```
+
+## dump
+
+_**Description**_: Return a serialized version of the value stored at the specified key.
+
+##### *Prototype*  
+
+```php
+public function dump(string $key): string {
+    return $this->redis->dump($key);
+}
+```
+
+##### *Parameters*
+
+- *key*: String
+
+##### *Return value*
+
+*string*: The Redis encoded value of the key, or FALSE if the key doesn't exist.
+
+##### *Example*
+
+```php
+$redis->set('string', 'value')
+$redis->dump('string'); //
 ```

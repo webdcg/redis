@@ -21,6 +21,7 @@ class RedisStringsTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'value1'));
         $this->assertEquals(12, $this->redis->append('key', 'value2'));
         $this->assertEquals('value1value2', $this->redis->get('key'));
+        $this->assertEquals(1, $this->redis->unlink('key'));
     }
 
     /** @test */

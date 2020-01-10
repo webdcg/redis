@@ -17,7 +17,7 @@ trait Keys
     }
 
     /**
-     * Remove specified keys [Blocking].
+     * Remove specified keys [Non Blocking].
      *
      * @param  mixed $keys
      *
@@ -25,7 +25,7 @@ trait Keys
      */
     public function delete(...$keys): int
     {
-        return $this->redis->del(...$keys);
+        return $this->redis->unlink(...$keys);
     }
 
     /**
@@ -43,5 +43,18 @@ trait Keys
     public function unlink(...$keys): int
     {
         return $this->redis->unlink(...$keys);
+    }
+
+    /**
+     * Return a serialized version of the value stored at the specified key.
+     *
+     * @param  string $key
+     *
+     * @return mixed|string|false       The Redis encoded value of the key,
+     *                                  or FALSE if the key doesn't exist
+     */
+    public function dump(string $key)
+    {
+        return $this->redis->dump($key);
     }
 }
