@@ -122,4 +122,38 @@ class RedisKeysTest extends TestCase
         $this->assertNotEmpty($this->redis->dump('float'));
         $this->assertEquals(1, $this->redis->unlink('float'));
     }
+
+     /** @test */
+    public function redis_keys_exists_single_key()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertEquals(1, $this->redis->exists('key1'));
+        $this->assertEquals(1, $this->redis->unlink('key1'));
+    }
+
+    /** @test */
+    public function redis_keys_exists_multiple_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertTrue($this->redis->set('key2', 'val2'));
+        $this->assertEquals(2, $this->redis->exists('key1', 'key2'));
+        $this->assertEquals(2, $this->redis->unlink('key1', 'key2'));
+    }
+
+    /** @test */
+    public function redis_keys_exists_array_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertTrue($this->redis->set('key2', 'val2'));
+        $this->assertEquals(2, $this->redis->exists(['key1', 'key2']));
+        $this->assertEquals(2, $this->redis->unlink(['key1', 'key2']));
+    }
+
+    /** @test */
+    public function redis_keys_exists_missing_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertEquals(1, $this->redis->exists(['key1', 'NonExistingKey']));
+        $this->assertEquals(1, $this->redis->unlink(['key1']));
+    }
 }

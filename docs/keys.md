@@ -115,5 +115,39 @@ public function dump(string $key): string {
 
 ```php
 $redis->set('string', 'value')
-$redis->dump('string'); //
+$redis->dump('string'); // value
+$redis->dump('nonexisting'); // false
+```
+
+## exists
+
+_**Description**_: Determine if a key exists.
+
+##### *Prototype*  
+
+```php
+public function exists(...$keys): int {
+    return $this->redis->exists(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: String(s) | Array. The key(s) to be removed.
+
+##### *Return value*
+
+*int*: The number of keys tested that do exist.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value');
+$redis->exists('key'); // 1
+$redis->exists('NonExistingKey'); // 0
+
+$redis->set('key1', 'value');
+$redis->set('key2', 'value');
+$redis->exists(['key1', 'key2']); // 2
+$redis->exists(['key1', 'NonExistingKey']); // 1
 ```

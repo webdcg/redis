@@ -57,4 +57,16 @@ trait Keys
     {
         return $this->redis->dump($key);
     }
+
+    /**
+     * Verify if the specified key exists.
+     *
+     * @param  mixed] $keys
+     *
+     * @return int
+     */
+    public function exists(...$keys): int
+    {
+        return $this->redis->exists(...$keys);
+    }
 }
