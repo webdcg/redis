@@ -37,4 +37,27 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set('key2', 'val2'));
         $this->assertEquals(2, $this->redis->del(['key1', 'key2']));
     }
+
+    /** @test */
+    public function redis_keys_delete_single_key()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertEquals(1, $this->redis->delete('key1'));
+    }
+
+    /** @test */
+    public function redis_keys_delete_multiple_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertTrue($this->redis->set('key2', 'val2'));
+        $this->assertEquals(2, $this->redis->delete('key1', 'key2'));
+    }
+
+    /** @test */
+    public function redis_keys_delete_array_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'val1'));
+        $this->assertTrue($this->redis->set('key2', 'val2'));
+        $this->assertEquals(2, $this->redis->delete(['key1', 'key2']));
+    }
 }

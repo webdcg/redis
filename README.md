@@ -17,6 +17,7 @@ Table of contents
     - [Connection](#connection)
     - [Strings](#strings)
     - [Bits](#bits)
+    - [Keys](#keys)
 
 ## Installation
 
