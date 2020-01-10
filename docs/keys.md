@@ -57,3 +57,35 @@ $redis->delete('key1'); // 1
 $redis->delete('key1', 'key2'); // 2
 $redis->delete(['key1', 'key2']); // 2
 ```
+
+## unlink
+
+_**Description**_: Remove specified keys [Non Blocking].  
+ Note: If you are connecting to Redis server >= 4.0.0 you can remove a key with the unlink method in the exact same way you would use del.  
+ The Redis unlink command is non-blocking and will perform the actual deletion asynchronously.
+
+##### *Prototype*  
+
+```php
+public function unlink(...$keys): int {
+    return $this->redis->unlink(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: String(s) | Array. The key(s) to be removed.
+
+##### *Return value*
+
+*int*: Number of keys deleted.
+
+##### *Example*
+
+```php
+$redis->set('key1', 'val1');
+$redis->set('key2', 'val2');
+$redis->unlink('key1'); // 1
+$redis->unlink('key1', 'key2'); // 2
+$redis->unlink(['key1', 'key2']); // 2
+```
