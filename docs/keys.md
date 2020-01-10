@@ -6,7 +6,8 @@
 - [unlink](#unlink) - Delete a key [Background]
 - [dump](#dump) - Return a serialized version of the value stored at the specified key.
 - [exists](#exists) - Determine if a key exists
-- [expire, setTimeout, pexpire](#expire-setTimeout-pexpire) - Set a key's time to live in seconds
+- [expire, setTimeout](#expire-setTimeout) - Set a key's time to live in seconds
+- [pexpire](#pexpire) - Set a key's time to live in seconds
 - [expireAt, pexpireAt](#expireAt-pexpireAt) - Set the expiration for a key as a UNIX timestamp
 - [keys, getKeys](#keys-getKeys) - Find all keys matching the given pattern
 - [scan](#scan) - Scan for keys in the keyspace (Redis >= 2.8.0)
@@ -151,3 +152,5 @@ $redis->set('key2', 'value');
 $redis->exists(['key1', 'key2']); // 2
 $redis->exists(['key1', 'NonExistingKey']); // 1
 ```
+
+- [expire, setTimeout](#expire-setTimeout) - Set a key's time to live in seconds
