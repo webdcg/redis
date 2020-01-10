@@ -123,7 +123,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(1, $this->redis->unlink('float'));
     }
 
-     /** @test */
+    /** @test */
     public function redis_keys_exists_single_key()
     {
         $this->assertTrue($this->redis->set('key1', 'val1'));
