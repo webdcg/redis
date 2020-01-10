@@ -20,6 +20,8 @@ checks:
 build:
   nodes:
     coverage:
+      services:
+        redis: 5
       tests:
         override:
           - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
