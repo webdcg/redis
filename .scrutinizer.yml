@@ -17,14 +17,8 @@ checks:
         fix_identation_4spaces: true
         fix_doc_comments: true
 
-build:
-  nodes:
-    coverage:
-      services:
-        redis: 5
-      tests:
-        override:
-          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-            coverage:
-              file: build/logs/clover.xml
-              format: clover
+tools:
+    external_code_coverage:
+        timeout: 600
+        runs: 3
+    php_code_coverage: false
