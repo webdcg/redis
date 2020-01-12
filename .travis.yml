@@ -27,10 +27,10 @@ before_script:
   - sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=./coverage.clover
-  - ls -lah
-  - cat ./coverage.clover
+  - "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"
+  - ls -lah build/logs/
+  - cat build/logs/clover.xml
 
 after_script:
-  - cat ./coverage.clover
-  - vendor/bin/ocular code-coverage:upload --format=php-clover ./coverage.clover
+  - cat build/logs/clover.xml
+  - vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
