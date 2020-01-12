@@ -142,7 +142,8 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'value'));
         // We're actually fetching redis:key
         $this->assertEquals('value', $this->redis->get('key'));
-        $this->assertEquals(1, $this->redis->unlink('key'));
+        $this->assertEquals(1, $this->redis->delete('key'));
+        $this->assertEquals(0, $this->redis->exists('key'));
     }
 
     /** @test */
@@ -153,7 +154,8 @@ class RedisConnectionTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'value'));
         // We're actually fetching 20200104key
         $this->assertEquals('value', $this->redis->get('key'));
-        $this->assertEquals(1, $this->redis->unlink('key'));
+        $this->assertEquals(1, $this->redis->delete('key'));
+        $this->assertEquals(0, $this->redis->exists('key'));
     }
 
     /** @test */
@@ -163,7 +165,8 @@ class RedisConnectionTest extends TestCase
         $this->assertEquals(\Redis::SERIALIZER_NONE, $this->redis->getOption(\Redis::OPT_SERIALIZER));
         $this->assertTrue($this->redis->set('keySerializerNone', 'value'));
         $this->assertEquals('value', $this->redis->get('keySerializerNone'));
-        $this->assertEquals(1, $this->redis->unlink('keySerializerNone'));
+        $this->assertEquals(1, $this->redis->delete('keySerializerNone'));
+        $this->assertEquals(0, $this->redis->exists('keySerializerNone'));
     }
 
     /** @test */
@@ -173,7 +176,8 @@ class RedisConnectionTest extends TestCase
         $this->assertEquals(\Redis::SERIALIZER_PHP, $this->redis->getOption(\Redis::OPT_SERIALIZER));
         $this->assertTrue($this->redis->set('keySerializerPHP', 'value'));
         $this->assertEquals('value', $this->redis->get('keySerializerPHP'));
-        $this->assertEquals(1, $this->redis->unlink('keySerializerPHP'));
+        $this->assertEquals(1, $this->redis->delete('keySerializerPHP'));
+        $this->assertEquals(0, $this->redis->exists('keySerializerPHP'));
     }
 
     // ToDo: Test with igBinary
@@ -183,7 +187,8 @@ class RedisConnectionTest extends TestCase
         $this->assertEquals(\Redis::SERIALIZER_IGBINARY, $this->redis->getOption(\Redis::OPT_SERIALIZER));
         $this->assertTrue($this->redis->set('keySerializerIgBinary', 'value'));
         $this->assertEquals('value', $this->redis->get('keySerializerIgBinary'));
-        $this->assertEquals(1, $this->redis->unlink('keySerializerIgBinary'));
+        $this->assertEquals(1, $this->redis->delete('keySerializerIgBinary'));
+        $this->assertEquals(0, $this->redis->exists('keySerializerIgBinary'));
     }
 
     // ToDo: Test with msgpack
@@ -193,7 +198,8 @@ class RedisConnectionTest extends TestCase
         $this->assertEquals(\Redis::SERIALIZER_MSGPACK, $this->redis->getOption(\Redis::OPT_SERIALIZER));
         $this->assertTrue($this->redis->set('keySerializerMsgPack', 'value'));
         $this->assertEquals('value', $this->redis->get('keySerializerMsgPack'));
-        $this->assertEquals(1, $this->redis->unlink('keySerializerMsgPack'));
+        $this->assertEquals(1, $this->redis->delete('keySerializerMsgPack'));
+        $this->assertEquals(0, $this->redis->exists('keySerializerMsgPack'));
     }
 
     /** @test */
