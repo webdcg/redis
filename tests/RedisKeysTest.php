@@ -82,7 +82,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('key1', 'val1'));
         $this->assertTrue($this->redis->set('key2', 'val2'));
-        $this->assertEquals(2, $this->redis->unlink(['key1', 'key2']));
+        $this->assertEquals(2, $this->redis->delete(['key1', 'key2']));
     }
 
     /** @test */
@@ -96,7 +96,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('string', 'value'));
         $this->assertNotEmpty($this->redis->dump('string'));
-        $this->assertEquals(1, $this->redis->unlink('string'));
+        $this->assertEquals(1, $this->redis->delete('string'));
     }
 
     /** @test */
@@ -104,7 +104,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('integer', 1));
         $this->assertNotEmpty($this->redis->dump('integer'));
-        $this->assertEquals(1, $this->redis->unlink('integer'));
+        $this->assertEquals(1, $this->redis->delete('integer'));
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('boolean', true));
         $this->assertNotEmpty($this->redis->dump('boolean'));
-        $this->assertEquals(1, $this->redis->unlink('boolean'));
+        $this->assertEquals(1, $this->redis->delete('boolean'));
     }
 
     /** @test */
@@ -120,7 +120,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('float', pi()));
         $this->assertNotEmpty($this->redis->dump('float'));
-        $this->assertEquals(1, $this->redis->unlink('float'));
+        $this->assertEquals(1, $this->redis->delete('float'));
     }
 
     /** @test */
@@ -128,7 +128,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('key1', 'val1'));
         $this->assertEquals(1, $this->redis->exists('key1'));
-        $this->assertEquals(1, $this->redis->unlink('key1'));
+        $this->assertEquals(1, $this->redis->delete('key1'));
     }
 
     /** @test */
@@ -137,7 +137,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set('key1', 'val1'));
         $this->assertTrue($this->redis->set('key2', 'val2'));
         $this->assertEquals(2, $this->redis->exists('key1', 'key2'));
-        $this->assertEquals(2, $this->redis->unlink('key1', 'key2'));
+        $this->assertEquals(2, $this->redis->delete('key1', 'key2'));
     }
 
     /** @test */
@@ -146,7 +146,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set('key1', 'val1'));
         $this->assertTrue($this->redis->set('key2', 'val2'));
         $this->assertEquals(2, $this->redis->exists(['key1', 'key2']));
-        $this->assertEquals(2, $this->redis->unlink(['key1', 'key2']));
+        $this->assertEquals(2, $this->redis->delete(['key1', 'key2']));
     }
 
     /** @test */
@@ -154,6 +154,12 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('key1', 'val1'));
         $this->assertEquals(1, $this->redis->exists(['key1', 'NonExistingKey']));
-        $this->assertEquals(1, $this->redis->unlink(['key1']));
+        $this->assertEquals(1, $this->redis->delete(['key1']));
+    }
+
+    /** @test */
+    public function redis_keys_exists_non_existing_keys()
+    {
+        $this->assertEquals(0, $this->redis->exists('NonExistingKey'));
     }
 }
