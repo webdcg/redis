@@ -6,7 +6,8 @@
 - [unlink](#unlink) - Delete a key [Background]
 - [dump](#dump) - Return a serialized version of the value stored at the specified key.
 - [exists](#exists) - Determine if a key exists
-- [expire, setTimeout](#expire-setTimeout) - Set a key's time to live in seconds
+- [expire](#expire) - Set a key's time to live in seconds
+- [setTimeout](#setTimeout) - Set a key's time to live in seconds
 - [pexpire](#pexpire) - Set a key's time to live in seconds
 - [expireAt, pexpireAt](#expireAt-pexpireAt) - Set the expiration for a key as a UNIX timestamp
 - [keys, getKeys](#keys-getKeys) - Find all keys matching the given pattern
@@ -153,4 +154,64 @@ $redis->exists(['key1', 'key2']); // 2
 $redis->exists(['key1', 'NonExistingKey']); // 1
 ```
 
-- [expire, setTimeout](#expire-setTimeout) - Set a key's time to live in seconds
+## expire
+
+_**Description**_: Set a key's time to live in seconds.
+
+##### *Prototype*  
+
+```php
+public function expire(...$keys): int {
+    return $this->redis->expire(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *key*: string. The key that will disappear.
+- *ttl*: integer. The key's remaining Time To Live, in seconds.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value');
+$redis->expire('key', 1);   // x will disappear in 1 seconds.
+sleep(2);                   // wait 5 seconds
+$redis->exists('key');      // 0
+```
+
+## setTimeout
+
+_**Description**_: Set a key's time to live in seconds.
+
+##### *Prototype*  
+
+```php
+public function setTimeout(...$keys): int {
+    return $this->redis->expire(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *key*: string. The key that will disappear.
+- *ttl*: integer. The key's remaining Time To Live, in seconds.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value');
+$redis->expire('key', 1);   // x will disappear in 1 seconds.
+sleep(2);                   // wait 5 seconds
+$redis->exists('key');      // 0
+```
+
+**Note**: setTimeout is an alias for expire and will be removed in future versions of phpredis.

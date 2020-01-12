@@ -69,4 +69,30 @@ trait Keys
     {
         return $this->redis->exists(...$keys);
     }
+
+    /**
+     * Sets an expiration date (a timeout) on an item. pexpire requires a TTL in milliseconds.
+     *
+     * @param  string $key. The key that will disappear.
+     * @param  int    $ttl. The key's remaining Time To Live, in seconds.
+     *
+     * @return bool         true in case of success, false in case of failure.
+     */
+    public function expire(string $key, int $ttl): bool
+    {
+        return $this->redis->expire($key, $ttl);
+    }
+    
+    /**
+     * Sets an expiration date (a timeout) on an item. pexpire requires a TTL in milliseconds.
+     *
+     * @param  string $key. The key that will disappear.
+     * @param  int    $ttl. The key's remaining Time To Live, in seconds.
+     *
+     * @return bool         true in case of success, false in case of failure.
+     */
+    public function setTimeout(string $key, int $ttl): bool
+    {
+        return $this->redis->expire($key, $ttl);
+    }
 }
