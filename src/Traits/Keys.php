@@ -82,7 +82,7 @@ trait Keys
     {
         return $this->redis->expire($key, $ttl);
     }
-    
+
     /**
      * Sets an expiration date (a timeout) on an item. pexpire requires a TTL in milliseconds.
      *
