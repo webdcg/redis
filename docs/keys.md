@@ -161,8 +161,8 @@ _**Description**_: Set a key's time to live in seconds.
 ##### *Prototype*  
 
 ```php
-public function expire(...$keys): int {
-    return $this->redis->expire(...$keys);
+public function expire(string $key, int $ttl): bool {
+    return $this->redis->expire($key, $ttl);
 }
 ```
 
@@ -191,8 +191,8 @@ _**Description**_: Set a key's time to live in seconds.
 ##### *Prototype*  
 
 ```php
-public function setTimeout(...$keys): int {
-    return $this->redis->expire(...$keys);
+public function setTimeout(string $key, int $ttl): bool {
+    return $this->redis->expire($key, $ttl);
 }
 ```
 
@@ -215,3 +215,33 @@ $redis->exists('key');      // 0
 ```
 
 **Note**: setTimeout is an alias for expire and will be removed in future versions of phpredis.
+
+## pexpire
+
+_**Description**_: Set a key's time to live in milliseconds.
+
+##### *Prototype*  
+
+```php
+public function pexpire(string $key, int $ttl): bool {
+    return $this->redis->pexpire($key, $ttl);
+}
+```
+
+##### *Parameters*
+
+- *key*: string. The key that will disappear.
+- *ttl*: integer. The key's remaining Time To Live, in milliseconds.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value');
+$redis->pexpire('key', 100);    // x will disappear in 1 seconds.
+usleep(110 * 1000);             // wait 110 milliseconds
+$redis->exists('key');          // 0
+```

@@ -214,4 +214,21 @@ class RedisKeysTest extends TestCase
         $this->assertFalse($this->redis->setTimeout('NonExistingKey', 1));
         $this->assertEquals(0, $this->redis->exists('NonExistingKey'));
     }
+
+     /** @test */
+    public function redis_keys_expire_miliseconds_single_key()
+    {
+        $this->assertTrue($this->redis->set('key', 'value'));
+        $this->assertTrue($this->redis->pexpire('key', 100));
+        $this->assertEquals(1, $this->redis->exists('key'));
+        usleep(110 * 1000);
+        $this->assertEquals(0, $this->redis->exists('key'));
+    }
+
+    /** @test */
+    public function redis_keys_pexpire_non_existing_key()
+    {
+        $this->assertFalse($this->redis->pexpire('NonExistingKey', 1));
+        $this->assertEquals(0, $this->redis->exists('NonExistingKey'));
+    }
 }
