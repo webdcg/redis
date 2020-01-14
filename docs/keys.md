@@ -284,8 +284,39 @@ _**Description**_: Set the expiration for a key as a UNIX timestamp.
 ##### *Prototype*  
 
 ```php
-public function pexpire(string $key, int $ttl): bool {
-    return $this->redis->pexpire($key, $ttl);
+public function expireAt(string $key, int $ttl): bool {
+    return $this->redis->expireAt($key, $ttl);
+}
+```
+
+##### *Parameters*
+
+- *key*: string. The key that will disappear.
+- *ttl*: integer. The key's remaining Time To Live, in seconds.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$now = time();                      // Current Timestamp
+$redis->set('key', 'value');        
+$redis->expireAt('key', $now + 1);  // key will disappear in 1 second
+sleep(1);                           // wait 1 second
+$redis->exists('key');              // 0
+```
+
+## pexpireAt
+
+_**Description**_: Sets an expiration date (a timestamp) on an item in milliseconds.
+
+##### *Prototype*  
+
+```php
+public function pexpireAt(string $key, int $ttl): bool {
+    return $this->redis->pexpireAt($key, $ttl);
 }
 ```
 
@@ -301,9 +332,10 @@ public function pexpire(string $key, int $ttl): bool {
 ##### *Example*
 
 ```php
-$now = time();                      // Current Timestamp
+[$usec, $sec] = explode(' ', microtime());
+$now = floor(((float) $usec + (float) $sec) * 1000);
 $redis->set('key', 'value');        
-$redis->expireAt('key', $now + 1);  // key will disappear in 1 second
-sleep(1);                           // wait 1 second
+$redis->pexpireAt('key', $now + 10);  // key will disappear in 10  milliseconds
+usleep(11000);                        // wait 11 milliseconds
 $redis->exists('key');              // 0
 ```

@@ -255,9 +255,7 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('key', 'value'));
         [$usec, $sec] = explode(' ', microtime());
-        $currentTime = (float) $usec + (float) $sec;
-        $currentTime *= 1000;
-        $currentTime = floor($currentTime);
+        $currentTime = floor(((float) $usec + (float) $sec) * 1000);
         $this->assertTrue($this->redis->pexpireAt('key', $currentTime + 10));
         $this->assertEquals(1, $this->redis->exists('key'));
         usleep(15 * 1000);
