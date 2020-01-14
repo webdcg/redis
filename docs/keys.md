@@ -2,33 +2,36 @@
 
 # [Keys](docs/keys.md)
 
-|Command                    |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
-|---                        |---                                                                    |---                    |---                    |---            |---        |
-|[del](#del)                |Delete a key [Blocking]                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |del        |
-|[delete](#delete)          |Delete a key [Blocking]                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |delete     |
-|[unlink](#unlink)          |Delete a key [Background]                                              |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |unlink     |
-|[dump](#dump)              |Return a serialized version of the value stored at the specified key.  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |dump       |
-|[exists](#exists) | Determine if a key exists | :x: | :x: | Keys | del |
-|[expire](#expire) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
-|[setTimeout](#setTimeout) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
-|[pexpire](#pexpire) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
-|[expireAt](#expireAt) | Set the expiration for a key as a UNIX timestamp | :x: | :x: | Keys | del |
-|[pexpireAt](#pexpireAt) | Set the expiration for a key as a UNIX timestamp with millisecond precision | :x: | :x: | Keys | del |
-|[keys, getKeys](#keys-getKeys) | Find all keys matching the given pattern | :x: | :x: | Keys | del |
-|[scan](#scan) | Scan for keys in the keyspace (Redis >= 2.8.0) | :x: | :x: | Keys | del |
-|[migrate](#migrate) | Atomically transfer a key from a Redis instance to another one | :x: | :x: | Keys | del |
-|[move](#move) | Move a key to another database | :x: | :x: | Keys | del |
-|[object](#object) | Inspect the internals of Redis objects | :x: | :x: | Keys | del |
-|[persist](#persist) | Remove the expiration from a key | :x: | :x: | Keys | del |
-|[randomKey](#randomKey) | Return a random key from the keyspace | :x: | :x: | Keys | del |
-|[rename, renameKey](#rename-renameKey) | Rename a key | :x: | :x: | Keys | del |
-|[renameNx](#renameNx) | Rename a key, only if the new key does not exist | :x: | :x: | Keys | del |
-|[type](#type) | Determine the type stored at key | :x: | :x: | Keys | del |
-|[sort](#sort) | Sort the elements in a list, set or sorted set | :x: | :x: | Keys | del |
-|[ttl, pttl](#ttl-pttl) | Get the time to live for a key | :x: | :x: | Keys | del |
-|[restore](#restore) | Create a key using the provided serialized value, previously obtained with dump. | :x: | :x: | Keys | del |
+|Command                    |Description                                                                        |Supported              |Tested                 |Class/Trait    |Method     |
+|---                        |---                                                                                |---                    |---                    |---            |---        |
+|[del](#del)                |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |del        |
+|[delete](#delete)          |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |delete     |
+|[unlink](#unlink)          |Delete a key [Background]                                                          |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |unlink     |
+|[dump](#dump)              |Return a serialized version of the value stored at the specified key.              |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |dump       |
+|[exists](#exists)          |Determine if a key exists                                                          |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |exists     |
+|[expire](#expire)          |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |expire     |
+|[setTimeout](#setTimeout)  |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |setTimeout |
+|[pexpire](#pexpire)        |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpire    |
+|[expireAt](#expireAt)      |Set the expiration for a key as a UNIX timestamp                                   |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
+|[pexpireAt](#pexpireAt)    |Set the expiration for a key as a UNIX timestamp with millisecond precision        |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
+|[keys](#keys)              |Find all keys matching the given pattern                                           |:x:                    |:x:                    |Keys           |keys       |
+|[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:x:                    |:x:                    |Keys           |getKeys    |
+|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:x:                    |:x:                    |Keys           |scan    |
+|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:x:                    |:x:                    |Keys           |migrate    |
+|[move](#move)              | Move a key to another database                                                    |:x:                    |:x:                    |Keys           |move    |
+|[object](#object)          | Inspect the internals of Redis objects                                            |:x:                    |:x:                    |Keys           |object    |
+|[persist](#persist)        | Remove the expiration from a key                                                  |:x:                    |:x:                    |Keys           |persist    |
+|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:x:                    |:x:                    |Keys           |randomKey    |
+|[rename](#rename)          | Rename a key                                                                      |:x:                    |:x:                    |Keys           |rename    |
+|[renameKey](#renameKey)    | Rename a key                                                                      |:x:                    |:x:                    |Keys           |renameKey    |
+|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:x:                    |:x:                    |Keys           |renameNx    |
+|[type](#type)              | Determine the type stored at key                                                  |:x:                    |:x:                    |Keys           |type    |
+|[sort](#sort)              | Sort the elements in a list, set or sorted set                                    |:x:                    |:x:                    |Keys           |sort    |
+|[ttl](#ttl)                | Get the time to live for a key                                                    |:x:                    |:x:                    |Keys           |ttl    |
+|[pttl](#pttl)              | Get the time to live for a key                                                    |:x:                    |:x:                    |Keys           |pttl    |
+|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:x:                    |:x:                    |Keys           |restore    |
 
-## del, delete
+## del
 
 _**Description**_: Remove specified keys [Blocking].  
 Note: Should be avoided, *unlink* is recommended.
@@ -57,7 +60,31 @@ $redis->set('key2', 'val2');
 $redis->del('key1'); // 1
 $redis->del('key1', 'key2'); // 2
 $redis->del(['key1', 'key2']); // 2
+```
 
+## delete
+
+_**Description**_: Remove specified keys [Non Blocking].  
+
+##### *Prototype*  
+
+```php
+public function delete(...$keys): int {
+    return $this->redis->unlink(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: String(s) | Array. The key(s) to be removed.
+
+##### *Return value*
+
+*int*: Number of keys deleted.
+
+##### *Example*
+
+```php
 $redis->set('key1', 'val1');
 $redis->set('key2', 'val2');
 $redis->delete('key1'); // 1
