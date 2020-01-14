@@ -254,7 +254,7 @@ class RedisKeysTest extends TestCase
     public function redis_keys_pexpire_at_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
-        list($usec, $sec) = explode(" ", microtime());
+        [$usec, $sec] = explode(' ', microtime());
         $currentTime = (float)$usec + (float)$sec;
         $currentTime *= 1000;
         $currentTime = floor($currentTime);
