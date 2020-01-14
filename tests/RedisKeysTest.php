@@ -244,7 +244,6 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
-
     /** @test */
     public function redis_keys_expire_at_non_existing_key()
     {
