@@ -219,9 +219,9 @@ class RedisKeysTest extends TestCase
     public function redis_keys_expire_miliseconds_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
-        $this->assertTrue($this->redis->pexpire('key', 100));
+        $this->assertTrue($this->redis->pexpire('key', 10));
         $this->assertEquals(1, $this->redis->exists('key'));
-        usleep(110 * 1000);
+        usleep(15 * 1000);
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
@@ -237,7 +237,6 @@ class RedisKeysTest extends TestCase
     {
         $this->assertTrue($this->redis->set('key', 'value'));
         $currentTime = time();
-        var_dump($currentTime);
         $this->assertTrue($this->redis->expireAt('key', $currentTime + 1));
         $this->assertEquals(1, $this->redis->exists('key'));
         sleep(1);
@@ -255,12 +254,13 @@ class RedisKeysTest extends TestCase
     public function redis_keys_pexpire_at_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
-        list($usec, $currentTime) = explode(" ", microtime());
-        var_dump($currentTime);
-        var_dump($usec);
-        $this->assertTrue($this->redis->pexpireAt('key', $currentTime + 1));
+        list($usec, $sec) = explode(" ", microtime());
+        $currentTime = (float)$usec + (float)$sec;
+        $currentTime *= 1000;
+        $currentTime = floor($currentTime);
+        $this->assertTrue($this->redis->pexpireAt('key', $currentTime + 10));
         $this->assertEquals(1, $this->redis->exists('key'));
-        sleep(1);
+        usleep(15 * 1000);
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
