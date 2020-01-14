@@ -336,6 +336,6 @@ public function pexpireAt(string $key, int $ttl): bool {
 $now = floor(((float) $usec + (float) $sec) * 1000);
 $redis->set('key', 'value');        
 $redis->pexpireAt('key', $now + 10);  // key will disappear in 10  milliseconds
-usleep(11000);                        // wait 11 milliseconds
-$redis->exists('key');              // 0
+usleep(20 * 1000);                    // wait 20 milliseconds
+$redis->exists('key');               // 0
 ```
