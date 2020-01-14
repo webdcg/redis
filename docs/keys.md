@@ -2,28 +2,31 @@
 
 # [Keys](docs/keys.md)
 
-- [del, delete](#del-delete) - Delete a key [Blocking]
-- [unlink](#unlink) - Delete a key [Background]
-- [dump](#dump) - Return a serialized version of the value stored at the specified key.
-- [exists](#exists) - Determine if a key exists
-- [expire](#expire) - Set a key's time to live in seconds
-- [setTimeout](#setTimeout) - Set a key's time to live in seconds
-- [pexpire](#pexpire) - Set a key's time to live in seconds
-- [expireAt](#expireAt) - Set the expiration for a key as a UNIX timestamp
-- [pexpireAt](#pexpireAt) - Set the expiration for a key as a UNIX timestamp with millisecond precision
-- [keys, getKeys](#keys-getKeys) - Find all keys matching the given pattern
-- [scan](#scan) - Scan for keys in the keyspace (Redis >= 2.8.0)
-- [migrate](#migrate) - Atomically transfer a key from a Redis instance to another one
-- [move](#move) - Move a key to another database
-- [object](#object) - Inspect the internals of Redis objects
-- [persist](#persist) - Remove the expiration from a key
-- [randomKey](#randomKey) - Return a random key from the keyspace
-- [rename, renameKey](#rename-renameKey) - Rename a key
-- [renameNx](#renameNx) - Rename a key, only if the new key does not exist
-- [type](#type) - Determine the type stored at key
-- [sort](#sort) - Sort the elements in a list, set or sorted set
-- [ttl, pttl](#ttl-pttl) - Get the time to live for a key
-- [restore](#restore) - Create a key using the provided serialized value, previously obtained with dump.
+|Command                    |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
+|---                        |---                                                                    |---                    |---                    |---            |---        |
+|[del](#del)                |Delete a key [Blocking]                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |del        |
+|[delete](#delete)          |Delete a key [Blocking]                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |delete     |
+|[unlink](#unlink)          |Delete a key [Background]                                              |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |unlink     |
+|[dump](#dump)              |Return a serialized version of the value stored at the specified key.  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |dump       |
+|[exists](#exists) | Determine if a key exists | :x: | :x: | Keys | del |
+|[expire](#expire) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
+|[setTimeout](#setTimeout) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
+|[pexpire](#pexpire) | Set a key's time to live in seconds | :x: | :x: | Keys | del |
+|[expireAt](#expireAt) | Set the expiration for a key as a UNIX timestamp | :x: | :x: | Keys | del |
+|[pexpireAt](#pexpireAt) | Set the expiration for a key as a UNIX timestamp with millisecond precision | :x: | :x: | Keys | del |
+|[keys, getKeys](#keys-getKeys) | Find all keys matching the given pattern | :x: | :x: | Keys | del |
+|[scan](#scan) | Scan for keys in the keyspace (Redis >= 2.8.0) | :x: | :x: | Keys | del |
+|[migrate](#migrate) | Atomically transfer a key from a Redis instance to another one | :x: | :x: | Keys | del |
+|[move](#move) | Move a key to another database | :x: | :x: | Keys | del |
+|[object](#object) | Inspect the internals of Redis objects | :x: | :x: | Keys | del |
+|[persist](#persist) | Remove the expiration from a key | :x: | :x: | Keys | del |
+|[randomKey](#randomKey) | Return a random key from the keyspace | :x: | :x: | Keys | del |
+|[rename, renameKey](#rename-renameKey) | Rename a key | :x: | :x: | Keys | del |
+|[renameNx](#renameNx) | Rename a key, only if the new key does not exist | :x: | :x: | Keys | del |
+|[type](#type) | Determine the type stored at key | :x: | :x: | Keys | del |
+|[sort](#sort) | Sort the elements in a list, set or sorted set | :x: | :x: | Keys | del |
+|[ttl, pttl](#ttl-pttl) | Get the time to live for a key | :x: | :x: | Keys | del |
+|[restore](#restore) | Create a key using the provided serialized value, previously obtained with dump. | :x: | :x: | Keys | del |
 
 ## del, delete
 
