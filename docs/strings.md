@@ -2,20 +2,27 @@
 
 # [Strings](docs/strings.md)
 
-- [append](#append) - Append a value to a key
-- [decr](#decr), decrBy - Decrement the value of a key
-- [get](#get) - Get the value of a key
-- [getRange](#getRange) - Get a substring of the string stored at a key
-- [getSet](#getSet) - Set the string value of a key and return its old value
-- [incr](#incr), incrBy - Increment the value of a key
-- [incrByFloat](#incrByFloat) - Increment the float value of a key by the given amount
-- [mGet](#mGet), getMultiple - Get the values of all the given keys
-- [mSet](#mSet), mSetNX - Set multiple keys to multiple values
-- [set](#set) - Set the string value of a key
-- [setEx](#setEx), pSetEx - Set the value and expiration of a key
-- [setNx](#setNx) - Set the value of a key, only if the key does not exist
-- [setRange](#setRange) - Overwrite part of a string at key starting at the specified offset
-- [strLen](#strLen) - Get the length of the value stored in a key
+|Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
+|---                            |---                                                                    |:-:                    |:-:                    |---            |---        |
+|[append](#append)              |Append a value to a key                                                |:x:   |:x:   |Strings        |append   |
+|[decr](#decr)                  |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decr   |
+|[decrBy](#decrBy)              |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decrBy   |
+|[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
+|[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
+|[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
+|[incr](#incr)                  |Increment the value of a key                                           |:x:   |:x:   |Strings        |incr   |
+|[incrBy](#incrBy)              |Increment the value of a key                                           |:x:   |:x:   |Strings        |incrBy   |
+|[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:x:   |:x:   |Strings        |incrByFloat   |
+|[mGet](#mGet)                  |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |mGet   |
+|[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |getMultiple   |
+|[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSet   |
+|[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSetNX   |
+|[set](#set)                    |Set the string value of a key                                          |:x:   |:x:   |Strings        |set   |
+|[setEx](#setEx)                |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |setEx   |
+|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
+|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:x:   |:x:   |Strings        |setNx   |
+|[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:x:   |:x:   |Strings        |setRange   |
+|[strLen](#strLen)              |Get the length of the value stored in a key                            |:x:   |:x:   |Strings        |strLen   |
 
 ## Usage
 
