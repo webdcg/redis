@@ -9,7 +9,8 @@
 - [expire](#expire) - Set a key's time to live in seconds
 - [setTimeout](#setTimeout) - Set a key's time to live in seconds
 - [pexpire](#pexpire) - Set a key's time to live in seconds
-- [expireAt, pexpireAt](#expireAt-pexpireAt) - Set the expiration for a key as a UNIX timestamp
+- [expireAt](#expireAt) - Set the expiration for a key as a UNIX timestamp
+- [pexpireAt](#pexpireAt) - Set the expiration for a key as a UNIX timestamp with millisecond precision
 - [keys, getKeys](#keys-getKeys) - Find all keys matching the given pattern
 - [scan](#scan) - Scan for keys in the keyspace (Redis >= 2.8.0)
 - [migrate](#migrate) - Atomically transfer a key from a Redis instance to another one
@@ -244,4 +245,35 @@ $redis->set('key', 'value');
 $redis->pexpire('key', 100);    // x will disappear in 1 seconds.
 usleep(110 * 1000);             // wait 110 milliseconds
 $redis->exists('key');          // 0
+```
+
+## expireAt
+
+_**Description**_: Set the expiration for a key as a UNIX timestamp.
+
+##### *Prototype*  
+
+```php
+public function pexpire(string $key, int $ttl): bool {
+    return $this->redis->pexpire($key, $ttl);
+}
+```
+
+##### *Parameters*
+
+- *key*: string. The key that will disappear.
+- *ttl*: integer. The key's remaining Time To Live, in milliseconds.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$now = time();                      // Current Timestamp
+$redis->set('key', 'value');        
+$redis->expireAt('key', $now + 1);  // key will disappear in 1 second
+sleep(1);                           // wait 1 second
+$redis->exists('key');              // 0
 ```

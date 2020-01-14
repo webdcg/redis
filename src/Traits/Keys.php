@@ -108,4 +108,18 @@ trait Keys
     {
         return $this->redis->pexpire($key, $ttl);
     }
+
+    /**
+     * Sets an expiration date (a timestamp) on an item. pexpireAt requires a
+     * timestamp in milliseconds.
+     *
+     * @param  string $key  The key that will disappear.
+     * @param  int    $ttl  Unix timestamp. The key's date of death, in seconds from Epoch time.
+     *
+     * @return bool         true in case of success, false in case of failure.
+     */
+    public function expireAt(string $key, int $ttl): bool
+    {
+        return $this->redis->expireAt($key, $ttl);
+    }
 }
