@@ -2,10 +2,12 @@
 
 # [Bits](docs/bits.md)
 
-- [bitCount](#bitCount) - Count set bits in a string
-- [bitOp](#bitOp) - Perform bitwise operations between strings
-- [getBit](#getBit) - Returns the bit value at offset in the string value stored at key
-- [setBit](#setBit) - Sets or clears the bit at offset in the string value stored at key
+|Command                |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
+|---                    |---                                                                    |:-:                    |:-:                    |---            |---        |
+|[bitCount](#bitCount)  |Count set bits in a string                                             |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitCount   |
+|[bitOp](#bitOp)        |Perform bitwise operations between strings                             |:x:                    |:x:                    |Bits           |bitOp   |
+|[getBit](#getBit)      |Returns the bit value at offset in the string value stored at key      |:x:                    |:x:                    |Bits           |getBit   |
+|[setBit](#setBit)      |Sets or clears the bit at offset in the string value stored at key     |:x:                    |:x:                    |Bits           |setBit   |
 
 ## Usage
 

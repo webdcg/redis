@@ -3,7 +3,7 @@
 # [Keys](docs/keys.md)
 
 |Command                    |Description                                                                        |Supported              |Tested                 |Class/Trait    |Method     |
-|---                        |---                                                                                |---                    |---                    |---            |---        |
+|---                        |---                                                                                |:-:                    |:-:                    |---            |---        |
 |[del](#del)                |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |del        |
 |[delete](#delete)          |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |delete     |
 |[unlink](#unlink)          |Delete a key [Background]                                                          |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |unlink     |
