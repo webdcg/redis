@@ -187,7 +187,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'value'));
         $this->assertTrue($this->redis->expire('key', 1));
         $this->assertEquals(1, $this->redis->exists('key'));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
@@ -204,7 +204,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set('key', 'value'));
         $this->assertTrue($this->redis->setTimeout('key', 1));
         $this->assertEquals(1, $this->redis->exists('key'));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
@@ -239,7 +239,7 @@ class RedisKeysTest extends TestCase
         $currentTime = time();
         $this->assertTrue($this->redis->expireAt('key', $currentTime + 1));
         $this->assertEquals(1, $this->redis->exists('key'));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertEquals(0, $this->redis->exists('key'));
     }
 
