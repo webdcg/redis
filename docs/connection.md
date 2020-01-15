@@ -2,16 +2,20 @@
 
 # [Connection](docs/connection.md)
 
-- [connect, open](#connect-open) - Connect to a server
-- [pconnect, popen](#pconnect-popen) - Connect to a server (persistent)
-- [auth](#auth) - Authenticate to the server
-- [select](#select) - Change the selected database for the current connection
-- [swapdb](#swapdb) - Swaps two Redis databases
-- [close](#close) - Close the connection
-- [setOption](#setoption) - Set client option
-- [getOption](#getoption) - Get client option
-- [ping](#ping) - Ping the server
-- [echo](#echo) - Echo the given string
+|Command                    |Description                                                |Supported              |Tested                 |Class/Trait    |Method     |
+|---                        |---                                                        |:-:                    |:-:                    |---            |---        |
+|[connect](#connect)        |Connect to a server                                        |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |connect    |
+|[open](#open)              |Connect to a server                                        |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |open       |
+|[pconnect](#pconnect)      |Connect to a server (persistent)                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |pconnect   |
+|[popen](#popen)            |Connect to a server (persistent)                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |popen      |
+|[auth](#auth)              |Authenticate to the server                                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |auth       |
+|[select](#select)          |Change the selected database for the current connection    |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |select     |
+|[swapdb](#swapdb)          |Swaps two Redis databases                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |swapdb     |
+|[close](#close)            |Close the connection                                       |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |close      |
+|[setOption](#setOption)    |Set client option                                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setOption  |
+|[getOption](#getOption)    |Get client option                                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getOption  |
+|[ping](#ping)              |Ping the server                                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |ping       |
+|[echo](#echo)              |Echo the given string                                      |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |echo       |
 
 ## Usage
 
