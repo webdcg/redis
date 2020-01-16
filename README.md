@@ -25,6 +25,7 @@ Table of contents
     - [HyperLogLogs](#HyperLogLogs)
     - [Geocoding](#Geocoding)
     - [Streams](#Streams)
+    - [Pub/sub](#pubsub)
 
 ## Installation
 
@@ -134,6 +135,14 @@ $redis->unlink('key');
 ```
 
 ### [Streams](docs/streams.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Pub/sub](docs/pubsub.md)
 
 ```php
 $redis->del('key');
