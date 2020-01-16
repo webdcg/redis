@@ -22,7 +22,7 @@ trait Bits
     }
 
     /**
-     * Perform bitwise operations between strings
+     * Perform bitwise operations between strings.
      *
      * @param  string $operation AND, OR, NOT, XOR
      * @param  string $returnKey Return Key
@@ -34,8 +34,8 @@ trait Bits
     {
         $operation = strtoupper($operation);
 
-        if (!in_array($operation, $this->BIT_OPERATIONS)) {
-            throw new \Exception("Operation not supported", 1);
+        if (! in_array($operation, $this->BIT_OPERATIONS)) {
+            throw new \Exception('Operation not supported', 1);
         }
 
         return $this->redis->bitOp($operation, $returnKey, ...$keys);

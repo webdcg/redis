@@ -2,9 +2,9 @@
 
 namespace Webdcg\Redis\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
-use \Exception;
 
 class RedisBitsTest extends TestCase
 {
@@ -31,8 +31,8 @@ class RedisBitsTest extends TestCase
     /** @test */
     public function redis_bits_bitop_unrecognized_operation()
     {
-        $this->assertTrue($this->redis->set("testBit", 'A'));
+        $this->assertTrue($this->redis->set('testBit', 'A'));
         $this->expectException(Exception::class);
-        $this->assertEquals(1, $this->redis->bitOp('nor', "testBitOp", "testBit"));
+        $this->assertEquals(1, $this->redis->bitOp('nor', 'testBitOp', 'testBit'));
     }
 }
