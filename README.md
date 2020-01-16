@@ -18,6 +18,7 @@ Table of contents
     - [Strings](#strings)
     - [Bits](#bits)
     - [Keys](#keys)
+    - [Hashes](#hashes)
 
 ## Installation
 
@@ -71,6 +72,14 @@ $redis->bitCount('key');
 ```
 
 ### [Keys](docs/keys.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Hashes](docs/hashes.md)
 
 ```php
 $redis->del('key');
