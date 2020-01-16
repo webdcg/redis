@@ -307,4 +307,43 @@ class RedisKeysTest extends TestCase
         $this->assertCount(0, $keys);
         $this->assertEmpty($keys);
     }
+
+    /** @test */
+    public function redis_keys_find_getkeys()
+    {
+        // Creating 3 keys
+        $this->assertTrue($this->redis->set('key1', 'value'));
+        $this->assertTrue($this->redis->set('key2', 'value'));
+        $this->assertTrue($this->redis->set('key3', 'value'));
+
+        // Fetching all existing keys with key prefix
+        $keys = $this->redis->getKeys('key*');
+        $this->assertIsArray($keys);
+        $this->assertCount(3, $keys);
+        $this->assertContains('key1', $keys);
+        $this->assertContains('key2', $keys);
+        $this->assertContains('key3', $keys);
+
+        // Removing the first key created
+        $this->assertEquals(1, $this->redis->delete(['key1']));
+
+        // Verify that we only have 2 remaining keys for the same pattern
+        $keys = $this->redis->getKeys('key*');
+        $this->assertCount(2, $keys);
+        $this->assertIsArray($keys);
+        $this->assertContains('key2', $keys);
+        $this->assertContains('key3', $keys);
+
+        // Cleanup
+        $this->assertEquals(2, $this->redis->delete(['key2', 'key3']));
+    }
+
+    /** @test */
+    public function redis_keys_find_non_existing_getkeys()
+    {
+        $keys = $this->redis->getKeys('yek*');
+        $this->assertIsArray($keys);
+        $this->assertCount(0, $keys);
+        $this->assertEmpty($keys);
+    }
 }

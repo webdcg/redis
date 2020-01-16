@@ -14,8 +14,8 @@
 |[pexpire](#pexpire)        |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpire    |
 |[expireAt](#expireAt)      |Set the expiration for a key as a UNIX timestamp                                   |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
 |[pexpireAt](#pexpireAt)    |Set the expiration for a key as a UNIX timestamp with millisecond precision        |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
-|[keys](#keys)              |Find all keys matching the given pattern                                           |:x:                    |:x:                    |Keys           |keys       |
-|[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:x:                    |:x:                    |Keys           |getKeys    |
+|[keys](#keys)              |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |keys       |
+|[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |getKeys    |
 |[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:x:                    |:x:                    |Keys           |scan    |
 |[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:x:                    |:x:                    |Keys           |migrate    |
 |[move](#move)              | Move a key to another database                                                    |:x:                    |:x:                    |Keys           |move    |
@@ -367,6 +367,44 @@ $redis->set('key1', 'value');
 $redis->set('key2', 'value');
 $redis->set('key3', 'value');
 $redis->keys('key*');
+/*
+array(3) {
+  [0] => string(4) "key3"
+  [1] => string(4) "key1"
+  [2] => string(4) "key2"
+}
+*/
+```
+
+## getKeys
+
+_**Description**_: Find all keys matching the given pattern.
+
+Note: getKeys is an alias for keys and will be removed in future versions of phpredis.
+
+##### *Prototype*  
+
+```php
+public function getKeys(string $pattern): array {
+    return $this->redis->keys($pattern);
+}
+```
+
+##### *Parameters*
+
+- *pattern*: string. Pattern to match, using '\*' as a wildcard.
+
+##### *Return value*
+
+*array*: Array of string: The keys that match a certain pattern.
+
+##### *Example*
+
+```php
+$redis->set('key1', 'value');
+$redis->set('key2', 'value');
+$redis->set('key3', 'value');
+$redis->getKeys('key*');
 /*
 array(3) {
   [0] => string(4) "key3"

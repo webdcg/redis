@@ -147,4 +147,16 @@ trait Keys
     {
         return $this->redis->keys($pattern);
     }
+
+    /**
+     * Returns the keys that match a certain pattern.
+     *
+     * @param  string $pattern  Pattern to match, using '*' as a wildcard.
+     *
+     * @return array            The keys that match a certain pattern.
+     */
+    public function getKeys(string $pattern): array
+    {
+        return $this->redis->keys($pattern);
+    }
 }
