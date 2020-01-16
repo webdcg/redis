@@ -44,3 +44,32 @@ public function bitCount(string $key) : int {
 $redis->set('key', 'a');
 $redis->bitCount('key'); // 3
 ```
+
+## bitOp
+
+_**Description**_: Perform bitwise operations between strings.
+
+##### *Prototype*  
+
+```php
+public function bitOp(string $operation, string $returnKey, ...$keys): int {
+    return $this->redis->bitOp($key);
+}
+```
+
+##### *Parameters*
+
+- *operation*: String. The key append to.
+- *returnKey*: String. The key append to.
+- *keys*: String. The key append to.
+
+##### *Return value*
+
+*int*: Total of bits set in the string.
+
+##### *Example*
+
+```php
+$redis->set('key', 'a');
+$redis->bitCount('key'); // 3
+```
