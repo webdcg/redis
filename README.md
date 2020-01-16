@@ -22,6 +22,7 @@ Table of contents
     - [Lists](#lists)
     - [Sets](#sets)
     - [Sorted sets](#sorted-sets)
+    - [HyperLogLogs](#HyperLogLogs)
 
 ## Installation
 
@@ -107,6 +108,14 @@ $redis->unlink('key');
 ```
 
 ### [Sorted Sets](docs/sorted-sets.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [HyperLogLogs](docs/hyperloglogs.md)
 
 ```php
 $redis->del('key');
