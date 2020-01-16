@@ -19,6 +19,8 @@ Table of contents
     - [Bits](#bits)
     - [Keys](#keys)
     - [Hashes](#hashes)
+    - [Lists](#lists)
+    - [Sets](#sets)
 
 ## Installation
 
@@ -87,8 +89,21 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
-
 ### [Lists](docs/lists.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### Testing
+
+``` bash
+composer test
+```
+
+### [Sets](docs/sets.md)
 
 ```php
 $redis->del('key');
