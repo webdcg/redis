@@ -164,67 +164,67 @@ trait Keys
     {
         return false;
     }
-    
+
     public function migrate(): bool
     {
         return false;
     }
-    
+
     public function move(): bool
     {
         return false;
     }
-    
+
     public function object(): bool
     {
         return false;
     }
-    
+
     public function persist(): bool
     {
         return false;
     }
-    
+
     public function randomKey(): bool
     {
         return false;
     }
-    
+
     public function rename(): bool
     {
         return false;
     }
-    
+
     public function renameKey(): bool
     {
         return false;
     }
-    
+
     public function renameNx(): bool
     {
         return false;
     }
-    
+
     public function type(): bool
     {
         return false;
     }
-    
+
     public function sort(): bool
     {
         return false;
     }
-    
+
     public function ttl(): bool
     {
         return false;
     }
-    
+
     public function pttl(): bool
     {
         return false;
     }
-    
+
     public function restore(): bool
     {
         return false;
