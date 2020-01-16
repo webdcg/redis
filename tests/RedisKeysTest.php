@@ -190,7 +190,7 @@ class RedisKeysTest extends TestCase
 
         $this->assertTrue($this->redis->expire('key1', 1));
         $this->assertEquals(1, $this->redis->exists('key1'));
-        
+
         $this->assertTrue($this->redis->setTimeout('key2', 1));
         $this->assertEquals(1, $this->redis->exists('key2'));
 
