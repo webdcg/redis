@@ -26,6 +26,7 @@ Table of contents
     - [Geocoding](#Geocoding)
     - [Streams](#Streams)
     - [Pub/sub](#pubsub)
+    - [Transactions](#transactions)
 
 ## Installation
 
@@ -143,6 +144,14 @@ $redis->unlink('key');
 ```
 
 ### [Pub/sub](docs/pubsub.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Transactions](docs/transactions.md)
 
 ```php
 $redis->del('key');
