@@ -23,6 +23,7 @@ Table of contents
     - [Sets](#sets)
     - [Sorted sets](#sorted-sets)
     - [HyperLogLogs](#HyperLogLogs)
+    - [Geocoding](#Geocoding)
 
 ## Installation
 
@@ -116,6 +117,14 @@ $redis->unlink('key');
 ```
 
 ### [HyperLogLogs](docs/hyperloglogs.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Geocoding](docs/geocoding.md)
 
 ```php
 $redis->del('key');
