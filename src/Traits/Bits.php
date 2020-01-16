@@ -24,10 +24,10 @@ trait Bits
     /**
      * Perform bitwise operations between strings.
      *
-     * @param  string $operation AND, OR, NOT, XOR
-     * @param  string $returnKey Return Key
-     * @param  splat $keys      List of keys for input
-     * ]
+     * @param  string $operation    AND, OR, NOT, XOR
+     * @param  string $returnKey    Return Key
+     * @param  splat $keys          List of keys for input
+     *
      * @return int              The size of the string stored in the destination key.
      */
     public function bitOp(string $operation, string $returnKey, ...$keys): int
