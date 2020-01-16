@@ -87,6 +87,15 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
+
+### [Lists](docs/lists.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
 ### Testing
 
 ``` bash
