@@ -63,7 +63,7 @@ trait Bits
      *
      * @return int
      */
-    public function getBit(string $key, int $offset) : int
+    public function getBit(string $key, int $offset): int
     {
         return $this->redis->getBit($key, $offset);
     }
