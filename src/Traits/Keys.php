@@ -135,4 +135,16 @@ trait Keys
     {
         return $this->redis->pexpireAt($key, $ttl);
     }
+
+    /**
+     * Returns the keys that match a certain pattern.
+     *
+     * @param  string $pattern  Pattern to match, using '*' as a wildcard.
+     *
+     * @return array            The keys that match a certain pattern.
+     */
+    public function keys(string $pattern): array
+    {
+        return $this->redis->keys($pattern);
+    }
 }

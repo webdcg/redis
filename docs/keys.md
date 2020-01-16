@@ -339,3 +339,39 @@ $redis->pexpireAt('key', $now + 10);  // key will disappear in 10  milliseconds
 usleep(20 * 1000);                    // wait 20 milliseconds
 $redis->exists('key');               // 0
 ```
+
+## keys
+
+_**Description**_: Find all keys matching the given pattern.
+
+##### *Prototype*  
+
+```php
+public function keys(string $pattern): array {
+    return $this->redis->keys($pattern);
+}
+```
+
+##### *Parameters*
+
+- *pattern*: string. Pattern to match, using '\*' as a wildcard.
+
+##### *Return value*
+
+*array*: Array of string: The keys that match a certain pattern.
+
+##### *Example*
+
+```php
+$redis->set('key1', 'value');
+$redis->set('key2', 'value');
+$redis->set('key3', 'value');
+$redis->keys('key*');
+/*
+array(3) {
+  [0] => string(4) "key3"
+  [1] => string(4) "key1"
+  [2] => string(4) "key2"
+}
+*/
+```
