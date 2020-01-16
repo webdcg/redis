@@ -4,35 +4,42 @@ namespace Webdcg\Redis\Traits;
 
 trait Scripting
 {
-    public function eval():bool
+    public function eval(): bool
     {
         return false;
     }
-    public function evalSha():bool
+
+    public function evalSha(): bool
     {
         return false;
     }
-    public function script():bool
+
+    public function script(): bool
     {
         return false;
     }
-    public function getLastError():bool
+
+    public function getLastError(): bool
     {
         return false;
     }
-    public function clearLastError():bool
+
+    public function clearLastError(): bool
     {
         return false;
     }
-    public function prefix():bool
+
+    public function prefix(): bool
     {
         return false;
     }
-    public function unserialize():bool
+
+    public function unserialize(): bool
     {
         return false;
     }
-    public function serialize():bool
+
+    public function serialize(): bool
     {
         return false;
     }
