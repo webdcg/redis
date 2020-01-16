@@ -24,6 +24,7 @@ Table of contents
     - [Sorted sets](#sorted-sets)
     - [HyperLogLogs](#HyperLogLogs)
     - [Geocoding](#Geocoding)
+    - [Streams](#Streams)
 
 ## Installation
 
@@ -125,6 +126,14 @@ $redis->unlink('key');
 ```
 
 ### [Geocoding](docs/geocoding.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Streams](docs/streams.md)
 
 ```php
 $redis->del('key');
