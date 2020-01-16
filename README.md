@@ -27,6 +27,7 @@ Table of contents
     - [Streams](#Streams)
     - [Pub/sub](#pubsub)
     - [Transactions](#transactions)
+    - [Scripting](#scripting)
 
 ## Installation
 
@@ -152,6 +153,14 @@ $redis->unlink('key');
 ```
 
 ### [Transactions](docs/transactions.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Scripting](docs/scripting.md)
 
 ```php
 $redis->del('key');
