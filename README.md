@@ -28,6 +28,7 @@ Table of contents
     - [Pub/sub](#pubsub)
     - [Transactions](#transactions)
     - [Scripting](#scripting)
+    - [Introspection](#introspection)
 
 ## Installation
 
@@ -161,6 +162,14 @@ $redis->unlink('key');
 ```
 
 ### [Scripting](docs/scripting.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Introspection](docs/introspection.md)
 
 ```php
 $redis->del('key');

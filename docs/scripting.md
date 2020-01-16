@@ -8,6 +8,6 @@
 |[script](#script)|Execute the Redis SCRIPT command to perform various operations on the scripting subsystem|:x:|:x:|Scripting|script|
 |[getLastError](#getLastError)|The last error message (if any)|:x:|:x:|Scripting|getLastError|
 |[clearLastError](#clearLastError)|Clear the last error message|:x:|:x:|Scripting|clearLastError|
-|[\_prefix](#prefix)|A utility method to prefix the value with the prefix setting for phpredis|:x:|:x:|Scripting|_prefix|
-|[\_unserialize](#unserialize)|A utility method to unserialize data with whatever serializer is set up|:x:|:x:|Scripting|_unserialize|
-|[\_serialize](#serialize)|A utility method to serialize data with whatever serializer is set up|:x:|:x:|Scripting|_serialize|
+|[\_prefix](#prefix)|A utility method to prefix the value with the prefix setting for phpredis|:x:|:x:|Scripting|\_prefix|
+|[\_unserialize](#unserialize)|A utility method to unserialize data with whatever serializer is set up|:x:|:x:|Scripting|\_unserialize|
+|[\_serialize](#serialize)|A utility method to serialize data with whatever serializer is set up|:x:|:x:|Scripting|\_serialize|
