@@ -21,6 +21,7 @@ Table of contents
     - [Hashes](#hashes)
     - [Lists](#lists)
     - [Sets](#sets)
+    - [Sorted sets](#sorted-sets)
 
 ## Installation
 
@@ -97,13 +98,15 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
-### Testing
+### [Sets](docs/sets.md)
 
-``` bash
-composer test
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
 ```
 
-### [Sets](docs/sets.md)
+### [Sorted Sets](docs/sorted-sets.md)
 
 ```php
 $redis->del('key');

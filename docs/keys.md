@@ -1,5 +1,4 @@
 ### [Redis client for PHP using the PhpRedis C Extension](../README.md)
-
 # [Keys](docs/keys.md)
 
 |Command                    |Description                                                                        |Supported              |Tested                 |Class/Trait    |Method     |

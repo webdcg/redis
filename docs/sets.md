@@ -1,11 +1,11 @@
 ### [Redis client for PHP using the PhpRedis C Extension](../README.md)
-
 # [Sets](docs/sets.md)
 
 |Command                    |Description                                                                                |Supported  |Tested     |Class/Trait    |Method         |
 |---                        |---                                                                                        |:-:        |:-:        |---            |---            |
 |[sAdd](#sAdd)|Add one or more members to a set|:x:|:x:|Sets|sAdd|
-|[sCard](#sCard), sSize|Get the number of members in a set|:x:|:x:|Sets|sCard|
+|[sCard](#sCard)|Get the number of members in a set|:x:|:x:|Sets|sCard|
+|[sSize](#sSize)|Get the number of members in a set|:x:|:x:|Sets|sSize|
 |[sDiff](#sDiff)|Subtract multiple sets|:x:|:x:|Sets|sDiff|
 |[sDiffStore](#sDiffStore)|Subtract multiple sets and store the resulting set in a key|:x:|:x:|Sets|sDiffStore|
 |[sInter](#sInter)|Intersect multiple sets|:x:|:x:|Sets|sInter|
