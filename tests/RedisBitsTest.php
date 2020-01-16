@@ -45,10 +45,10 @@ class RedisBitsTest extends TestCase
         $this->assertTrue($this->redis->set('testBit2', 1));
         $this->assertEquals(2, $this->redis->bitCount('testBit1'));
         $this->assertEquals(3, $this->redis->bitCount('testBit2'));
-        
+
         // Perform an AND bitwise operation between the two
         $this->assertEquals(1, $this->redis->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2'));
-        
+
         // Check that the original values remain
         $this->assertEquals(0, $this->redis->get('testBit1'));
         $this->assertEquals(1, $this->redis->get('testBit2'));
