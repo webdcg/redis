@@ -60,4 +60,34 @@ class RedisBitsTest extends TestCase
         // Remove all the keys used
         $this->assertEquals(3, $this->redis->delete(['testBit1', 'testBit2', 'testBitOpAnd']));
     }
+
+    /** @test */
+    public function redis_bits_setbit()
+    {
+        // A ASCII 65 01000001
+        $this->assertTrue($this->redis->set('testBit', 'A'));
+        // Modify the second bit, it was 0 previously
+        $this->assertEquals(0, $this->redis->setBit('testBit', 2, 1));
+        // a ASCII 97 01100001
+        $this->assertEquals('a', $this->redis->get('testBit'));
+        // Remove all the keys used
+        $this->assertEquals(1, $this->redis->delete('testBit'));
+    }
+
+    /** @test */
+    public function redis_bits_getbit()
+    {
+        // A ASCII 65 01000001
+        $this->assertTrue($this->redis->set('testBit', 'A'));
+        $this->assertEquals('A', $this->redis->get('testBit'));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 0));
+        $this->assertEquals(1, $this->redis->getBit('testBit', 1));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 2));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 3));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 4));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 5));
+        $this->assertEquals(0, $this->redis->getBit('testBit', 6));
+        $this->assertEquals(1, $this->redis->getBit('testBit', 7));
+        $this->assertEquals(1, $this->redis->delete('testBit'));
+    }
 }

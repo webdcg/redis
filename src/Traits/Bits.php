@@ -41,13 +41,30 @@ trait Bits
         return $this->redis->bitOp($operation, $returnKey, ...$keys);
     }
 
-    public function getBit(): bool
+    /**
+     * Sets or clears the bit at offset in the string value stored at key.
+     *
+     * @param string $key
+     * @param int    $offset
+     * @param int   $value
+     *
+     * @return int              0 or 1, the value of the bit before it was set.
+     */
+    public function setBit(string $key, int $offset, int $value): int
     {
-        return false;
+        return $this->redis->setBit($key, $offset, $value);
     }
 
-    public function setBit(): bool
+    /**
+     * Returns the bit value at offset in the string value stored at key.
+     *
+     * @param  string $key
+     * @param  int    $offset
+     *
+     * @return int
+     */
+    public function getBit(string $key, int $offset) : int
     {
-        return false;
+        return $this->redis->getBit($key, $offset);
     }
 }
