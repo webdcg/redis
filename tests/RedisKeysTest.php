@@ -182,6 +182,29 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_expire_keys()
+    {
+        $this->assertTrue($this->redis->set('key1', 'value'));
+        $this->assertTrue($this->redis->set('key2', 'value'));
+        $this->assertTrue($this->redis->set('key3', 'value'));
+
+        $this->assertTrue($this->redis->expire('key1', 1));
+        $this->assertEquals(1, $this->redis->exists('key1'));
+        
+        $this->assertTrue($this->redis->setTimeout('key2', 1));
+        $this->assertEquals(1, $this->redis->exists('key2'));
+
+        $this->assertTrue($this->redis->expireAt('key3', time() + 1));
+        $this->assertEquals(1, $this->redis->exists('key3'));
+
+        usleep(1.1 * 1000000);
+
+        $this->assertEquals(0, $this->redis->exists('key1'));
+        $this->assertEquals(0, $this->redis->exists('key2'));
+        $this->assertEquals(0, $this->redis->exists('key3'));
+    }
+
+    /** Combine in a single test for all the expirations */
     public function redis_keys_expire_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
@@ -198,7 +221,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists('NonExistingKey'));
     }
 
-    /** @test */
+    /** Combine in a single test for all the expirations */
     public function redis_keys_set_timeout_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
@@ -232,7 +255,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists('NonExistingKey'));
     }
 
-    /** @test */
+    /** Combine in a single test for all the expirations */
     public function redis_keys_expire_at_single_key()
     {
         $this->assertTrue($this->redis->set('key', 'value'));
