@@ -15,4 +15,19 @@ trait Bits
     {
         return $this->redis->bitCount($key);
     }
+
+    public function bitOp(): bool
+    {
+        return false;
+    }
+
+    public function getBit(): bool
+    {
+        return false;
+    }
+
+    public function setBit(): bool
+    {
+        return false;
+    }
 }
