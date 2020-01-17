@@ -2,7 +2,6 @@
 
 namespace Webdcg\Redis\Tests;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Exceptions\BitwiseOperationException;
 use Webdcg\Redis\Redis;
