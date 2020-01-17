@@ -17,6 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Create a Redis instance with password
+      run: sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
+
     - name: Validate composer.json and composer.lock
       run: composer validate
 
