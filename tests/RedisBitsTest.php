@@ -4,6 +4,7 @@ namespace Webdcg\Redis\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Webdcg\Redis\Exceptions\BitwiseOperationException;
 use Webdcg\Redis\Redis;
 
 class RedisBitsTest extends TestCase
@@ -16,13 +17,25 @@ class RedisBitsTest extends TestCase
         $this->redis->connect();
     }
 
+    /**
+     * Generate a string with 0s and 1s of the binary representaion of a value.
+     *
+     * @param  $value
+     *
+     * @return string   String representation of value with 0s and 1s
+     */
+    protected function getBinaryString($value): string
+    {
+        return base_convert(unpack('H*', $value)[1], 16, 2);
+    }
+
     /** @test */
     public function redis_bits_bitcount()
     {
         $this->assertTrue($this->redis->set('key', 'a'));
         $value = $this->redis->get('key');
         $this->assertEquals(97, ord($value));
-        $this->assertEquals('1100001', base_convert(unpack('H*', $value)[1], 16, 2));
+        $this->assertEquals('1100001', $this->getBinaryString($value));
         $this->assertEquals(3, $this->redis->bitCount('key'));
         $this->assertEquals(1, $this->redis->delete('key'));
         $this->assertEquals(0, $this->redis->exists('key'));
@@ -32,9 +45,31 @@ class RedisBitsTest extends TestCase
     public function redis_bits_bitop_unrecognized_operation()
     {
         $this->assertTrue($this->redis->set('testBit', 'A'));
-        $this->expectException(Exception::class);
+        $this->expectException(BitwiseOperationException::class);
         $this->assertEquals(1, $this->redis->bitOp('nor', 'testBitOp', 'testBit'));
         $this->assertEquals(1, $this->redis->delete('testBit'));
+    }
+
+    /** @test */
+    public function redis_bits_bitop_not_operation()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('testBit'));
+        // ASCII 65 A
+        // 0 1 0 0 0 0 0 1
+        // 0 1 2 3 4 5 6 7
+        $this->assertTrue($this->redis->set('testBit', 'A'));
+        $value = $this->redis->get('testBit');
+        $this->assertEquals('1000001', $this->getBinaryString($value));
+        $this->assertEquals(65, ord($value));
+
+        $this->assertEquals(1, $this->redis->bitOp('not', 'testBitOpNot', 'testBit'));
+
+        $value = $this->redis->get('testBitOpNot');
+        $this->assertEquals('10111110', $this->getBinaryString($value));
+        $this->assertEquals(190, ord($value));
+
+        // Remove all the keys used
+        $this->assertEquals(2, $this->redis->delete(['testBit', 'testBitOpNot']));
     }
 
     /** @test */
@@ -88,6 +123,7 @@ class RedisBitsTest extends TestCase
         $this->assertEquals(0, $this->redis->getBit('testBit', 5));
         $this->assertEquals(0, $this->redis->getBit('testBit', 6));
         $this->assertEquals(1, $this->redis->getBit('testBit', 7));
+        // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete('testBit'));
     }
 }

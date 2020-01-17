@@ -2,12 +2,14 @@
 
 # [Bits](docs/bits.md)
 
-|Command                |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
-|---                    |---                                                                    |:-:                    |:-:                    |---            |---        |
-|[bitCount](#bitCount)  |Count set bits in a string                                             |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitCount   |
-|[bitOp](#bitOp)        |Perform bitwise operations between strings                             |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitOp      |
-|[getBit](#getBit)      |Returns the bit value at offset in the string value stored at key      |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |getBit     |
-|[setBit](#setBit)      |Sets or clears the bit at offset in the string value stored at key     |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |setBit     |
+|Command                |Description                                                        |Supported              |Tested                 |Class/Trait    |Method     |
+|---                    |---                                                                |:-:                    |:-:                    |---            |---        |
+|[bitCount](#bitCount)  |Count set bits in a string                                         |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitCount   |
+|[bitField](#bitField)  |Perform arbitrary bitfield integer operations on strings           |:x:                    |:x:                    |Bits           |bitField   |
+|[bitOp](#bitOp)        |Perform bitwise operations between strings                         |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitOp      |
+|[bitPos](#bitPos)      |Find first bit set or clear in a string                            |:x:                    |:x:                    |Bits           |bitPos     |
+|[getBit](#getBit)      |Returns the bit value at offset in the string value stored at key  |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |getBit     |
+|[setBit](#setBit)      |Sets or clears the bit at offset in the string value stored at key |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |setBit     |
 
 ## Usage
 
@@ -41,6 +43,33 @@ public function bitCount(string $key) : int {
 ##### *Example*
 
 ```php
+$redis->set('key', 'a'); // 1100001 in Binary or 97 in decimal
+$redis->bitCount('key'); // 3
+```
+
+## bitField
+
+_**Description**_: Perform arbitrary bitfield integer operations on strings
+
+##### *Prototype*  
+
+```php
+public function bitField(): bool {
+    return false;
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key append to.
+
+##### *Return value*
+
+*int*: Total of bits set in the string.
+
+##### *Example*
+
+```php
 $redis->set('key', 'a');
 $redis->bitCount('key'); // 3
 ```
@@ -59,13 +88,13 @@ public function bitOp(string $operation, string $returnKey, ...$keys): int {
 
 ##### *Parameters*
 
-- *operation*: String. The key append to.
-- *returnKey*: String. The key append to.
-- *keys*: String. The key append to.
+- *operation*: String. Bitwise operation to perform: AND, OR, NOT, XOR
+- *returnKey*: String. The key where the result will be saved..
+- *keys*: String(s). The key(s) part of he operation.
 
 ##### *Return value*
 
-*int*: Total of bits set in the string.
+*int*: The size of the string stored in the destination key.
 
 ##### *Example*
 

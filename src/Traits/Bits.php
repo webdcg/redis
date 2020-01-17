@@ -2,6 +2,8 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Webdcg\Redis\Exceptions\BitwiseOperationException;
+
 trait Bits
 {
     /*
@@ -35,7 +37,11 @@ trait Bits
         $operation = strtoupper($operation);
 
         if (! in_array($operation, $this->BIT_OPERATIONS)) {
-            throw new \Exception('Operation not supported', 1);
+            throw new BitwiseOperationException('Operation not supported', 1);
+        }
+
+        if ('NOT' == $operation) {
+            return $this->redis->bitOp($operation, $returnKey, $keys[0]);
         }
 
         return $this->redis->bitOp($operation, $returnKey, ...$keys);
@@ -66,5 +72,15 @@ trait Bits
     public function getBit(string $key, int $offset): int
     {
         return $this->redis->getBit($key, $offset);
+    }
+
+    public function bitField(): bool
+    {
+        return false;
+    }
+
+    public function bitPos(): bool
+    {
+        return false;
     }
 }
