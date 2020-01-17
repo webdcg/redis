@@ -20,6 +20,13 @@ jobs:
         options: --entrypoint redis-server --requirepass 'secret'
 
     steps:
+    - uses: getong/redis-action@v1
+      with:
+        redis version: '5.0.7'
+        host port: 6380
+        container port: 6379
+        redis password: 'secret'
+
     - uses: actions/checkout@v1
 
     - name: Validate composer.json and composer.lock
