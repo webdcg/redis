@@ -16,7 +16,7 @@ trait Strings
     {
         return $this->redis->append($key, $value);
     }
-    
+
     public function decr(): bool
     {
         return false;
@@ -26,12 +26,12 @@ trait Strings
     {
         return false;
     }
-    
+
     public function get(string $key)
     {
         return $this->redis->get($key);
     }
-    
+
     public function getRange(): bool
     {
         return false;
@@ -41,12 +41,12 @@ trait Strings
     {
         return false;
     }
-    
+
     public function incr(): bool
     {
         return false;
     }
-    
+
     public function incrBy(): bool
     {
         return false;
@@ -56,22 +56,22 @@ trait Strings
     {
         return false;
     }
-    
+
     public function mGet(): bool
     {
         return false;
     }
-    
+
     public function getMultiple(): bool
     {
         return false;
     }
-    
+
     public function mSet(): bool
     {
         return false;
     }
-    
+
     public function mSetNX(): bool
     {
         return false;
