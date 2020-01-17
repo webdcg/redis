@@ -19,7 +19,7 @@ trait HyperLogLogs
     }
 
     /**
-     * Return the approximated cardinality of the set(s) observed by the HyperLogLog at key(s)
+     * Return the approximated cardinality of the set(s) observed by the HyperLogLog at key(s).
      *
      * @return [type] [description]
      */
@@ -29,7 +29,7 @@ trait HyperLogLogs
     }
 
     /**
-     * Adds the specified elements to the specified HyperLogLog
+     * Adds the specified elements to the specified HyperLogLog.
      *
      * @return [type] [description]
      */
