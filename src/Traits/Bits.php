@@ -26,7 +26,7 @@ trait Bits
     /**
      * Perform bitwise operations between strings.
      *
-     * @param  string $operation    AND, OR, NOT, XOR
+     * @param  string $operation    NOT, AND, OR, XOR
      * @param  string $returnKey    Return Key
      * @param  splat $keys          List of keys for input
      *

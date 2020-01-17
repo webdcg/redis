@@ -96,6 +96,45 @@ class RedisBitsTest extends TestCase
     }
 
     /** @test */
+    public function redis_bits_bitop_or_operation()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('testBit1'));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 0, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 1, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 2, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 3, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 4, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 5, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 6, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit1', 7, 1));
+        $this->assertEquals(4, $this->redis->bitCount('testBit1'));
+        $value = $this->redis->get('testBit1');
+        $this->assertEquals('1010101', $this->getBinaryString($value));
+        $this->assertEquals(85, ord($value));
+
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('testBit2'));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 0, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 1, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 2, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 3, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 4, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 5, 0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 6, 1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->setBit('testBit2', 7, 0));
+        $this->assertEquals(4, $this->redis->bitCount('testBit2'));
+        $value = $this->redis->get('testBit2');
+        $this->assertEquals('10101010', $this->getBinaryString($value));
+        $this->assertEquals(170, ord($value));
+
+        $this->assertEquals(1, $this->redis->bitOp('or', 'testBitOpOr', 'testBit1', 'testBit2'));
+        $value = $this->redis->get('testBitOpOr');
+        $this->assertEquals('11111111', $this->getBinaryString($value));
+
+        // Remove all the keys used
+        $this->assertEquals(3, $this->redis->delete(['testBit1', 'testBit2', 'testBitOpOr']));
+    }
+
+    /** @test */
     public function redis_bits_setbit()
     {
         // A ASCII 65 01000001
