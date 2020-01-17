@@ -13,12 +13,14 @@ jobs:
         ports:
         - 6379:6379
         options: --entrypoint redis-server
+      redis-secure:
+        image: redis
+        ports:
+        - 6380:6379
+        options: --entrypoint redis-server --requirepass 'secret'
 
     steps:
     - uses: actions/checkout@v1
-
-    - name: Create a Redis instance with password
-      run: sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
 
     - name: Validate composer.json and composer.lock
       run: composer validate
