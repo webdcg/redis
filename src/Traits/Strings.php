@@ -16,6 +16,66 @@ trait Strings
     {
         return $this->redis->append($key, $value);
     }
+    
+    public function decr(): bool
+    {
+        return false;
+    }
+
+    public function decrBy(): bool
+    {
+        return false;
+    }
+    
+    public function get(string $key)
+    {
+        return $this->redis->get($key);
+    }
+    
+    public function getRange(): bool
+    {
+        return false;
+    }
+
+    public function getSet(): bool
+    {
+        return false;
+    }
+    
+    public function incr(): bool
+    {
+        return false;
+    }
+    
+    public function incrBy(): bool
+    {
+        return false;
+    }
+
+    public function incrByFloat(): bool
+    {
+        return false;
+    }
+    
+    public function mGet(): bool
+    {
+        return false;
+    }
+    
+    public function getMultiple(): bool
+    {
+        return false;
+    }
+    
+    public function mSet(): bool
+    {
+        return false;
+    }
+    
+    public function mSetNX(): bool
+    {
+        return false;
+    }
 
     /**
      * Set the string value in argument as value of the key. If you're using Redis >= 2.6.12, you can pass extended
@@ -23,8 +83,10 @@ trait Strings
      *
      * @param string $key
      * @param mixed $value
-     * @param mixed $args Timeout or Options Array (optional). If you pass an integer, phpredis will redirect to SETEX,
-     *                    and will try to use Redis >= 2.6.12 extended options if you pass an array with valid values
+     * @param mixed $args Timeout or Options Array (optional). If you pass an
+     *                    integer, phpredis will redirect to SETEX, and will
+     *                    try to use Redis >= 2.6.12 extended options if you
+     *                    pass an array with valid values
      *
      * @return bool TRUE if the command is successful.
      */
@@ -37,22 +99,28 @@ trait Strings
         return $this->redis->set($key, $value, $args[0]);
     }
 
-    /**
-     * Set the string value in argument as value of the key, with a time to live. PSETEX uses a TTL in milliseconds.
-     *
-     * @param string $key
-     * @param int   $timeout seconds
-     * @param mixed $value
-     *
-     * @return bool TRUE if the command is successful.
-     */
     public function setEx(string $key, int $timeout, $value): bool
     {
         return $this->redis->setEx($key, $timeout, $value);
     }
 
-    public function get(string $key)
+    public function pSetEx(): bool
     {
-        return $this->redis->get($key);
+        return false;
+    }
+
+    public function setNx(): bool
+    {
+        return false;
+    }
+
+    public function setRange(): bool
+    {
+        return false;
+    }
+
+    public function strLen(): bool
+    {
+        return false;
     }
 }
