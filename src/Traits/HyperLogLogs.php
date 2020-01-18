@@ -29,14 +29,17 @@ trait HyperLogLogs
     {
         return $this->redis->pfCount(...$keys);
     }
-
+    
     /**
-     * Adds the specified elements to the specified HyperLogLog.
+     * Merge N different HyperLogLogs into a single one.
      *
-     * @return [type] [description]
+     * @param  string $destKey
+     * @param  array  $sourceKeys
+     *
+     * @return bool                 TRUE on success, FALSE on error.
      */
-    public function pfMerge(): bool
+    public function pfMerge(string $destKey, array $sourceKeys): bool
     {
-        return false;
+        return $this->redis->pfMerge($destKey, $sourceKeys);
     }
 }

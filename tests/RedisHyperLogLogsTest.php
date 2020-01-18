@@ -78,8 +78,8 @@ class RedisHyperLogLogsTest extends TestCase
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete('HyperLogLog'));
 
-        // Generate between 1 and 2 thousand elements
-        $total = random_int(999, 1999);
+        // Generate between 1 and 1.1 thousand elements
+        $total = random_int(999, 1099);
         for ($i = 0; $i < $total; $i++) {
             $this->assertGreaterThanOrEqual(0, $this->redis->pfAdd('HyperLogLog', [$i]));
         }
@@ -90,5 +90,42 @@ class RedisHyperLogLogsTest extends TestCase
 
         // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete('HyperLogLog'));
+    }
+
+    /** @test */
+    public function redis_hyperloglogs_pfmerge()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
+
+        $this->assertEquals(1, $this->redis->pfAdd('HyperLogLog', ['a', 'b', 'c']));
+        $this->assertEquals(3, $this->redis->pfCount('HyperLogLog'));
+
+        $this->assertEquals(1, $this->redis->pfAdd('HyperLogLog2', ['b', 'd']));
+        $this->assertEquals(2, $this->redis->pfCount('HyperLogLog2'));
+
+        $this->assertTrue($this->redis->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']));
+        $this->assertEquals(4, $this->redis->pfCount('HyperLogLogMerged'));
+
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
+    }
+
+    /** @test */
+    public function redis_hyperloglogs_pfmerge_bad_merge()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
+
+        $this->assertEquals(1, $this->redis->pfAdd('HyperLogLog', ['a', 'b', 'c']));
+        $this->assertEquals(3, $this->redis->pfCount('HyperLogLog'));
+
+        $this->assertEquals(1, $this->redis->set('HyperLogLog2', 'HyperLogLog'));
+        $this->assertEquals('HyperLogLog', $this->redis->get('HyperLogLog2'));
+
+        $this->assertFalse($this->redis->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']));
+        
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
     }
 }
