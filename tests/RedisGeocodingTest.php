@@ -26,4 +26,16 @@ class RedisGeocodingTest extends TestCase
         // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete('Geocoding'));
     }
+
+    /** @test */
+    public function redis_geocoding_geohash_single()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('Geocoding'));
+        // Add San Francisco to the geospatial key should only do it once
+        $this->assertEquals(1, $this->redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco'));
+        $this->assertEquals('9q8yyh27wv0', $this->redis->geoHash('Geocoding', 'San Francisco')[0]);
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('Geocoding'));
+    }
 }

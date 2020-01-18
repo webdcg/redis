@@ -37,6 +37,35 @@ public function geoAdd(string $key, float $longitude, float $latitude, string $m
 ##### *Example*
 
 ```php
-redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
-redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 0
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 0
+```
+
+## [geoHash](https://redis.io/commands/geohash)
+
+_**Description**_: Retrieve Geohash strings for one or more elements of a geospatial index.
+
+##### *Prototype*  
+
+```php
+public function geoHash(string $key, string $member, ...$members): array {
+    return $this->redis->geoHash($key, $member);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The GeoSpatial index.
+- *member*: String: Location name.
+- *members*: Zero or more Members.
+
+##### *Return value*
+
+*array*: One or more Redis Geohash encoded strings.
+
+##### *Example*
+
+```php
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
+$redis->geoHash('Geocoding', 'San Francisco'); // [0 => '9q8yyh27wv0']
 ```
