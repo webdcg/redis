@@ -99,8 +99,13 @@ public function bitOp(string $operation, string $returnKey, ...$keys): int {
 ##### *Example*
 
 ```php
-$redis->set('key', 'a');
-$redis->bitCount('key'); // 3
+$redis->bitOp('not', 'testBitOpNot', 'testBit');
+
+$redis->set('testBit1', 0);
+$redis->set('testBit2', 1);
+$redis->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
+$redis->get('testBitOpAnd'); // 0 since only the two bits that are common 
+                            // between 0 and 1 will match
 ```
 
 ## setBit
@@ -128,8 +133,9 @@ public function setBit(string $key, int $offset, int $value): int {
 ##### *Example*
 
 ```php
-$redis->set('key', 'a');
-$redis->bitCount('key'); // 3
+$redis->setBit('key', 1, 1);
+$redis->setBit('key', 7, 1);
+$redis->get('key'); // A => 01000001
 ```
 
 ## getBit
@@ -146,16 +152,17 @@ public function getBit(string $key, int $offset) : int {
 
 ##### *Parameters*
 
-- *key*: String. The key append to.
-- *offset*: String. The key append to.
+- *key*: String. The Bitmap.
+- *offset*: String. The bit position within the string.
 
 ##### *Return value*
 
-*int*: Total of bits set in the string.
+*int*: 0 or 1
 
 ##### *Example*
 
 ```php
-$redis->set('key', 'a');
-$redis->bitCount('key'); // 3
+$redis->set('key', 'A'); // 01000001
+$redis->getBit('key', 0); // 0
+$redis->getBit('key', 1); // 1
 ```

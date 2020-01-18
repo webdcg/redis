@@ -46,10 +46,25 @@ composer require webdcg/redis
 $redis = new Webdcg\Redis\Redis;
 ```
 
+### [Bits](docs/bits.md)
+
+```php
+// Count set bits in a string
+$redis->bitCount('key');
+$redis->bitField('key');
+$redis->bitPos('key');
+$redis->bitOp('key');
+$redis->getBit('key');
+$redis->setBit('key');
+```
+
 ### [Connection](docs/connection.md)
 
 ```php
 $redis->connect('127.0.0.1', 6379);
+$redis->open('127.0.0.1', 6379);
+$redis->pconnect('127.0.0.1', 6379);
+$redis->popen('127.0.0.1', 6379);
 $redis->auth('secret');
 $redis->select(1);
 $redis->swapdb(0, 1);
@@ -74,12 +89,7 @@ $redis->set('key', 'value', ['xx', 'px' => 1000]);
 $redis->setEx('key', 10, 'value');
 ```
 
-### [Bits](docs/bits.md)
 
-```php
-// Count set bits in a string
-$redis->bitCount('key');
-```
 
 ### [Keys](docs/keys.md)
 
