@@ -96,5 +96,34 @@ public function geoPos(string $key, string $member, ...$members): array {
 
 ```php
 $redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
-$redis->geoHash('Geocoding', 'San Francisco'); // [0 => '9q8yyh27wv0']
+$redis->geoPos('Geocoding', 'San Francisco'); // [0 => [ 0 => -122.431, 1 => 37.773]]]
+```
+
+## [geoDist](https://redis.io/commands/geoDist)
+
+_**Description**_: Return longitude, latitude positions for each requested member.
+
+##### *Prototype*  
+
+```php
+public function geoPos(string $key, string $member, ...$members): array {
+    return $this->redis->geoPos($key, $member);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The GeoSpatial index.
+- *member*: String: Location name.
+- *members*: Zero or more Members.
+
+##### *Return value*
+
+*array*: Return longitude, latitude positions for each requested member.
+
+##### *Example*
+
+```php
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
+$redis->geoPos('Geocoding', 'San Francisco'); // [0 => [ 0 => -122.431, 1 => 37.773]]]
 ```
