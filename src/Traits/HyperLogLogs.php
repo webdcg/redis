@@ -21,11 +21,13 @@ trait HyperLogLogs
     /**
      * Return the approximated cardinality of the set(s) observed by the HyperLogLog at key(s).
      *
-     * @return [type] [description]
+     * @param  $keys
+     *
+     * @return int      The approximated number of unique elements observed via pfAdd.
      */
-    public function pfCount(): bool
+    public function pfCount(...$keys): int
     {
-        return false;
+        return $this->redis->pfCount(...$keys);
     }
 
     /**
