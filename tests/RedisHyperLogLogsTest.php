@@ -108,7 +108,7 @@ class RedisHyperLogLogsTest extends TestCase
         $this->assertEquals(4, $this->redis->pfCount('HyperLogLogMerged'));
 
         // Cleanup used keys
-        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLogMerged', 'HyperLogLog', 'HyperLogLog2']));
     }
 
     /** @test */
@@ -126,6 +126,6 @@ class RedisHyperLogLogsTest extends TestCase
         $this->assertFalse($this->redis->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']));
 
         // Cleanup used keys
-        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLog', 'HyperLogLog2']));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['HyperLogLogMerged', 'HyperLogLog', 'HyperLogLog2']));
     }
 }
