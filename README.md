@@ -75,23 +75,7 @@ $redis->ping('pong');
 $redis->echo('redis');
 ```
 
-### [Strings](docs/strings.md)
-
-```php
-// Simple key -> value set
-$redis->set('key', 'value');
-// Will redirect, and actually make an SETEX call
-$redis->set('key', 'value', 10);
-// Will set the key, if it doesn't exist, with a ttl of 10 seconds
-$redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
-// Will set a key, if it does exist, with a ttl of 1000 miliseconds
-$redis->set('key', 'value', ['xx', 'px' => 1000]);
-$redis->setEx('key', 10, 'value');
-```
-
-
-
-### [Keys](docs/keys.md)
+### [Geocoding](docs/geocoding.md)
 
 ```php
 $redis->del('key');
@@ -107,7 +91,49 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
+### [HyperLogLogs](docs/hyperloglogs.md)
+
+```php
+$redis->pfAdd('HyperLogLog', ['a', 'b', 'c']);
+$redis->pfCount('HyperLogLog'); // 3
+$redis->pfAdd('HyperLogLog2', ['b', 'd']);
+$redis->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']);
+$redis->pfCount('HyperLogLogMerged'); // 4 => a, b, c, d
+```
+
+### [Introspection](docs/introspection.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Keys](docs/keys.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
 ### [Lists](docs/lists.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Pub/sub](docs/pubsub.md)
+
+```php
+$redis->del('key');
+$redis->delete('key');
+$redis->unlink('key');
+```
+
+### [Scripting](docs/scripting.md)
 
 ```php
 $redis->del('key');
@@ -131,22 +157,6 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
-### [HyperLogLogs](docs/hyperloglogs.md)
-
-```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
-```
-
-### [Geocoding](docs/geocoding.md)
-
-```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
-```
-
 ### [Streams](docs/streams.md)
 
 ```php
@@ -155,31 +165,21 @@ $redis->delete('key');
 $redis->unlink('key');
 ```
 
-### [Pub/sub](docs/pubsub.md)
+### [Strings](docs/strings.md)
 
 ```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
+// Simple key -> value set
+$redis->set('key', 'value');
+// Will redirect, and actually make an SETEX call
+$redis->set('key', 'value', 10);
+// Will set the key, if it doesn't exist, with a ttl of 10 seconds
+$redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
+// Will set a key, if it does exist, with a ttl of 1000 miliseconds
+$redis->set('key', 'value', ['xx', 'px' => 1000]);
+$redis->setEx('key', 10, 'value');
 ```
 
 ### [Transactions](docs/transactions.md)
-
-```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
-```
-
-### [Scripting](docs/scripting.md)
-
-```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
-```
-
-### [Introspection](docs/introspection.md)
 
 ```php
 $redis->del('key');
