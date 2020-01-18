@@ -50,7 +50,7 @@ public function pfCount(...$keys): int {
 
 ##### *Parameters*
 
-- *keys*: String(s). The HyperLogLogs to be Counter 
+- *keys*: String(s). The HyperLogLogs to be Counted.
 
 ##### *Return value*
 
@@ -61,4 +61,38 @@ public function pfCount(...$keys): int {
 ```php
 $redis->pfAdd('HyperLogLog', ['a', 'b', 'c']) // 1
 $redis->pfCount('HyperLogLog') // 3
+```
+
+## pfMerge
+
+_**Description**_: Merge N different HyperLogLogs into a single one.
+
+##### *Prototype*  
+
+```php
+public function pfMerge(string $destKey, array $sourceKeys): bool {
+    return $this->redis->pfMerge($destKey, $sourceKeys);
+}
+```
+
+##### *Parameters*
+
+- *destKey*: String. The HyperLogLogs contain all Counted Elements.
+- *sourceKeys*: Array. The HyperLogLogs to be Merged.
+
+##### *Return value*
+
+*bool*: TRUE on success, FALSE on error.
+
+##### *Example*
+
+```php
+$redis->pfAdd('HyperLogLog', ['a', 'b', 'c']) // 1
+$redis->pfCount('HyperLogLog') // 3
+
+$redis->pfAdd('HyperLogLog2', ['b', 'd']) // 1
+$redis->pfCount('HyperLogLog2') // 1
+
+$redis->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']);
+$redis->pfCount('HyperLogLogMerged') // 4
 ```
