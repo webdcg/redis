@@ -21,9 +21,18 @@ trait Geocoding
         return $this->redis->geoAdd($key, $longitude, $latitude, $member, ...$locations);
     }
 
-    public function geoHash(): bool
+    /**
+     * Retrieve Geohash strings for one or more elements of a geospatial index.
+     *
+     * @param  string $key
+     * @param  string $member
+     * @param  splat  $members
+     *
+     * @return array            One or more Redis Geohash encoded strings.
+     */
+    public function geoHash(string $key, string $member, ...$members): array
     {
-        return false;
+        return $this->redis->geoHash($key, $member);
     }
 
     public function geoPos(): bool

@@ -78,9 +78,8 @@ $redis->echo('redis');
 ### [Geocoding](docs/geocoding.md)
 
 ```php
-$redis->del('key');
-$redis->delete('key');
-$redis->unlink('key');
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');
+$redis->geoHash('Geocoding', 'San Francisco');
 ```
 
 ### [Hashes](docs/hashes.md)
