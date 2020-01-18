@@ -35,9 +35,18 @@ trait Geocoding
         return $this->redis->geoHash($key, $member);
     }
 
-    public function geoPos(): bool
+    /**
+     * Return longitude, latitude positions for each requested member.
+     *
+     * @param  string $ke
+     * @param  string $member
+     * @param  splat $members
+     *
+     * @return array            One or more longitude/latitude positions
+     */
+    public function geoPos(string $key, string $member, ...$members): array
     {
-        return false;
+        return $this->redis->geoPos($key, $member);
     }
 
     public function geoDist(): bool
