@@ -29,7 +29,7 @@ trait HyperLogLogs
     {
         return $this->redis->pfCount(...$keys);
     }
-    
+
     /**
      * Merge N different HyperLogLogs into a single one.
      *
