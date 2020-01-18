@@ -35,3 +35,30 @@ $redis->pfAdd('HyperLogLog', ['a', 'b', 'c']) // 1
 $redis->pfAdd('HyperLogLog', ['a', 'c']) // 0
 $redis->pfAdd('HyperLogLog', ['b', 'd']) // 1
 ```
+
+## pfCount
+
+_**Description**_: Return the approximated cardinality of the set(s) observed by the HyperLogLog at key(s).
+
+##### *Prototype*  
+
+```php
+public function pfCount(...$keys): int {
+    return $this->redis->pfCount(...$keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: String(s). The HyperLogLogs to be Counter 
+
+##### *Return value*
+
+*int*: The approximated number of unique elements observed via pfAdd.
+
+##### *Example*
+
+```php
+$redis->pfAdd('HyperLogLog', ['a', 'b', 'c']) // 1
+$redis->pfCount('HyperLogLog') // 3
+```
