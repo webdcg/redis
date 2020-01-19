@@ -255,6 +255,27 @@ class RedisStringsTest extends TestCase
         $this->assertEquals(0, $this->redis->strLen('nonexisting'));
     }
 
+    /** @test */
+    public function redis_strings_getrange()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'Taylor Swift'));
+        $this->assertEquals('Taylor', $this->redis->getRange($this->key, 0, 5));
+        $this->assertEquals('Swift', $this->redis->getRange($this->key, -5, -1));
+        $this->assertEquals('Taylor Swift', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_getrange_nonexisting()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals('', $this->redis->getRange('nonexisting', 0, 5));
+    }
+
     public function redis_strings_set()
     {
         // Simple key -> value set
