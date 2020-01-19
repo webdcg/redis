@@ -124,6 +124,36 @@ $redis->set('key', 5);
 $redis->decrBy('key', 3); // 2
 ```
 
+## [getRange](https://redis.io/commands/getrange)
+
+_**Description**_: Return a substring of a larger string.  
+_Note_: substr also supported but deprecated in redis.
+
+##### *Prototype*  
+
+```php
+public function append(string $key, string $value) : int {
+    return $this->redis->append($key, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key append to.
+- *value*: String. The value to be appended.
+
+##### *Return value*
+
+*int*: Size of the value after the append.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value1');
+$redis->append('key', 'value2'); /* 12 */
+$redis->get('key'); /* 'value1value2' */
+```
+
 ## [incr](https://redis.io/commands/incr)
 
 _**Description**_: Increment the number stored at key by one.

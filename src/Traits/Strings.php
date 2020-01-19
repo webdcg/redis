@@ -50,9 +50,19 @@ trait Strings
         return $this->redis->get($key);
     }
 
-    public function getRange(): bool
+    /**
+     * Return a substring of a larger string.
+     * See: https://redis.io/commands/getrange.
+     *
+     * @param  string $key   [description]
+     * @param  int    $start [description]
+     * @param  int    $end   [description]
+     *
+     * @return string       the substring
+     */
+    public function getRange(string $key, int $start, int $end): string
     {
-        return false;
+        return $this->redis->getRange($key, $start, $end);
     }
 
     public function getSet(): bool
