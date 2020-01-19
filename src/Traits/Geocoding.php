@@ -51,7 +51,7 @@ trait Geocoding
 
     /**
      * Return the distance between two members in a geospatial set. If units
-     * are passed it must be one of the following values:
+     * are passed it must be one of the following values:.
      *
      * @param  string $key      [description]
      * @param  string $member1  [description]
