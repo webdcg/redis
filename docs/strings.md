@@ -10,7 +10,7 @@
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
-|[incr](#incr)                  |Increment the value of a key                                           |:x:   |:x:   |Strings        |incr   |
+|[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
 |[incrBy](#incrBy)              |Increment the value of a key                                           |:x:   |:x:   |Strings        |incrBy   |
 |[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:x:   |:x:   |Strings        |incrByFloat   |
 |[mGet](#mGet)                  |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |mGet   |
@@ -122,4 +122,87 @@ public function decrBy(string $key, int $decrement): int {
 ```php
 $redis->set('key', 5);
 $redis->decrBy('key', 3); // 2
+```
+
+## incr
+
+_**Description**_: Increment the number stored at key by one.
+
+##### *Prototype*  
+
+```php
+public function incr(string $key): int {
+    return $this->redis->incr($key);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be incremented.
+
+##### *Return value*
+
+*int*: the new value.
+
+##### *Example*
+
+```php
+$redis->set('key', 1);
+$redis->incr('key'); // 2
+```
+
+## incrBy
+
+_**Description**_: increment the number stored at key by the given increment.
+
+##### *Prototype*  
+
+```php
+public function incrBy(string $key, int $increment): int {
+    return $this->redis->incrBy($key, $increment);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be incremented.
+- *increment*: Int. The value to be incremented.
+
+##### *Return value*
+
+*int*: The new value.
+
+##### *Example*
+
+```php
+$redis->set('key', 5);
+$redis->incrBy('key', 3); // 2
+```
+
+## incrByFloat
+
+_**Description**_: increment the number stored at key by the given increment.
+
+##### *Prototype*  
+
+```php
+public function incrByFloat(string $key, int $increment): int {
+    return $this->redis->incrByFloat($key, $increment);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be incremented.
+- *increment*: Int. The value to be incremented.
+
+##### *Return value*
+
+*int*: The new value.
+
+##### *Example*
+
+```php
+$redis->set('key', 5);
+$redis->incrByFloat('key', 3); // 2
 ```

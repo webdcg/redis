@@ -30,12 +30,12 @@ trait Strings
     }
 
     /**
-     * [decrBy description].
+     * Decrement the number stored at key by the given decrement.
      *
      * @param  string $key       [description]
      * @param  int    $decrement [description]
      *
-     * @return [type]            [description]
+     * @return int              The new value
      */
     public function decrBy(string $key, int $decrement): int
     {
@@ -57,9 +57,16 @@ trait Strings
         return false;
     }
 
-    public function incr(): bool
+    /**
+     * Increment the number stored at key by one.
+     *
+     * @param  string $key [description]
+     *
+     * @return int         The new value.
+     */
+    public function incr(string $key): int
     {
-        return false;
+        return $this->redis->incr($key);
     }
 
     public function incrBy(): bool
