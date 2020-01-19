@@ -101,29 +101,35 @@ $redis->geoPos('Geocoding', 'San Francisco'); // [0 => [ 0 => -122.431, 1 => 37.
 
 ## [geoDist](https://redis.io/commands/geoDist)
 
-_**Description**_: Return longitude, latitude positions for each requested member.
+_**Description**_: Return the distance between two members in a geospatial set. If units are passed it must be one of the following values:  
+- 'm' => Meters
+- 'km' => Kilometers
+- 'mi' => Miles
+- 'ft' => Feet
 
 ##### *Prototype*  
 
 ```php
-public function geoPos(string $key, string $member, ...$members): array {
-    return $this->redis->geoPos($key, $member);
+public function geoDist(string $key, string $member1, string $member2, string $unit = 'm'): float {
+    return $this->redis->geoDist($key, $member1, $member2, $unit);
 }
 ```
 
 ##### *Parameters*
 
 - *key*: String. The GeoSpatial index.
-- *member*: String: Location name.
-- *members*: Zero or more Members.
+- *membe1r*: String: First location.
+- *membe2r*: String: Second location.
+- *unit*: Distance unit [m, km, mi, ft].
 
 ##### *Return value*
 
-*array*: Return longitude, latitude positions for each requested member.
+*float*: The distance between the two passed members in the units requested (meters by default).
 
 ##### *Example*
 
 ```php
 $redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
-$redis->geoPos('Geocoding', 'San Francisco'); // [0 => [ 0 => -122.431, 1 => 37.773]]]
+$redis->geoAdd('Geocoding', -73.935242, 40.730610, 'New York');  // 1
+$redis->geoDist('Geocoding', 'San Francisco', 'New York'); // 4136721.6835
 ```
