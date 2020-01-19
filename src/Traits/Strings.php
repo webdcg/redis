@@ -69,9 +69,17 @@ trait Strings
         return $this->redis->incr($key);
     }
 
-    public function incrBy(): bool
+    /**
+     * Increment the number stored at key by the given increment.
+     *
+     * @param  string $key       [description]
+     * @param  int    $increment [description]
+     *
+     * @return int                  The new value
+     */
+    public function incrBy(string $key, int $increment): int
     {
-        return false;
+        return $this->redis->incrBy($key, $increment);
     }
 
     public function incrByFloat(): bool

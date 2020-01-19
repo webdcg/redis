@@ -11,7 +11,7 @@
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
-|[incrBy](#incrBy)              |Increment the value of a key                                           |:x:   |:x:   |Strings        |incrBy   |
+|[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
 |[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:x:   |:x:   |Strings        |incrByFloat   |
 |[mGet](#mGet)                  |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |mGet   |
 |[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |getMultiple   |
@@ -153,7 +153,7 @@ $redis->incr('key'); // 2
 
 ## incrBy
 
-_**Description**_: increment the number stored at key by the given increment.
+_**Description**_: Increment the number stored at key by the given increment.
 
 ##### *Prototype*  
 
@@ -175,8 +175,8 @@ public function incrBy(string $key, int $increment): int {
 ##### *Example*
 
 ```php
-$redis->set('key', 5);
-$redis->incrBy('key', 3); // 2
+$redis->set('key', 2);
+$redis->incrBy('key', 3); // 5
 ```
 
 ## incrByFloat
