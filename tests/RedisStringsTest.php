@@ -156,6 +156,40 @@ class RedisStringsTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+    /** @test */
+    public function redis_strings_incrby()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 2));
+        $this->assertEquals(5, $this->redis->incrBy($this->key, 3));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_incrby_negative()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, -1));
+        $this->assertEquals(1, $this->redis->incrby($this->key, 2));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_incrby_not_a_number()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'A'));
+        $this->assertEquals(0, $this->redis->incrby($this->key, 5));
+        $this->assertEquals('A', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
     public function redis_strings_set()
     {
         // Simple key -> value set
