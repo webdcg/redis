@@ -163,8 +163,18 @@ trait Strings
         return false;
     }
 
-    public function strLen(): bool
+    /**
+     * Returns the length of the string value stored at key. An error is
+     * returned when key holds a non-string value.
+     * See: https://redis.io/commands/strlen.
+     *
+     * @param  string $key [description]
+     *
+     * @return int          The length of the string at key, or 0 when key does
+     *                      not exist.
+     */
+    public function strLen(string $key): int
     {
-        return false;
+        return $this->redis->strLen($key);
     }
 }

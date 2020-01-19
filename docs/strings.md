@@ -22,7 +22,7 @@
 |[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
 |[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:x:   |:x:   |Strings        |setNx   |
 |[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:x:   |:x:   |Strings        |setRange   |
-|[strLen](#strLen)              |Get the length of the value stored in a key                            |:x:   |:x:   |Strings        |strLen   |
+|[strLen](#strLen)              |Get the length of the value stored in a key                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |strLen   |
 
 ## Usage
 
@@ -205,4 +205,33 @@ public function incrByFloat(string $key, int $increment): int {
 ```php
 $redis->set('key', 5);
 $redis->incrByFloat('key', 3); // 2
+```
+
+## [strLen](https://redis.io/commands/strlen)
+
+_**Description**_: Returns the length of the string value stored at key. An error is returned when key holds a non-string value.
+
+##### *Prototype*  
+
+```php
+public function strLen(string $key, string $value) : int {
+    return $this->redis->strLen($key, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key append to.
+- *value*: String. The value to be appended.
+
+##### *Return value*
+
+*int*: Size of the value after the append.
+
+##### *Example*
+
+```php
+$redis->set('key', 'value1');
+$redis->append('key', 'value2'); /* 12 */
+$redis->get('key'); /* 'value1value2' */
 ```
