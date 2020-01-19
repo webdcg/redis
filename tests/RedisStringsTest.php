@@ -213,6 +213,17 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_incrbyfloat_negative_increment()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, -1.1));
+        $this->assertEquals(-2.2, $this->redis->incrByFloat($this->key, -1.1));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_strings_incrbyfloat_not_a_number()
     {
         // Start from scratch
