@@ -30,7 +30,7 @@ trait Strings
     }
 
     /**
-     * [decrBy description]
+     * [decrBy description].
      *
      * @param  string $key       [description]
      * @param  int    $decrement [description]
