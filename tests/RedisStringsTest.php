@@ -2,7 +2,6 @@
 
 namespace Webdcg\Redis\Tests;
 
-use PHPUnit\Exception;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
 
