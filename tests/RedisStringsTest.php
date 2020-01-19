@@ -173,7 +173,7 @@ class RedisStringsTest extends TestCase
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertTrue($this->redis->set($this->key, -1));
-        $this->assertEquals(1, $this->redis->incrby($this->key, 2));
+        $this->assertEquals(1, $this->redis->incrBy($this->key, 2));
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -184,7 +184,41 @@ class RedisStringsTest extends TestCase
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertTrue($this->redis->set($this->key, 'A'));
-        $this->assertEquals(0, $this->redis->incrby($this->key, 5));
+        $this->assertEquals(0, $this->redis->incrBy($this->key, 5));
+        $this->assertEquals('A', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_incrbyfloat()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 1.1));
+        $this->assertEquals(3.3, $this->redis->incrByFloat($this->key, 2.2));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_incrbyfloat_negative()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, -1.1));
+        $this->assertEquals(1.1, $this->redis->incrByFloat($this->key, 2.2));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_incrbyfloat_not_a_number()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'A'));
+        $this->assertEquals(0, $this->redis->incrByFloat($this->key, 1.5));
         $this->assertEquals('A', $this->redis->get($this->key));
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
