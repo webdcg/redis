@@ -6,7 +6,7 @@
 |---                            |---                                                                    |:-:                    |:-:                    |---            |---        |
 |[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
 |[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
-|[decrBy](#decrBy)              |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decrBy   |
+|[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
@@ -94,4 +94,32 @@ public function decr(string $key): int {
 ```php
 $redis->set('key', 1);
 $redis->decr('key'); // 0
+```
+
+## decrBy
+
+_**Description**_: Decrement the number stored at key by the given decrement.
+
+##### *Prototype*  
+
+```php
+public function decrBy(string $key, int $decrement): int {
+    return $this->redis->decrBy($key, $decrement);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be decremented.
+- *decrement*: Int. The value to be decremented.
+
+##### *Return value*
+
+*int*: The new value.
+
+##### *Example*
+
+```php
+$redis->set('key', 5);
+$redis->decrBy('key', 3); // 2
 ```

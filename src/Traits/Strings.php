@@ -29,9 +29,17 @@ trait Strings
         return $this->redis->decr($key);
     }
 
-    public function decrBy(): bool
+    /**
+     * [decrBy description]
+     *
+     * @param  string $key       [description]
+     * @param  int    $decrement [description]
+     *
+     * @return [type]            [description]
+     */
+    public function decrBy(string $key, int $decrement): int
     {
-        return false;
+        return $this->redis->decrBy($key, $decrement);
     }
 
     public function get(string $key)
