@@ -6,6 +6,7 @@ trait Strings
 {
     /**
      * Append specified string to the string stored in specified key.
+     * See: https://redis.io/commands/append.
      *
      * @param  string $key
      * @param  string $value
@@ -19,6 +20,7 @@ trait Strings
 
     /**
      * Decrement the number stored at key by one.
+     * See: https://redis.io/commands/decr.
      *
      * @param  string $key
      *
@@ -31,6 +33,7 @@ trait Strings
 
     /**
      * Decrement the number stored at key by the given decrement.
+     * See: https://redis.io/commands/decrby.
      *
      * @param  string $key       [description]
      * @param  int    $decrement [description]
@@ -59,6 +62,7 @@ trait Strings
 
     /**
      * Increment the number stored at key by one.
+     * See: https://redis.io/commands/incr.
      *
      * @param  string $key [description]
      *
@@ -71,6 +75,7 @@ trait Strings
 
     /**
      * Increment the number stored at key by the given increment.
+     * See: https://redis.io/commands/incrby.
      *
      * @param  string $key       [description]
      * @param  int    $increment [description]
@@ -82,9 +87,18 @@ trait Strings
         return $this->redis->incrBy($key, $increment);
     }
 
-    public function incrByFloat(): bool
+    /**
+     * Increment the number stored at key by the given increment.
+     * See: https://redis.io/commands/incrbyfloat.
+     *
+     * @param  string $key       [description]
+     * @param  float  $increment [description]
+     *
+     * @return float                The new value.
+     */
+    public function incrByFloat(string $key, float $increment): float
     {
-        return false;
+        return $this->redis->incrByFloat($key, $increment);
     }
 
     public function mGet(): bool

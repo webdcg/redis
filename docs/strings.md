@@ -12,7 +12,7 @@
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
 |[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
-|[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:x:   |:x:   |Strings        |incrByFloat   |
+|[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrByFloat   |
 |[mGet](#mGet)                  |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |mGet   |
 |[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |getMultiple   |
 |[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSet   |
@@ -40,7 +40,7 @@ $redis->set('key', 'value', ['xx', 'px' => 1000]);
 $redis->setEx('key', 10, 'value');
 ```
 
-## append
+## [append](https://redis.io/commands/append)
 
 _**Description**_: Append specified string to the string stored in specified key.
 
@@ -69,7 +69,7 @@ $redis->append('key', 'value2'); /* 12 */
 $redis->get('key'); /* 'value1value2' */
 ```
 
-## decr
+## [decr](https://redis.io/commands/decr)
 
 _**Description**_: Decrement the number stored at key by one.
 
@@ -96,7 +96,7 @@ $redis->set('key', 1);
 $redis->decr('key'); // 0
 ```
 
-## decrBy
+## [decrBy](https://redis.io/commands/decrby)
 
 _**Description**_: Decrement the number stored at key by the given decrement.
 
@@ -124,7 +124,7 @@ $redis->set('key', 5);
 $redis->decrBy('key', 3); // 2
 ```
 
-## incr
+## [incr](https://redis.io/commands/incr)
 
 _**Description**_: Increment the number stored at key by one.
 
@@ -151,7 +151,7 @@ $redis->set('key', 1);
 $redis->incr('key'); // 2
 ```
 
-## incrBy
+## [incrBy](https://redis.io/commands/incrby)
 
 _**Description**_: Increment the number stored at key by the given increment.
 
@@ -179,9 +179,9 @@ $redis->set('key', 2);
 $redis->incrBy('key', 3); // 5
 ```
 
-## incrByFloat
+## [incrByFloat](https://redis.io/commands/incrbyfloat)
 
-_**Description**_: increment the number stored at key by the given increment.
+_**Description**_: Increment the number stored at key by the given increment.
 
 ##### *Prototype*  
 
