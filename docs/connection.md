@@ -23,6 +23,9 @@
 $redis = new Webdcg\Redis\Redis;
 
 $redis->connect('127.0.0.1', 6379);
+$redis->open('127.0.0.1', 6379);
+$redis->pconnect('127.0.0.1', 6379);
+$redis->popen('127.0.0.1', 6379);
 $redis->auth('secret');
 $redis->select(1);
 $redis->swapdb(0, 1);

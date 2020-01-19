@@ -65,9 +65,28 @@ trait Geocoding
         return $this->redis->geoDist($key, $member1, $member2, $unit);
     }
 
-    public function geoRadius(): bool
-    {
-        return false;
+    /**
+     * Return members of a set with geospatial information that are within the
+     * radius specified by the caller.
+     *
+     * @param  string $key       [description]
+     * @param  float  $longitude [description]
+     * @param  float  $latitude  [description]
+     * @param  float  $radius    [description]
+     * @param  string $unit      [description]
+     * @param  array  $options   [description]
+     *
+     * @return array            When no STORE option is passed, this function returns an array of results.
+     */
+    public function geoRadius(
+        string $key,
+        float $longitude,
+        float $latitude,
+        float $radius,
+        string $unit = 'm',
+        ?array $options = []
+    ): array {
+        return $this->redis->geoRadius($key, $longitude, $latitude, $radius, $unit);
     }
 
     public function geoRadiusByMember(): bool
