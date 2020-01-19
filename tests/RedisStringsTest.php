@@ -25,6 +25,25 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_append_emptry()
+    {
+        $this->assertTrue($this->redis->set('key', 'value1'));
+        $this->assertEquals(6, $this->redis->append('key', ''));
+        $this->assertEquals('value1', $this->redis->get('key'));
+        $this->assertEquals(1, $this->redis->delete('key'));
+    }
+
+    /** @test */
+    public function redis_strings_append_numbers()
+    {
+        $number = random_int(100, 999);
+        $this->assertTrue($this->redis->set('key', 'value1'));
+        $this->assertEquals(9, $this->redis->append('key', $number));
+        $this->assertEquals("value1{$number}", $this->redis->get('key'));
+        $this->assertEquals(1, $this->redis->delete('key'));
+    }
+
+    /** @test */
     public function redis_strings_set()
     {
         // Simple key -> value set
