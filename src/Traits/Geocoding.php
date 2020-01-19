@@ -38,7 +38,7 @@ trait Geocoding
     /**
      * Return longitude, latitude positions for each requested member.
      *
-     * @param  string $ke
+     * @param  string $key
      * @param  string $member
      * @param  splat $members
      *
@@ -49,9 +49,20 @@ trait Geocoding
         return $this->redis->geoPos($key, $member);
     }
 
-    public function geoDist(): bool
+    /**
+     * Return the distance between two members in a geospatial set. If units
+     * are passed it must be one of the following values:.
+     *
+     * @param  string $key      [description]
+     * @param  string $member1  [description]
+     * @param  string $member2  [description]
+     * @param  string $unit     [description]
+     *
+     * @return float            [description]
+     */
+    public function geoDist(string $key, string $member1, string $member2, string $unit = 'm'): float
     {
-        return false;
+        return $this->redis->geoDist($key, $member1, $member2, $unit);
     }
 
     public function geoRadius(): bool
