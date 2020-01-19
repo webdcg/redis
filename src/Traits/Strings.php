@@ -17,9 +17,16 @@ trait Strings
         return $this->redis->append($key, $value);
     }
 
-    public function decr(): bool
+    /**
+     * Decrement the number stored at key by one.
+     *
+     * @param  string $key
+     *
+     * @return int          the new value
+     */
+    public function decr(string $key): int
     {
-        return false;
+        return $this->redis->decr($key);
     }
 
     public function decrBy(): bool
