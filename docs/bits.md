@@ -16,8 +16,12 @@
 ```php
 $redis = new Webdcg\Redis\Redis;
 
-// Count set bits in a string
 $redis->bitCount('key');
+$redis->bitField('key');
+$redis->bitPos('key');
+$redis->bitOp('key');
+$redis->getBit('key');
+$redis->setBit('key');
 ```
 
 ## bitCount
