@@ -269,3 +269,41 @@ array(1) {
   }
 }
 ```
+
+## [geoRadiusByMember](https://redis.io/commands/geoRadiusByMember)
+
+_**Description**_: This method is identical to geoRadius except that instead of passing a longitude and latitude as the "source" you pass an existing member in the geospatial set.
+
+##### *Prototype*  
+
+```php
+public function geoRadiusByMember(
+    string $key,
+    string $member,
+    float $radius,
+    string $unit,
+    ?array $options = []
+): array {
+    return $this->redis->geoRadiusByMember($key, $member, $radius, $unit);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The GeoSpatial index.
+- *member*: String. Location name.
+- *radius*: Float. 
+- *unit*: String. Distance unit [m, km, mi, ft].
+- *options*: Array. _See bellow_
+
+##### *Return value*
+
+*float*: The distance between the two passed members in the units requested (meters by default).
+
+##### *Example*
+
+```php
+$redis->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');  // 1
+$redis->geoAdd('Geocoding', -121.893028, 37.335480, 'San Jose');  // 1
+$redis->geoRadiusByMember('Geocoding', 'San Francisco', 100, 'km'); // [0 => 'San Francisco', 1 => 'San Jose']
+```

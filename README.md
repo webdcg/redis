@@ -84,7 +84,8 @@ $redis->geoAdd('Geocoding', -73.935242, 40.730610, 'New York');
 $redis->geoHash('Geocoding', 'San Francisco');
 $redis->geoPos('Geocoding', 'San Francisco');
 $redis->geoDist('Geocoding', 'San Francisco', 'New York');
-$redis->geoRadius("Geocoding", -157.858, 21.306, 300, 'mi', $options)
+$redis->geoRadius("Geocoding", -157.858, 21.306, 300, 'mi', $options);
+$redis->geoRadiusByMember("Geocoding", 'San Francisco', 300, 'mi', $options);
 ```
 
 ### [Hashes](docs/hashes.md)

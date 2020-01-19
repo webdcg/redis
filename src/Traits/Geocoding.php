@@ -76,7 +76,8 @@ trait Geocoding
      * @param  string $unit      [description]
      * @param  array  $options   [description]
      *
-     * @return array            When no STORE option is passed, this function returns an array of results.
+     * @return array            When no STORE option is passed, this function
+     *                          returns an array of results.
      */
     public function geoRadius(
         string $key,
@@ -89,8 +90,26 @@ trait Geocoding
         return $this->redis->geoRadius($key, $longitude, $latitude, $radius, $unit);
     }
 
-    public function geoRadiusByMember(): bool
-    {
-        return false;
+    /**
+     * This method is identical to geoRadius except that instead of passing a
+     * longitude and latitude as the "source" you pass an existing member in
+     * the geospatial set.
+     *
+     * @param  string $key     [description]
+     * @param  string $member  [description]
+     * @param  float  $radius  [description]
+     * @param  string $unit    [description]
+     * @param  array  $options [description]
+     *
+     * @return array
+     */
+    public function geoRadiusByMember(
+        string $key,
+        string $member,
+        float $radius,
+        string $unit,
+        ?array $options = []
+    ): array {
+        return $this->redis->geoRadiusByMember($key, $member, $radius, $unit);
     }
 }
