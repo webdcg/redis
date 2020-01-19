@@ -4,8 +4,8 @@
 
 |Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
 |---                            |---                                                                    |:-:                    |:-:                    |---            |---        |
-|[append](#append)              |Append a value to a key                                                |:x:   |:x:   |Strings        |append   |
-|[decr](#decr)                  |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decr   |
+|[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
+|[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decrBy   |
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
@@ -67,4 +67,31 @@ public function append(string $key, string $value) : int {
 $redis->set('key', 'value1');
 $redis->append('key', 'value2'); /* 12 */
 $redis->get('key'); /* 'value1value2' */
+```
+
+## decr
+
+_**Description**_: Decrement the number stored at key by one.
+
+##### *Prototype*  
+
+```php
+public function decr(string $key): int {
+    return $this->redis->decr($key);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be decremented.
+
+##### *Return value*
+
+*int*: the new value.
+
+##### *Example*
+
+```php
+$redis->set('key', 1);
+$redis->decr('key'); // 0
 ```
