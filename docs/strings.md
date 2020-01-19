@@ -4,8 +4,8 @@
 
 |Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
 |---                            |---                                                                    |:-:                    |:-:                    |---            |---        |
-|[append](#append)              |Append a value to a key                                                |:x:   |:x:   |Strings        |append   |
-|[decr](#decr)                  |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decr   |
+|[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
+|[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:x:   |:x:   |Strings        |decrBy   |
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
