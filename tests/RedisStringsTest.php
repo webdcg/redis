@@ -276,7 +276,7 @@ class RedisStringsTest extends TestCase
         $this->assertEquals('', $this->redis->getRange('nonexisting', 0, 5));
     }
 
-     /** @test */
+    /** @test */
     public function redis_strings_setrange()
     {
         // Start from scratch
