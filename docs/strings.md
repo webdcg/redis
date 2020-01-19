@@ -8,7 +8,7 @@
 |[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
-|[getRange](#getRange)          |Get a substring of the string stored at a key                          |:x:   |:x:   |Strings        |getRange   |
+|[getRange](#getRange)          |Get a substring of the string stored at a key                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
 |[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
@@ -21,7 +21,7 @@
 |[setEx](#setEx)                |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |setEx   |
 |[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
 |[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:x:   |:x:   |Strings        |setNx   |
-|[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:x:   |:x:   |Strings        |setRange   |
+|[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setRange   |
 |[strLen](#strLen)              |Get the length of the value stored in a key                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |strLen   |
 
 ## Usage
@@ -132,26 +132,27 @@ _Note_: substr also supported but deprecated in redis.
 ##### *Prototype*  
 
 ```php
-public function append(string $key, string $value) : int {
-    return $this->redis->append($key, $value);
+public function getRange(string $key, int $start, int $end): string {
+    return $this->redis->getRange($key, $start, $end);
 }
 ```
 
 ##### *Parameters*
 
 - *key*: String. The key append to.
-- *value*: String. The value to be appended.
+- *start*: Int. The position to begin getting characters. (0 based, negative values start from the end at -1 for the last element).
+- *end*: Int. The position to stop getting characters. (0 based, negative values start from the end at -1 for the last element).
 
 ##### *Return value*
 
-*int*: Size of the value after the append.
+*string*: the substring
 
 ##### *Example*
 
 ```php
-$redis->set('key', 'value1');
-$redis->append('key', 'value2'); /* 12 */
-$redis->get('key'); /* 'value1value2' */
+$redis->set($this->key, 'Taylor Swift');
+$redis->getRange($this->key, 0, 5); // Taylor
+$redis->getRange($this->key, -5, -1); // Swift
 ```
 
 ## [incr](https://redis.io/commands/incr)
@@ -235,6 +236,36 @@ public function incrByFloat(string $key, int $increment): int {
 ```php
 $redis->set('key', 5);
 $redis->incrByFloat('key', 3); // 2
+```
+
+## [setRange](https://redis.io/commands/setrange)
+
+_**Description**_: Changes a substring of a larger string.
+
+##### *Prototype*  
+
+```php
+public function setRange(string $key, int $offset, string $value): int {
+    return $this->redis->setRange($key, $start, $end);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key append to.
+- *start*: Int. The position to begin getting characters. (0 based, negative values start from the end at -1 for the last element).
+- *end*: Int. The position to stop getting characters. (0 based, negative values start from the end at -1 for the last element).
+
+##### *Return value*
+
+*string*: the substring
+
+##### *Example*
+
+```php
+$redis->set($this->key, 'Hello World');
+$redis->setRange($this->key, 6, 'Redis'); // 11
+$redis->get($this->key); // Hello Redis
 ```
 
 ## [strLen](https://redis.io/commands/strlen)

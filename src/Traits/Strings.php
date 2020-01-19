@@ -168,9 +168,19 @@ trait Strings
         return false;
     }
 
-    public function setRange(): bool
+    /**
+     * Changes a substring of a larger string.
+     * See: https://redis.io/commands/setrange.
+     *
+     * @param string $key    [description]
+     * @param int    $offset [description]
+     * @param string $value  [description]
+     *
+     * @return int          the length of the string after it was modified.
+     */
+    public function setRange(string $key, int $offset, string $value): int
     {
-        return false;
+        return $this->redis->setRange($key, $offset, $value);
     }
 
     /**
