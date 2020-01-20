@@ -9,7 +9,7 @@
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
 |[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getRange   |
-|[getSet](#getSet)              |Set the string value of a key and return its old value                 |:x:   |:x:   |Strings        |getSet   |
+|[getSet](#getSet)              |Set the string value of a key and return its old value                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
 |[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
 |[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrByFloat   |
@@ -153,6 +153,34 @@ public function getRange(string $key, int $start, int $end): string {
 $redis->set($this->key, 'Taylor Swift');
 $redis->getRange($this->key, 0, 5); // Taylor
 $redis->getRange($this->key, -5, -1); // Swift
+```
+
+## [getSet](https://redis.io/commands/getset)
+
+_**Description**_: Sets a value and returns the previous entry at that key.
+
+##### *Prototype*  
+
+```php
+public function getSet(string $key, string $value): string {
+    return $this->redis->getSet($key, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be fetched and updated.
+- *value*: String. The new value.
+
+##### *Return value*
+
+*string*: The previous value located at this key. 
+
+##### *Example*
+
+```php
+$redis->set($this->key, 'Taylor Swift');
+$redis->getSet($this->key, 'Milla Jovovich'); // Taylor Swift
 ```
 
 ## [incr](https://redis.io/commands/incr)

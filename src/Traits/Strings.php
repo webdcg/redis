@@ -65,9 +65,20 @@ trait Strings
         return $this->redis->getRange($key, $start, $end);
     }
 
-    public function getSet(): bool
+    /**
+     * Atomically sets key to value and returns the old value stored at key.
+     * Returns an error when key exists but does not hold a string value.
+     * See: https://redis.io/commands/getset.
+     *
+     * @param  string $key   [description]
+     * @param  string $value [description]
+     *
+     * @return string       Bulk string reply: the old value stored at key,
+     *                      or nil when key did not exist.
+     */
+    public function getSet(string $key, string $value): string
     {
-        return false;
+        return $this->redis->getSet($key, $value);
     }
 
     /**
