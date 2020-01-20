@@ -266,6 +266,35 @@ $redis->set('key', 5);
 $redis->incrByFloat('key', 3); // 2
 ```
 
+## [mGet](https://redis.io/commands/mget)
+
+_**Description**_: Get the values of all the specified keys. If one or more keys don't exist, the array will contain FALSE at the position of the key.
+
+##### *Prototype*  
+
+```php
+public function mGet(array $keys): array {
+    return $this->redis->mGet($keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: Array. All the keys required.
+
+##### *Return value*
+
+*array*: Array reply: list of values at the specified keys.
+
+##### *Example*
+
+```php
+$redis->set('tswift', 'Taylor Swift');
+$redis->set('millaj', 'Milla Jovovich');
+$redis->set('kbeck', 'Kate Beckinsale');
+$redis->mGet(['tswift', 'millaj', 'nonexisting']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
 ## [setRange](https://redis.io/commands/setrange)
 
 _**Description**_: Changes a substring of a larger string.

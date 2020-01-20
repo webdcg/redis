@@ -300,6 +300,42 @@ class RedisStringsTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+    /** @test */
+    public function redis_strings_mget()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj', 'kbeck']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertTrue($this->redis->set('millaj', 'Milla Jovovich'));
+        $this->assertTrue($this->redis->set('kbeck', 'Kate Beckinsale'));
+        $stars = $this->redis->mGet(['tswift', 'millaj', 'kbeck']);
+        $this->assertContains('Taylor Swift', $stars);
+        $this->assertContains('Milla Jovovich', $stars);
+        $this->assertContains('Kate Beckinsale', $stars);
+        $this->assertSame(['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale'], $stars);
+        $this->assertEquals(['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale'], $stars);
+        // Cleanup used keys
+        $this->assertEquals(3, $this->redis->delete(['tswift', 'millaj', 'kbeck']));
+    }
+
+    /** @test */
+    public function redis_strings_mget_nonexisting()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj', 'kbeck']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertTrue($this->redis->set('millaj', 'Milla Jovovich'));
+        $this->assertTrue($this->redis->set('kbeck', 'Kate Beckinsale'));
+        $stars = $this->redis->mGet(['tswift', 'millaj', 'nonexisting']);
+        $this->assertContains('Taylor Swift', $stars);
+        $this->assertContains('Milla Jovovich', $stars);
+        $this->assertContains(false, $stars);
+        $this->assertSame(['Taylor Swift', 'Milla Jovovich', false], $stars);
+        $this->assertEquals(['Taylor Swift', 'Milla Jovovich', false], $stars);
+        // Cleanup used keys
+        $this->assertEquals(3, $this->redis->delete(['tswift', 'millaj', 'kbeck']));
+    }
+
     public function redis_strings_set()
     {
         // Simple key -> value set

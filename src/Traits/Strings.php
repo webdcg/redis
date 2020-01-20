@@ -122,9 +122,18 @@ trait Strings
         return $this->redis->incrByFloat($key, $increment);
     }
 
-    public function mGet(): bool
+    /**
+     * Get the values of all the specified keys. If one or more keys don't
+     * exist, the array will contain FALSE at the position of the key.
+     * See: https://redis.io/commands/mget.
+     *
+     * @param  array  $keys [description]
+     *
+     * @return array        Array reply: list of values at the specified keys.
+     */
+    public function mGet(array $keys): array
     {
-        return false;
+        return $this->redis->mGet($keys);
     }
 
     public function getMultiple(): bool
