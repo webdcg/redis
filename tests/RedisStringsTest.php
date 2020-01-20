@@ -288,6 +288,18 @@ class RedisStringsTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+    /** @test */
+    public function redis_strings_getset()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'Taylor Swift'));
+        $this->assertEquals('Taylor Swift', $this->redis->getSet($this->key, 'Milla Jovovich'));
+        $this->assertEquals('Milla Jovovich', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
     public function redis_strings_set()
     {
         // Simple key -> value set
