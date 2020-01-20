@@ -13,8 +13,8 @@
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
 |[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
 |[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrByFloat   |
-|[mGet](#mGet)                  |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |mGet   |
-|[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:x:   |:x:   |Strings        |getMultiple   |
+|[mGet](#mGet)                  |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mGet   |
+|[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getMultiple   |
 |[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSet   |
 |[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSetNX   |
 |[set](#set)                    |Set the string value of a key                                          |:x:   |:x:   |Strings        |set   |
@@ -293,6 +293,37 @@ $redis->set('tswift', 'Taylor Swift');
 $redis->set('millaj', 'Milla Jovovich');
 $redis->set('kbeck', 'Kate Beckinsale');
 $redis->mGet(['tswift', 'millaj', 'nonexisting']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
+## [getMultiple](https://redis.io/commands/mget)
+
+_**Description**_: Get the values of all the specified keys. If one or more keys don't exist, the array will contain FALSE at the position of the key.
+
+_Note_: getMultiple is an alias for `mGet` and will be removed in future versions of phpredis.
+
+##### *Prototype*  
+
+```php
+public function getMultiple(array $keys): array {
+    return $this->redis->mGet($keys);
+}
+```
+
+##### *Parameters*
+
+- *keys*: Array. All the keys required.
+
+##### *Return value*
+
+*array*: Array reply: list of values at the specified keys.
+
+##### *Example*
+
+```php
+$redis->set('tswift', 'Taylor Swift');
+$redis->set('millaj', 'Milla Jovovich');
+$redis->set('kbeck', 'Kate Beckinsale');
+$redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
 ```
 
 ## [setRange](https://redis.io/commands/setrange)
