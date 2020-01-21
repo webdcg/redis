@@ -383,6 +383,36 @@ $redis->mSet(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
 $redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
 ```
 
+## [mSetNx](https://redis.io/commands/mSetNx)
+
+_**Description**_: Sets multiple key-value pairs in one atomic command. Sets the given keys to their respective values. MSETNX will not perform any operation at all even if just a single key already exists.
+
+##### *Prototype*  
+
+```php
+public function mSetNX(array $pairs): bool {
+    if (! is_associative($pairs)) {
+        throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+    }
+    return $this->redis->mSetNX($pairs);
+}
+```
+
+##### *Parameters*
+
+- *pairs*: Array. All the keys required. [key => value, ...]
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
+$redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
 ## [setRange](https://redis.io/commands/setrange)
 
 _**Description**_: Changes a substring of a larger string.

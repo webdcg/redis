@@ -492,4 +492,63 @@ class RedisStringsTest extends TestCase
         // Cleanup used keys
         $this->assertEquals(2, $this->redis->delete(['tswift', 'millaj']));
     }
+
+    /** @test */
+    public function redis_strings_msetnx_single_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->assertTrue($this->redis->mSetNX(['tswift' => 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_existing_single_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertFalse($this->redis->mSetNX(['tswift' => 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_non_associative_array()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->expectException(NotAssociativeArrayException::class);
+        $this->assertTrue($this->redis->mSetNX(['tswift', 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_multiple_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj']));
+        $this->assertTrue($this->redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        $this->assertEquals('Milla Jovovich', $this->redis->get('millaj'));
+        // Cleanup used keys
+        $this->assertEquals(2, $this->redis->delete(['tswift', 'millaj']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_existing_multiple_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertFalse($this->redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift', 'millaj']));
+    }
 }

@@ -184,9 +184,22 @@ trait Strings
         return $this->redis->mSet($pairs);
     }
 
-    public function mSetNX(): bool
+    /**
+     * Sets multiple key-value pairs in one atomic command. MSETNX only returns
+     * TRUE if all the keys were set (see SETNX).
+     * See: https://redis.io/commands/msetnx.
+     *
+     * @param  array  $pairs [description]
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function mSetNX(array $pairs): bool
     {
-        return false;
+        if (! is_associative($pairs)) {
+            throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+        }
+        
+        return $this->redis->mSetNX($pairs);
     }
 
     /**
