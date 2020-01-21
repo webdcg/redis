@@ -230,7 +230,7 @@ trait Strings
      * See: https://redis.io/commands/setex.
      *
      * @param string $key       Key
-     * @param int    $ttl       Time To Live
+     * @param int    $ttl       Time To Live (seconds)
      * @param string $value     Value
      *
      * @return bool           TRUE if the command is successful.
@@ -240,9 +240,20 @@ trait Strings
         return $this->redis->setEx($key, $ttl, $value);
     }
 
-    public function pSetEx(): bool
+    /**
+     * Set the string value in argument as value of the key, with a time to
+     * live. PSETEX uses a TTL in milliseconds.
+     * See: https://redis.io/commands/setex.
+     *
+     * @param string $key       Key
+     * @param int    $ttl       Time To Live (milliseconds)
+     * @param string $value     Value
+     *
+     * @return bool           TRUE if the command is successful.
+     */
+    public function pSetEx(string $key, int $ttl, string $value): bool
     {
-        return false;
+        return $this->redis->pSetEx($key, $ttl, $value);
     }
 
     public function setNx(): bool

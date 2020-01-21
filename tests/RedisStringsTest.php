@@ -43,6 +43,17 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_psetex()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->pSetEx($this->key, 10, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        usleep(20 * 1000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
     public function redis_strings_get_nonexisting()
     {
         $this->assertEquals(false, $this->redis->get('nonexisting'));

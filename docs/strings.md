@@ -413,7 +413,6 @@ $redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
 $redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
 ```
 
-
 ## [setEx](https://redis.io/commands/setEx)
 
 _**Description**_: Set the string value in argument as value of the key, with a time to live.
@@ -429,7 +428,7 @@ public function setEx(string $key, int $ttl, string $value): bool {
 ##### *Parameters*
 
 - *key*: String. The element to be set.
-- *ttl*: Integer. The element to be set.
+- *ttl*: Integer. Time To Live (seconds).
 - *value*: String. The value to be set.
 
 ##### *Return value*
@@ -439,8 +438,38 @@ public function setEx(string $key, int $ttl, string $value): bool {
 ##### *Example*
 
 ```php
-$redis->setEx('tswift', 1, 'Taylor Swift');
+$redis->setEx('tswift', 1, 'Taylor Swift'); // set and expire in 1 second
 sleep(1);
+$redis->get('tswift'); // FALSE
+```
+
+## [pSetEx](https://redis.io/commands/pSetEx)
+
+_**Description**_: Set the string value in argument as value of the key, with a time to live. PSETEX uses a TTL in milliseconds.
+
+##### *Prototype*  
+
+```php
+public function pSetEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->pSetEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. Time To Live (milliseconds).
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->pSetEx('tswift', 10, 'Taylor Swift'); // Set and expire in 10 milliseconds
+usleep(20 * 1000);
 $redis->get('tswift'); // FALSE
 ```
 
