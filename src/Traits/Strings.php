@@ -52,6 +52,16 @@ trait Strings
         return $this->redis->decrBy($key, $decrement);
     }
 
+    /**
+     * Get the value related to the specified key.
+     * See: https://redis.io/commands/get.
+     *
+     * @param  string $key [description]
+     *
+     * @return mixed|string|bool    If key didn't exist, FALSE is returned.
+     *                              Otherwise, the value related to this key
+     *                              is returned.
+     */
     public function get(string $key)
     {
         return $this->redis->get($key);

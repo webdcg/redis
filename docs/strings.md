@@ -7,7 +7,7 @@
 |[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
 |[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
-|[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
+|[get](#get)                    |Get the value of a key                                                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
@@ -122,6 +122,33 @@ public function decrBy(string $key, int $decrement): int {
 ```php
 $redis->set('key', 5);
 $redis->decrBy('key', 3); // 2
+```
+
+## [get](https://redis.io/commands/get)
+
+_**Description**_: Get the value related to the specified key.
+
+##### *Prototype*  
+
+```php
+public function get(string $key) {
+    return $this->redis->get($key);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be fetched.
+
+##### *Return value*
+
+*mixed*: String or Bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
+
+##### *Example*
+
+```php
+$redis->set('tswift', 'Taylor Swift');
+$redis->get('tswift'); // Taylor Swift
 ```
 
 ## [getRange](https://redis.io/commands/getrange)
