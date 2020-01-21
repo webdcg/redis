@@ -160,9 +160,19 @@ trait Keys
         return $this->redis->keys($pattern);
     }
 
-    public function scan(): bool
+    /**
+     * Scan the keyspace for keys
+     *
+     * @param  [type]      $iterator [description]
+     * @param  string      $pattern  [description]
+     * @param  int|integer $count    [description]
+     *
+     * @return mixed|array|bool     This function will return an array of keys
+     *                              or FALSE if Redis returned zero keys.
+     */
+    public function scan($iterator = null, string $pattern = '*', int $count = 10)
     {
-        return false;
+        return $this->redis->scan($iterator, $pattern, $count);
     }
 
     public function migrate(): bool

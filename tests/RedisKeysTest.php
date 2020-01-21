@@ -8,12 +8,35 @@ use Webdcg\Redis\Redis;
 class RedisKeysTest extends TestCase
 {
     protected $redis;
+    protected $key;
 
     protected function setUp(): void
     {
         $this->redis = new Redis;
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
+        $this->key = 'Keys';
+    }
+
+    /** @test */
+    public function redis_keys_scan_defaults()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Simple key -> value set
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        /* Without enabling Redis::SCAN_RETRY (default condition) */
+        $it = null;
+        do {
+            // Scan for some keys
+            $array_keys = $this->redis->scan($it);
+            // Redis may return empty results, so protect against that
+            if ($array_keys !== false) {
+                $this->assertContains($this->key, $array_keys);
+            }
+        } while ($it > 0);
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
