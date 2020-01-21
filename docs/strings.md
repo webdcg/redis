@@ -432,7 +432,7 @@ public function set(string $key, $value, ...$args): bool {
 
 - *key*: String. The element to be set.
 - *value*: String. The value to be set.
-- *ttl*: Integer. Time To Live (seconds).
+- *options*: Timeout or Options Array (optional). If you pass an integer, phpredis will redirect to SETEX, and will try to use Redis >= 2.6.12 extended options if you pass an array with valid values
 
 ##### *Return value*
 
