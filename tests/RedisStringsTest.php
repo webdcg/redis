@@ -18,6 +18,30 @@ class RedisStringsTest extends TestCase
         $this->key = 'Strings';
     }
 
+    public function redis_strings_set()
+    {
+        // Simple key -> value set
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        // Will redirect, and actually make an SETEX call
+        $this->assertTrue($this->redis->set($this->key, 'value', 10));
+        // Will set the key, if it doesn't exist, with a ttl of 10 seconds
+        $this->assertTrue($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
+        $this->assertFalse($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
+        // Will set a key, if it does exist, with a ttl of 1000 miliseconds
+        $this->assertTrue($this->redis->set($this->key, 'value', ['xx', 'px' => 1000]));
+    }
+
+    /** @test */
+    public function redis_strings_setex()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->setEx($this->key, 1, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        sleep(1);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
     /** @test */
     public function redis_strings_get_nonexisting()
     {
@@ -83,24 +107,6 @@ class RedisStringsTest extends TestCase
         $this->assertIsObject(json_decode($this->redis->get($this->key)));
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
-    }
-
-    public function redis_strings_set()
-    {
-        // Simple key -> value set
-        $this->assertTrue($this->redis->set($this->key, 'value'));
-        // Will redirect, and actually make an SETEX call
-        $this->assertTrue($this->redis->set($this->key, 'value', 10));
-        // Will set the key, if it doesn't exist, with a ttl of 10 seconds
-        $this->assertTrue($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
-        $this->assertFalse($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
-        // Will set a key, if it does exist, with a ttl of 1000 miliseconds
-        $this->assertTrue($this->redis->set($this->key, 'value', ['xx', 'px' => 1000]));
-    }
-
-    public function redis_strings_setex()
-    {
-        $this->assertTrue($this->redis->setEx('key', 10, 'value'));
     }
 
     /** @test */

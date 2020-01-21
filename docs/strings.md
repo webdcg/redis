@@ -413,6 +413,37 @@ $redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
 $redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
 ```
 
+
+## [setEx](https://redis.io/commands/setEx)
+
+_**Description**_: Set the string value in argument as value of the key, with a time to live.
+
+##### *Prototype*  
+
+```php
+public function setEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->setEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. The element to be set.
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->setEx('tswift', 1, 'Taylor Swift');
+sleep(1);
+$redis->get('tswift'); // FALSE
+```
+
 ## [setRange](https://redis.io/commands/setrange)
 
 _**Description**_: Changes a substring of a larger string.

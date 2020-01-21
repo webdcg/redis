@@ -224,9 +224,20 @@ trait Strings
         return $this->redis->set($key, $value, $args[0]);
     }
 
-    public function setEx(string $key, int $timeout, $value): bool
+    /**
+     * Set the string value in argument as value of the key, with a time to
+     * live. PSETEX uses a TTL in milliseconds.
+     * See: https://redis.io/commands/setex.
+     *
+     * @param string $key       Key
+     * @param int    $ttl       Time To Live
+     * @param string $value     Value
+     *
+     * @return bool           TRUE if the command is successful.
+     */
+    public function setEx(string $key, int $ttl, string $value): bool
     {
-        return $this->redis->setEx($key, $timeout, $value);
+        return $this->redis->setEx($key, $ttl, $value);
     }
 
     public function pSetEx(): bool
