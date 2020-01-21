@@ -79,7 +79,7 @@ class RedisStringsTest extends TestCase
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertTrue($this->redis->set($this->key, json_encode(['tswift' => 'Taylor Swift'])));
-        $this->assertEquals((object)['tswift' => 'Taylor Swift'], json_decode($this->redis->get($this->key)));
+        $this->assertEquals((object) ['tswift' => 'Taylor Swift'], json_decode($this->redis->get($this->key)));
         $this->assertIsObject(json_decode($this->redis->get($this->key)));
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
