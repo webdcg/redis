@@ -15,8 +15,8 @@
 |[pexpireAt](#pexpireAt)    |Set the expiration for a key as a UNIX timestamp with millisecond precision        |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
 |[keys](#keys)              |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |keys       |
 |[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |getKeys    |
-|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:x:                    |:x:                    |Keys           |scan    |
-|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:x:                    |:x:                    |Keys           |migrate    |
+|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |scan    |
+|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |migrate    |
 |[move](#move)              | Move a key to another database                                                    |:x:                    |:x:                    |Keys           |move    |
 |[object](#object)          | Inspect the internals of Redis objects                                            |:x:                    |:x:                    |Keys           |object    |
 |[persist](#persist)        | Remove the expiration from a key                                                  |:x:                    |:x:                    |Keys           |persist    |
@@ -411,4 +411,58 @@ array(3) {
   [2] => string(4) "key2"
 }
 */
+```
+
+## scan
+
+_**Description**_: Scan the keyspace for keys.
+
+##### *Prototype*  
+
+```php
+public function scan($iterator = null, string $pattern = '*', int $count = 10) {
+    return $this->redis->scan($iterator, $pattern, $count);
+}
+```
+
+##### *Parameters*
+
+- *iterator*: String. LONG (reference): Iterator, initialized to NULL.
+- *pattern*: String. Pattern to match, using '\*' as a wildcard.
+- *count*: Integer. LONG, Optional: Count of keys per iteration (only a suggestion to Redis).
+
+##### *Return value*
+
+*array*: Array, boolean: This function will return an array of keys or FALSE if Redis returned zero keys.
+
+##### *Example*
+
+```php
+/* Without enabling Redis::SCAN_RETRY (default condition) */
+$it = NULL;
+do {
+    // Scan for some keys
+    $arr_keys = $redis->scan($it);
+
+    // Redis may return empty results, so protect against that
+    if ($arr_keys !== FALSE) {
+        foreach($arr_keys as $str_key) {
+            echo "Here is a key: $str_key\n";
+        }
+    }
+} while ($it > 0);
+echo "No more keys to scan!\n";
+
+/* With Redis::SCAN_RETRY enabled */
+$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+$it = NULL;
+
+/* phpredis will retry the SCAN command if empty results are returned from the
+   server, so no empty results check is required. */
+while ($arr_keys = $redis->scan($it)) {
+    foreach ($arr_keys as $str_key) {
+        echo "Here is a key: $str_key\n";
+    }
+}
+echo "No more keys to scan!\n";
 ```
