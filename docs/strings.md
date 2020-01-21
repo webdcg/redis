@@ -15,8 +15,8 @@
 |[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrByFloat   |
 |[mGet](#mGet)                  |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mGet   |
 |[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getMultiple   |
-|[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSet   |
-|[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:x:   |:x:   |Strings        |mSetNX   |
+|[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSet   |
+|[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSetNX   |
 |[set](#set)                    |Set the string value of a key                                          |:x:   |:x:   |Strings        |set   |
 |[setEx](#setEx)                |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |setEx   |
 |[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
@@ -323,6 +323,36 @@ public function getMultiple(array $keys): array {
 $redis->set('tswift', 'Taylor Swift');
 $redis->set('millaj', 'Milla Jovovich');
 $redis->set('kbeck', 'Kate Beckinsale');
+$redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
+## [mSet](https://redis.io/commands/mSet)
+
+_**Description**_: Sets multiple key-value pairs in one atomic command.
+
+##### *Prototype*  
+
+```php
+public function mSet(array $pairs): bool {
+    if (!is_associative($pairs)) {
+        throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+    }
+    return $this->redis->mSet($pairs);
+}
+```
+
+##### *Parameters*
+
+- *pairs*: Array. All the keys required. [key => value, ...]
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->mSet(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
 $redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
 ```
 
