@@ -2,6 +2,13 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Webdcg\Redis\Exceptions\NotAssociativeArrayException;
+
+function is_associative(array $array)
+{
+    return array_keys($array) !== range(0, count($array) - 1);
+}
+
 trait Strings
 {
     /**
@@ -150,9 +157,21 @@ trait Strings
         return $this->redis->mGet($keys);
     }
 
-    public function mSet(): bool
+    /**
+     * Sets multiple key-value pairs in one atomic command.
+     * See: https://redis.io/commands/mset.
+     *
+     * @param  array  $pairs [description]
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function mSet(array $pairs): bool
     {
-        return false;
+        if (!is_associative($pairs)) {
+            throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+        }
+        
+        return $this->redis->mSet($pairs);
     }
 
     public function mSetNX(): bool
