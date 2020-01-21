@@ -380,7 +380,7 @@ class RedisStringsTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
         $this->assertTrue($this->redis->mSet(['tswift' => 'Taylor Swift']));
         $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
-       // Cleanup used keys
+        // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete(['tswift']));
     }
 
@@ -392,7 +392,7 @@ class RedisStringsTest extends TestCase
         $this->expectException(NotAssociativeArrayException::class);
         $this->assertTrue($this->redis->mSet(['tswift', 'Taylor Swift']));
         $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
-       // Cleanup used keys
+        // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete(['tswift']));
     }
 
@@ -404,7 +404,7 @@ class RedisStringsTest extends TestCase
         $this->assertTrue($this->redis->mSet(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']));
         $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
         $this->assertEquals('Milla Jovovich', $this->redis->get('millaj'));
-       // Cleanup used keys
+        // Cleanup used keys
         $this->assertEquals(2, $this->redis->delete(['tswift', 'millaj']));
     }
 
