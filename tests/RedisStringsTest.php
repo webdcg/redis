@@ -40,7 +40,7 @@ class RedisStringsTest extends TestCase
         $this->assertTrue($this->redis->set($this->key, 'value', 1));
         $this->assertEquals('value', $this->redis->get($this->key));
         $this->assertIsString($this->redis->get($this->key));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertFalse($this->redis->get($this->key));
     }
 
@@ -55,7 +55,7 @@ class RedisStringsTest extends TestCase
         $this->assertFalse($this->redis->set($this->key, 'value', ['nx', 'ex' => 1]));
         $this->assertEquals('value', $this->redis->get($this->key));
         $this->assertIsString($this->redis->get($this->key));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertFalse($this->redis->get($this->key));
     }
 
@@ -104,7 +104,7 @@ class RedisStringsTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertTrue($this->redis->setEx($this->key, 1, 'value'));
         $this->assertEquals('value', $this->redis->get($this->key));
-        sleep(1);
+        usleep(1.1 * 1000000);
         $this->assertFalse($this->redis->get($this->key));
     }
 
