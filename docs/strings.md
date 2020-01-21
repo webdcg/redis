@@ -17,10 +17,10 @@
 |[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getMultiple   |
 |[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSet   |
 |[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSetNX   |
-|[set](#set)                    |Set the string value of a key                                          |:x:   |:x:   |Strings        |set   |
-|[setEx](#setEx)                |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |setEx   |
-|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
-|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:x:   |:x:   |Strings        |setNx   |
+|[set](#set)                    |Set the string value of a key                                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |set   |
+|[setEx](#setEx)                |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setEx   |
+|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |pSetEx   |
+|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setNx   |
 |[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setRange   |
 |[strLen](#strLen)              |Get the length of the value stored in a key                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |strLen   |
 
@@ -446,6 +446,36 @@ $redis->get('tswift'); // FALSE
 ## [pSetEx](https://redis.io/commands/pSetEx)
 
 _**Description**_: Set the string value in argument as value of the key, with a time to live. PSETEX uses a TTL in milliseconds.
+
+##### *Prototype*  
+
+```php
+public function pSetEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->pSetEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. Time To Live (milliseconds).
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->pSetEx('tswift', 10, 'Taylor Swift'); // Set and expire in 10 milliseconds
+usleep(20 * 1000);
+$redis->get('tswift'); // FALSE
+```
+
+## [setNx](https://redis.io/commands/setNx)
+
+_**Description**_: Set the string value in argument as value of the key if the key doesn't already exist in the database.
 
 ##### *Prototype*  
 

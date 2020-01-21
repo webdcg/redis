@@ -32,6 +32,29 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_setnx_nonexisting()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->setNx($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_setnx_existing()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertFalse($this->redis->setNx($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_strings_setex()
     {
         // Start from scratch

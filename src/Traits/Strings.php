@@ -256,9 +256,19 @@ trait Strings
         return $this->redis->pSetEx($key, $ttl, $value);
     }
 
-    public function setNx(): bool
+    /**
+     * Set the string value in argument as value of the key if the key doesn't
+     * already exist in the database.
+     * See: https://redis.io/commands/setnx.
+     *
+     * @param string $key   [description]
+     * @param string $value [description]
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function setNx(string $key, string $value): bool
     {
-        return false;
+        return $this->redis->setNx($key, $value);
     }
 
     /**
