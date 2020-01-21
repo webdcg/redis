@@ -161,11 +161,11 @@ trait Keys
     }
 
     /**
-     * Scan the keyspace for keys
+     * Scan the keyspace for keys.
      *
      * @param  [type]      $iterator [description]
      * @param  string      $pattern  [description]
-     * @param  int|integer $count    [description]
+     * @param  int|int $count    [description]
      *
      * @return mixed|array|bool     This function will return an array of keys
      *                              or FALSE if Redis returned zero keys.
