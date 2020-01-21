@@ -19,6 +19,174 @@ class RedisStringsTest extends TestCase
     }
 
     /** @test */
+    public function redis_strings_set_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Simple key -> value set
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_set_ttl()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Will redirect, and actually make an SETEX call
+        $this->assertTrue($this->redis->set($this->key, 'value', 1));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        usleep(1.1 * 1000000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_set_options_ex()
+    {
+        $this->key = 'key:'.time();
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Will set the key, if it doesn't exist, with a ttl of 1 seconds
+        $this->assertTrue($this->redis->set($this->key, 'value', ['nx', 'ex' => 1]));
+        $this->assertFalse($this->redis->set($this->key, 'value', ['nx', 'ex' => 1]));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        usleep(1.1 * 1000000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_set_options_px()
+    {
+        $this->key = 'key:'.time();
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        // Will set a key, if it does exist, with a ttl of 10 miliseconds
+        $this->assertTrue($this->redis->set($this->key, 'value', ['xx', 'px' => 10]));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        usleep(20 * 1000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_setnx_nonexisting()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->setNx($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_setnx_existing()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertFalse($this->redis->setNx($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_setex()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->setEx($this->key, 1, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        usleep(1.1 * 1000000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_psetex()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->pSetEx($this->key, 10, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        usleep(20 * 1000);
+        $this->assertFalse($this->redis->get($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_get_nonexisting()
+    {
+        $this->assertEquals(false, $this->redis->get('nonexisting'));
+        $this->assertFalse($this->redis->get('nonexisting'));
+    }
+
+    /** @test */
+    public function redis_strings_get_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_get_int()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 123));
+        $this->assertEquals(123, $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_get_float()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 3.141592));
+        $this->assertEquals(3.141592, $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_get_boolean()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, true));
+        $this->assertEquals(true, $this->redis->get($this->key));
+        $this->assertIsString($this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_strings_get_json()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, json_encode(['tswift' => 'Taylor Swift'])));
+        $this->assertEquals((object) ['tswift' => 'Taylor Swift'], json_decode($this->redis->get($this->key)));
+        $this->assertIsObject(json_decode($this->redis->get($this->key)));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_strings_append()
     {
         // Start from scratch
@@ -408,21 +576,62 @@ class RedisStringsTest extends TestCase
         $this->assertEquals(2, $this->redis->delete(['tswift', 'millaj']));
     }
 
-    public function redis_strings_set()
+    /** @test */
+    public function redis_strings_msetnx_single_key_value()
     {
-        // Simple key -> value set
-        $this->assertTrue($this->redis->set($this->key, 'value'));
-        // Will redirect, and actually make an SETEX call
-        $this->assertTrue($this->redis->set($this->key, 'value', 10));
-        // Will set the key, if it doesn't exist, with a ttl of 10 seconds
-        $this->assertTrue($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
-        $this->assertFalse($this->redis->set('key:'.time(), 'value', ['nx', 'ex' => 10]));
-        // Will set a key, if it does exist, with a ttl of 1000 miliseconds
-        $this->assertTrue($this->redis->set($this->key, 'value', ['xx', 'px' => 1000]));
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->assertTrue($this->redis->mSetNX(['tswift' => 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
     }
 
-    public function redis_strings_setex()
+    /** @test */
+    public function redis_strings_msetnx_existing_single_key_value()
     {
-        $this->assertTrue($this->redis->setEx('key', 10, 'value'));
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertFalse($this->redis->mSetNX(['tswift' => 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_non_associative_array()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift']));
+        $this->expectException(NotAssociativeArrayException::class);
+        $this->assertTrue($this->redis->mSetNX(['tswift', 'Taylor Swift']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_multiple_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj']));
+        $this->assertTrue($this->redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        $this->assertEquals('Milla Jovovich', $this->redis->get('millaj'));
+        // Cleanup used keys
+        $this->assertEquals(2, $this->redis->delete(['tswift', 'millaj']));
+    }
+
+    /** @test */
+    public function redis_strings_msetnx_existing_multiple_key_value()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete(['tswift', 'millaj']));
+        $this->assertTrue($this->redis->set('tswift', 'Taylor Swift'));
+        $this->assertFalse($this->redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']));
+        $this->assertEquals('Taylor Swift', $this->redis->get('tswift'));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete(['tswift', 'millaj']));
     }
 }

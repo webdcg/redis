@@ -52,6 +52,16 @@ trait Strings
         return $this->redis->decrBy($key, $decrement);
     }
 
+    /**
+     * Get the value related to the specified key.
+     * See: https://redis.io/commands/get.
+     *
+     * @param  string $key [description]
+     *
+     * @return mixed|string|bool    If key didn't exist, FALSE is returned.
+     *                              Otherwise, the value related to this key
+     *                              is returned.
+     */
     public function get(string $key)
     {
         return $this->redis->get($key);
@@ -174,21 +184,35 @@ trait Strings
         return $this->redis->mSet($pairs);
     }
 
-    public function mSetNX(): bool
+    /**
+     * Sets multiple key-value pairs in one atomic command. MSETNX only returns
+     * TRUE if all the keys were set (see SETNX).
+     * See: https://redis.io/commands/msetnx.
+     *
+     * @param  array  $pairs [description]
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function mSetNX(array $pairs): bool
     {
-        return false;
+        if (! is_associative($pairs)) {
+            throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+        }
+
+        return $this->redis->mSetNX($pairs);
     }
 
     /**
-     * Set the string value in argument as value of the key. If you're using Redis >= 2.6.12, you can pass extended
-     * options as explained below.
+     * Set the string value in argument as value of the key. If you're using
+     * Redis >= 2.6.12, you can pass extended options as explained below.
+     * See: https://redis.io/commands/set.
      *
      * @param string $key
      * @param mixed $value
-     * @param mixed $args Timeout or Options Array (optional). If you pass an
-     *                    integer, phpredis will redirect to SETEX, and will
-     *                    try to use Redis >= 2.6.12 extended options if you
-     *                    pass an array with valid values
+     * @param mixed $args   Timeout or Options Array (optional). If you pass
+     *                      an integer, phpredis will redirect to SETEX, and
+     *                      will try to use Redis >= 2.6.12 extended options
+     *                      if you  pass an array with valid values.
      *
      * @return bool TRUE if the command is successful.
      */
@@ -201,19 +225,51 @@ trait Strings
         return $this->redis->set($key, $value, $args[0]);
     }
 
-    public function setEx(string $key, int $timeout, $value): bool
+    /**
+     * Set the string value in argument as value of the key, with a time to
+     * live. PSETEX uses a TTL in milliseconds.
+     * See: https://redis.io/commands/setex.
+     *
+     * @param string $key       Key
+     * @param int    $ttl       Time To Live (seconds)
+     * @param string $value     Value
+     *
+     * @return bool           TRUE if the command is successful.
+     */
+    public function setEx(string $key, int $ttl, string $value): bool
     {
-        return $this->redis->setEx($key, $timeout, $value);
+        return $this->redis->setEx($key, $ttl, $value);
     }
 
-    public function pSetEx(): bool
+    /**
+     * Set the string value in argument as value of the key, with a time to
+     * live. PSETEX uses a TTL in milliseconds.
+     * See: https://redis.io/commands/setex.
+     *
+     * @param string $key       Key
+     * @param int    $ttl       Time To Live (milliseconds)
+     * @param string $value     Value
+     *
+     * @return bool           TRUE if the command is successful.
+     */
+    public function pSetEx(string $key, int $ttl, string $value): bool
     {
-        return false;
+        return $this->redis->pSetEx($key, $ttl, $value);
     }
 
-    public function setNx(): bool
+    /**
+     * Set the string value in argument as value of the key if the key doesn't
+     * already exist in the database.
+     * See: https://redis.io/commands/setnx.
+     *
+     * @param string $key   [description]
+     * @param string $value [description]
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function setNx(string $key, string $value): bool
     {
-        return false;
+        return $this->redis->setNx($key, $value);
     }
 
     /**

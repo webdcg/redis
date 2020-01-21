@@ -7,7 +7,7 @@
 |[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
 |[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
 |[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
-|[get](#get)                    |Get the value of a key                                                 |:x:   |:x:   |Strings        |get   |
+|[get](#get)                    |Get the value of a key                                                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |get   |
 |[getRange](#getRange)          |Get a substring of the string stored at a key                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getRange   |
 |[getSet](#getSet)              |Set the string value of a key and return its old value                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getSet   |
 |[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
@@ -17,10 +17,10 @@
 |[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getMultiple   |
 |[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSet   |
 |[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSetNX   |
-|[set](#set)                    |Set the string value of a key                                          |:x:   |:x:   |Strings        |set   |
-|[setEx](#setEx)                |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |setEx   |
-|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:x:   |:x:   |Strings        |pSetEx   |
-|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:x:   |:x:   |Strings        |setNx   |
+|[set](#set)                    |Set the string value of a key                                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |set   |
+|[setEx](#setEx)                |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setEx   |
+|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |pSetEx   |
+|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setNx   |
 |[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setRange   |
 |[strLen](#strLen)              |Get the length of the value stored in a key                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |strLen   |
 
@@ -122,6 +122,33 @@ public function decrBy(string $key, int $decrement): int {
 ```php
 $redis->set('key', 5);
 $redis->decrBy('key', 3); // 2
+```
+
+## [get](https://redis.io/commands/get)
+
+_**Description**_: Get the value related to the specified key.
+
+##### *Prototype*  
+
+```php
+public function get(string $key) {
+    return $this->redis->get($key);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The key to be fetched.
+
+##### *Return value*
+
+*mixed*: String or Bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
+
+##### *Example*
+
+```php
+$redis->set('tswift', 'Taylor Swift');
+$redis->get('tswift'); // Taylor Swift
 ```
 
 ## [getRange](https://redis.io/commands/getrange)
@@ -354,6 +381,167 @@ public function mSet(array $pairs): bool {
 ```php
 $redis->mSet(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
 $redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
+## [mSetNx](https://redis.io/commands/mSetNx)
+
+_**Description**_: Sets multiple key-value pairs in one atomic command. Sets the given keys to their respective values. MSETNX will not perform any operation at all even if just a single key already exists.
+
+##### *Prototype*  
+
+```php
+public function mSetNX(array $pairs): bool {
+    if (! is_associative($pairs)) {
+        throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+    }
+    return $this->redis->mSetNX($pairs);
+}
+```
+
+##### *Parameters*
+
+- *pairs*: Array. All the keys required. [key => value, ...]
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->mSetNX(['tswift' => 'Taylor Swift', 'millaj' => 'Milla Jovovich']);
+$redis->getMultiple(['tswift', 'millaj', 'kbeck']); // ['Taylor Swift', 'Milla Jovovich', 'Kate Beckinsale']
+```
+
+## [set](https://redis.io/commands/set)
+
+_**Description**_: Set the string value in argument as value of the key. If you're using Redis >= 2.6.12, you can pass extended options as explained below
+
+##### *Prototype*  
+
+```php
+public function set(string $key, $value, ...$args): bool {
+    if (empty($args)) {
+        return $this->redis->set($key, $value);
+    }
+    return $this->redis->set($key, $value, $args[0]);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *value*: String. The value to be set.
+- *options*: Timeout or Options Array (optional). If you pass an integer, phpredis will redirect to SETEX, and will try to use Redis >= 2.6.12 extended options if you pass an array with valid values
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+// Simple key -> value set
+$redis->set('key', 'value');
+
+// Will redirect, and actually make an SETEX call
+$redis->set('key','value', 10);
+
+// Will set the key, if it doesn't exist, with a ttl of 10 seconds
+$redis->set('key', 'value', ['nx', 'ex'=>10]);
+
+// Will set a key, if it does exist, with a ttl of 1000 milliseconds
+$redis->set('key', 'value', ['xx', 'px'=>1000]);
+```
+
+## [setEx](https://redis.io/commands/setEx)
+
+_**Description**_: Set the string value in argument as value of the key, with a time to live.
+
+##### *Prototype*  
+
+```php
+public function setEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->setEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. Time To Live (seconds).
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->setEx('tswift', 1, 'Taylor Swift'); // set and expire in 1 second
+sleep(1);
+$redis->get('tswift'); // FALSE
+```
+
+## [pSetEx](https://redis.io/commands/pSetEx)
+
+_**Description**_: Set the string value in argument as value of the key, with a time to live. PSETEX uses a TTL in milliseconds.
+
+##### *Prototype*  
+
+```php
+public function pSetEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->pSetEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. Time To Live (milliseconds).
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->pSetEx('tswift', 10, 'Taylor Swift'); // Set and expire in 10 milliseconds
+usleep(20 * 1000);
+$redis->get('tswift'); // FALSE
+```
+
+## [setNx](https://redis.io/commands/setNx)
+
+_**Description**_: Set the string value in argument as value of the key if the key doesn't already exist in the database.
+
+##### *Prototype*  
+
+```php
+public function pSetEx(string $key, int $ttl, string $value): bool {
+    return $this->redis->pSetEx($key, $ttl, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The element to be set.
+- *ttl*: Integer. Time To Live (milliseconds).
+- *value*: String. The value to be set.
+
+##### *Return value*
+
+*bool*: TRUE in case of success, FALSE in case of failure.
+
+##### *Example*
+
+```php
+$redis->pSetEx('tswift', 10, 'Taylor Swift'); // Set and expire in 10 milliseconds
+usleep(20 * 1000);
+$redis->get('tswift'); // FALSE
 ```
 
 ## [setRange](https://redis.io/commands/setrange)
