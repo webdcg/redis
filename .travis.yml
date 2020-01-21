@@ -1,0 +1,33 @@
+sudo: required
+
+language: php
+
+php:
+  - 7.2
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+services:
+  - redis-server
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
+before_install:
+  - phpenv config-rm xdebug.ini || true
+  - printf "\n" | pecl install -f redis
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
+
+script:
+  - "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"
+
+after_script:
+  - vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
