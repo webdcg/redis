@@ -174,7 +174,7 @@ trait Keys
     {
         return $this->redis->scan($iterator, $pattern, $count);
     }
-    
+
     /**
      * Migrates a key to a different Redis instance.
      * Note:: Redis introduced migrating multiple keys in 3.0.6, so you must
