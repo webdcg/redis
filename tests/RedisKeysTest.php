@@ -8,6 +8,7 @@ use Webdcg\Redis\Redis;
 class RedisKeysTest extends TestCase
 {
     protected $redis;
+    protected $backup;
     protected $key;
 
     protected function setUp(): void
@@ -16,6 +17,34 @@ class RedisKeysTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Keys';
+    }
+
+    /** @test */
+    public function redis_keys_migrate_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Create a key and move it to a different Server
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertTrue($this->redis->migrate('127.0.0.1', 6381, [$this->key], 0, 3600));
+        // Checking on the backup Server
+        $this->backup = new Redis;
+        $this->assertTrue($this->backup->connect('127.0.0.1', 6381));
+        $this->assertEquals(1, $this->backup->exists($this->key));
+        $this->assertEquals('value', $this->backup->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->backup->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_migrate_nonexisting_key()
+    {
+        $this->assertEquals(0, $this->redis->exists('nonexisting'));
+        $this->assertTrue($this->redis->migrate('127.0.0.1', 6381, ['nonexisting'], 0, 3600));
+        // Checking on the backup Server
+        $this->backup = new Redis;
+        $this->assertTrue($this->backup->connect('127.0.0.1', 6381));
+        $this->assertEquals(0, $this->backup->exists('nonexisting'));
     }
 
     /** @test */

@@ -466,3 +466,50 @@ while ($arr_keys = $redis->scan($it)) {
 }
 echo "No more keys to scan!\n";
 ```
+
+## migrate
+
+_**Description**_: Migrates a key to a different Redis instance.
+
+Note:: Redis introduced migrating multiple keys in 3.0.6, so you must have at least that version in order to call migrate with an array of keys.
+
+##### *Prototype*  
+
+```php
+public function migrate(
+    string $host,
+    int $port,
+    array $keys,
+    int $db,
+    int $timeout,
+    ?bool $copy = false,
+    ?bool $replace = false
+) : bool {
+    return $this->redis->migrate($host, $port, $keys, $db, $timeout);
+}
+```
+
+##### *Parameters*
+
+- *host*: String. The destination host.
+- *port*: Integer. The TCP port to connect to.
+- *keys*: Array. Key(s) to be moved.
+- *db*: Integer. The target DB.
+- *timeout*: Integer. The maximum amount of time given to this transfer.
+- *copy*: Boolean. (optional) Should we send the COPY flag to redis.
+- *replace*: Boolean. (optional) Should we send the REPLACE flag to redis.
+
+##### *Return value*
+
+*array*: Array of string: The keys that match a certain pattern.
+
+##### *Example*
+
+```php
+$redis->migrate('backup', 6379, 'foo', 0, 3600);
+$redis->migrate('backup', 6379, 'foo', 0, 3600, true, true); /* copy and replace */
+$redis->migrate('backup', 6379, 'foo', 0, 3600, false, true); /* just REPLACE flag */
+
+/* Migrate multiple keys (requires Redis >= 3.0.6)
+$redis->migrate('backup', 6379, ['key1', 'key2', 'key3'], 0, 3600);
+```

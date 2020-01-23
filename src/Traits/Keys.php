@@ -174,10 +174,36 @@ trait Keys
     {
         return $this->redis->scan($iterator, $pattern, $count);
     }
-
-    public function migrate(): bool
-    {
-        return false;
+    
+    /**
+     * Migrates a key to a different Redis instance.
+     * Note:: Redis introduced migrating multiple keys in 3.0.6, so you must
+     * have at least that version in order to call migrate with an array of
+     * keys.
+     * See: https://redis.io/commands/migrate.
+     *
+     * @param  string $host         The destination host
+     * @param  int    $port         The TCP port to connect to.
+     * @param  array  $keys         [description]
+     * @param  int    $db           The target DB.
+     * @param  int    $timeout      The maximum amount of time given to this transfer.
+     * @param  bool   $copy         (optional) Should we send the COPY flag to redis.
+     * @param  bool   $replace      (optional) Should we send the REPLACE flag to redis.
+     *
+     * @return bool                 Simple string reply: The command returns OK
+     *                              on success, or NOKEY if no keys were found
+     *                              in the source instance.
+     */
+    public function migrate(
+        string $host,
+        int $port,
+        array $keys,
+        int $db,
+        int $timeout,
+        ?bool $copy = false,
+        ?bool $replace = false
+    ): bool {
+        return $this->redis->migrate($host, $port, $keys, $db, $timeout);
     }
 
     public function move(): bool
