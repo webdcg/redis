@@ -206,9 +206,18 @@ trait Keys
         return $this->redis->migrate($host, $port, $keys, $db, $timeout);
     }
 
-    public function move(): bool
+    /**
+     * Moves a key to a different database.
+     * See: https://redis.io/commands/move.
+     *
+     * @param  string $key  key, the key to move.
+     * @param  int    $db   dbindex, the database number to move the key to.
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function move(string $key, int $db): bool
     {
-        return false;
+        return $this->redis->move($key, $db);
     }
 
     public function object(): bool

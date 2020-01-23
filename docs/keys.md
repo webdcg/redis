@@ -513,3 +513,34 @@ $redis->migrate('backup', 6379, 'foo', 0, 3600, false, true); /* just REPLACE fl
 /* Migrate multiple keys (requires Redis >= 3.0.6)
 $redis->migrate('backup', 6379, ['key1', 'key2', 'key3'], 0, 3600);
 ```
+
+## move
+
+_**Description**_: Moves a key to a different database.
+
+##### *Prototype*  
+
+```php
+public function move(string $key, int $db): bool {
+    return $this->redis->move($key, $db);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. the key to move.
+- *db*: Integer. dbindex, the database number to move the key to.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$redis->select(0);      // switch to DB 0
+$redis->set('x', '42'); // write 42 to x
+$redis->move('x', 1);   // move to DB 1
+$redis->select(1);      // switch to DB 1
+$redis->get('x');       // will return 42
+```

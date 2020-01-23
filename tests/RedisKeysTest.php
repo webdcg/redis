@@ -20,6 +20,43 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_move_single_key()
+    {
+        // Start from scratch
+        $this->assertTrue($this->redis->select(1));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->select(0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // Create a key on DB 0
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        // Move to DB 1
+        $this->assertTrue($this->redis->move($this->key, 1));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        // Verify that is on the correct place
+        $this->assertTrue($this->redis->select(1));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_move_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertTrue($this->redis->select(0));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete('nonexisting'));
+        $this->assertEquals(0, $this->redis->exists('nonexisting'));
+        // Move to DB 1
+        $this->assertFalse($this->redis->move('nonexisting', 1));
+        // Verify that is on the correct place
+        $this->assertTrue($this->redis->select(1));
+        $this->assertEquals(0, $this->redis->exists('nonexisting'));
+    }
+
+    /** @test */
     public function redis_keys_migrate_single_key()
     {
         // Start from scratch
