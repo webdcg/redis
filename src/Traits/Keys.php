@@ -292,9 +292,19 @@ trait Keys
         return $this->redis->rename($key, $newKey);
     }
 
-    public function renameNx(): bool
+    /**
+     * Renames key to newkey,. but will not replace a key if the destination
+     * already exists. This is the same behaviour as setNx.
+     * See: https://redis.io/commands/renamenx.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function renameNx(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->renameNx($key, $newKey);
     }
 
     public function type(): bool
