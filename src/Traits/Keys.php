@@ -350,7 +350,7 @@ trait Keys
             return $this->redis->sort($key);
         }
 
-        if (! $this->is_associative($pairs)) {
+        if (!$this->is_associative($pairs)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 
