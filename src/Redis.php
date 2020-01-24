@@ -24,4 +24,16 @@ class Redis
     {
         $this->redis = new \Redis();
     }
+
+    /**
+     * Check that the given array is associative
+     *
+     * @param  array   $array
+     *
+     * @return boolean
+     */
+    public function is_associative(array $array)
+    {
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
 }

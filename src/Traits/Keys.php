@@ -327,9 +327,34 @@ trait Keys
         return $this->redis->type($key);
     }
 
-    public function sort(): bool
+    /**
+     * Sort the elements in a list, set or sorted set.
+     * See: https://redis.io/commands/sort.
+     *
+     * @param  string $key
+     * @param  array $options   [key => value, ...] - optional, with the
+     *                          following keys and values:
+     *                          'by' => 'some_pattern_*',
+     *                          'limit' => [0, 1],
+     *                          'get' => 'some_other_pattern_*' or an array of patterns,
+     *                          'sort' => 'asc' or 'desc',
+     *                          'alpha' => TRUE,
+     *                          'store' => 'external-key'
+     *
+     * @return array            An array of values, or a number corresponding
+     *                          to the number of elements stored if that was used.
+     */
+    public function sort(string $key, array $options = []): array
     {
-        return false;
+        if (empty($options)) {
+            return $this->redis->sort($key);
+        }
+
+        if (!$this->is_associative($pairs)) {
+            throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+        }
+
+        return $this->redis->sort($key, $options);
     }
 
     /**
