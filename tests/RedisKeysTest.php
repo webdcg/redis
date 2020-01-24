@@ -10,6 +10,7 @@ class RedisKeysTest extends TestCase
     protected $redis;
     protected $backup;
     protected $key;
+    protected $keyOptional;
 
     protected function setUp(): void
     {
@@ -17,6 +18,63 @@ class RedisKeysTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Keys';
+        $this->keyOptional = 'KeysOptional';
+    }
+
+    /** @test */
+    public function redis_keys_renamekey_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertFalse($this->redis->renameKey($this->key, $this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_keys_renamekey_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        $this->assertTrue($this->redis->renameKey($this->key, $this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(1, $this->redis->exists($this->keyOptional));
+        $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_keys_rename_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertFalse($this->redis->rename($this->key, $this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_keys_rename_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        $this->assertTrue($this->redis->rename($this->key, $this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(1, $this->redis->exists($this->keyOptional));
+        $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 
     /** @test */

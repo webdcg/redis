@@ -261,14 +261,35 @@ trait Keys
         return $this->redis->randomKey();
     }
 
-    public function rename(): bool
+    /**
+     * Renames key to newkey. It returns an error when key does not exist.
+     * If newkey already exists it is overwritten.
+     * See: https://redis.io/commands/rename.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function rename(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->rename($key, $newKey);
     }
 
-    public function renameKey(): bool
+    /**
+     * Renames key to newkey. It returns an error when key does not exist.
+     * If newkey already exists it is overwritten.
+     * Note: renameKey is an alias for rename and will be removed in future versions of phpredis.
+     * See: https://redis.io/commands/rename.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function renameKey(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->rename($key, $newKey);
     }
 
     public function renameNx(): bool
