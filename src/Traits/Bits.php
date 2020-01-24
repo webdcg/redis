@@ -36,7 +36,7 @@ trait Bits
     {
         $operation = strtoupper($operation);
 
-        if (!in_array($operation, $this->BIT_OPERATIONS)) {
+        if (! in_array($operation, $this->BIT_OPERATIONS)) {
             throw new BitwiseOperationException('Operation not supported', 1);
         }
 
