@@ -309,6 +309,7 @@ trait Keys
 
     /**
      * Returns the type of data pointed by a given key.
+     * See: https://redis.io/commands/type.
      *
      * @param  string $key [description]
      *
