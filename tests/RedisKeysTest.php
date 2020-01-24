@@ -20,6 +20,19 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_persist_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertTrue($this->redis->expire($this->key, 1));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        $this->assertTrue($this->redis->persist($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_keys_object_nonexisting_key()
     {
         // Start from scratch

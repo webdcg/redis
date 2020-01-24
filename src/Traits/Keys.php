@@ -222,6 +222,7 @@ trait Keys
 
     /**
      * Describes the object pointed to by a key.
+     * See: https://redis.io/commands/object.
      *
      * @param  string $subcommand       The information to retrieve.
      * @param  string $key              The key to fetch that data from.
@@ -235,9 +236,18 @@ trait Keys
         return $this->redis->object($subcommand, $key);
     }
 
-    public function persist(): bool
+    /**
+     * Remove the expiration timer from a key.
+     * See: https://redis.io/commands/persist.
+     *
+     * @param  string $key [description]
+     *
+     * @return bool         TRUE if a timeout was removed, FALSE if the key
+     *                      didn’t exist or didn’t have an expiration timer.
+     */
+    public function persist(string $key): bool
     {
-        return false;
+        return $this->redis->persist($key);
     }
 
     public function randomKey(): bool
