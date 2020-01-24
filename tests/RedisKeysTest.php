@@ -20,6 +20,28 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_randomkey()
+    {
+        $this->key = array_map(function ($item) {
+            return "Key{$item}";
+        }, range(1, 5));
+
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        foreach ($this->key as $key) {
+            $this->assertEquals(0, $this->redis->exists($key));
+            $this->assertTrue($this->redis->set($key, 'value'));
+        }
+
+        foreach ($this->key as $key) {
+            $this->assertEquals(1, $this->redis->exists($key));
+            $this->assertContains($this->redis->randomKey(), $this->key);
+        }
+
+        $this->assertGreaterThanOrEqual(5, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_keys_pttl_nonexisting_key()
     {
         // Start from scratch

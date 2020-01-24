@@ -250,9 +250,15 @@ trait Keys
         return $this->redis->persist($key);
     }
 
-    public function randomKey(): bool
+    /**
+     * Returns a random key.
+     * See: https://redis.io/commands/randomkey.
+     *
+     * @return string   An existing key in redis.
+     */
+    public function randomKey(): string
     {
-        return false;
+        return $this->redis->randomKey();
     }
 
     public function rename(): bool
