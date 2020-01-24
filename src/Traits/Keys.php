@@ -280,14 +280,32 @@ trait Keys
         return false;
     }
 
-    public function ttl(): bool
+    /**
+     * Returns the time to live left for a given key in seconds (ttl).
+     * See: https://redis.io/commands/ttl.
+     *
+     * @param  string $key
+     *
+     * @return int          The time to live in seconds. If the key has no ttl,
+     *                      -1 will be returned, and -2 if the key doesn't exist.
+     */
+    public function ttl(string $key): int
     {
-        return false;
+        return $this->redis->ttl($key);
     }
 
-    public function pttl(): bool
+    /**
+     * Returns the time to live left for a given key in milliseconds (pttl).
+     * See: https://redis.io/commands/pttl.
+     *
+     * @param  string $key
+     *
+     * @return int          The time to live in seconds. If the key has no ttl,
+     *                      -1 will be returned, and -2 if the key doesn't exist.
+     */
+    public function pttl(string $key): int
     {
-        return false;
+        return $this->redis->pttl($key);
     }
 
     public function restore(): bool

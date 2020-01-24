@@ -20,6 +20,72 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_pttl_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(-2, $this->redis->pttl($this->key));
+    }
+
+     /** @test */
+    public function redis_keys_pttl_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertTrue($this->redis->expire($this->key, 1));
+        usleep(10 * 1000);
+        $this->assertGreaterThanOrEqual(985, $this->redis->pttl($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_ttl_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(-2, $this->redis->ttl($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_ttl_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertTrue($this->redis->expire($this->key, 2));
+        $this->assertEquals(2, $this->redis->ttl($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_persist_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(-2, $this->redis->ttl($this->key));
+        $this->assertFalse($this->redis->persist($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_persist_noexpiration_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals(1, $this->redis->exists($this->key));
+        $this->assertEquals(-1, $this->redis->ttl($this->key));
+        $this->assertFalse($this->redis->persist($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_keys_persist_single_key()
     {
         // Start from scratch
@@ -28,6 +94,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->expire($this->key, 1));
         $this->assertEquals(1, $this->redis->exists($this->key));
         $this->assertTrue($this->redis->persist($this->key));
+        $this->assertEquals(-1, $this->redis->ttl($this->key));
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
