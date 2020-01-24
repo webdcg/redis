@@ -26,11 +26,11 @@ class Redis
     }
 
     /**
-     * Check that the given array is associative
+     * Check that the given array is associative.
      *
      * @param  array   $array
      *
-     * @return boolean
+     * @return bool
      */
     public function is_associative(array $array)
     {

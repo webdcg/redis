@@ -47,7 +47,7 @@ class RedisStringsTest extends TestCase
     /** @test */
     public function redis_strings_set_options_ex()
     {
-        $this->key = 'key:' . time();
+        $this->key = 'key:'.time();
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         // Will set the key, if it doesn't exist, with a ttl of 1 seconds
@@ -62,7 +62,7 @@ class RedisStringsTest extends TestCase
     /** @test */
     public function redis_strings_set_options_px()
     {
-        $this->key = 'key:' . time();
+        $this->key = 'key:'.time();
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertTrue($this->redis->set($this->key, 'value'));
