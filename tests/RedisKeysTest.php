@@ -28,7 +28,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(-2, $this->redis->pttl($this->key));
     }
 
-     /** @test */
+    /** @test */
     public function redis_keys_pttl_single_key()
     {
         // Start from scratch
