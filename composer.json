@@ -38,6 +38,7 @@
         }
     },
     "scripts": {
+        "check": "vendor/bin/ecs check",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
 

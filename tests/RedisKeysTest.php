@@ -14,7 +14,7 @@ class RedisKeysTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->redis = new Redis;
+        $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Keys';
@@ -248,7 +248,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->set($this->key, 'value'));
         $this->assertTrue($this->redis->migrate('127.0.0.1', 6381, [$this->key], 0, 3600));
         // Checking on the backup Server
-        $this->backup = new Redis;
+        $this->backup = new Redis();
         $this->assertTrue($this->backup->connect('127.0.0.1', 6381));
         $this->assertEquals(1, $this->backup->exists($this->key));
         $this->assertEquals('value', $this->backup->get($this->key));
@@ -262,7 +262,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists('nonexisting'));
         $this->assertTrue($this->redis->migrate('127.0.0.1', 6381, ['nonexisting'], 0, 3600));
         // Checking on the backup Server
-        $this->backup = new Redis;
+        $this->backup = new Redis();
         $this->assertTrue($this->backup->connect('127.0.0.1', 6381));
         $this->assertEquals(0, $this->backup->exists('nonexisting'));
     }

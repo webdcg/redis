@@ -15,7 +15,7 @@ class RedisGeocodingTest extends TestCase
 
     public function setUp()
     {
-        $this->redis = new Redis;
+        $this->redis = new Redis();
         $this->redis->connect();
 
         $this->longitude = -122.431;

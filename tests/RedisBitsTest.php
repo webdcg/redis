@@ -14,7 +14,7 @@ class RedisBitsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->redis = new Redis;
+        $this->redis = new Redis();
         $this->redis->connect();
         $this->key = 'Bits';
         $this->keyOptional = 'BitsOptional';

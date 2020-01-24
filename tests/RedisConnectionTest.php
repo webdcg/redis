@@ -12,7 +12,7 @@ class RedisConnectionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->redis = new Redis;
+        $this->redis = new Redis();
         $this->redis->connect();
         $this->key = 'Connection';
     }

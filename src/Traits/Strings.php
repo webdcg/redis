@@ -177,7 +177,7 @@ trait Strings
      */
     public function mSet(array $pairs): bool
     {
-        if (! is_associative($pairs)) {
+        if (!is_associative($pairs)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 
@@ -195,7 +195,7 @@ trait Strings
      */
     public function mSetNX(array $pairs): bool
     {
-        if (! is_associative($pairs)) {
+        if (!is_associative($pairs)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 
