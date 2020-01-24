@@ -307,9 +307,23 @@ trait Keys
         return $this->redis->renameNx($key, $newKey);
     }
 
-    public function type(): bool
+    /**
+     * Returns the type of data pointed by a given key.
+     *
+     * @param  string $key [description]
+     *
+     * @return mixed        Depending on the type of the data pointed by the key,
+     *                      this method will return the following value:
+     *                      string: Redis::REDIS_STRING
+     *                      set: Redis::REDIS_SET
+     *                      list: Redis::REDIS_LIST
+     *                      zset: Redis::REDIS_ZSET
+     *                      hash: Redis::REDIS_HASH
+     *                      other: Redis::REDIS_NOT_FOUND
+     */
+    public function type(string $key)
     {
-        return false;
+        return $this->redis->type($key);
     }
 
     public function sort(): bool

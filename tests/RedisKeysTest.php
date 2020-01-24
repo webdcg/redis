@@ -22,6 +22,18 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_type_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(\Redis::REDIS_STRING, $this->redis->type($this->key));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_keys_renamenx_nonexisting_key()
     {
         // Start from scratch
@@ -53,6 +65,8 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(1, $this->redis->exists($this->key));
         $this->assertEquals(1, $this->redis->exists($this->keyOptional));
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 
@@ -73,6 +87,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists($this->key));
         $this->assertEquals(1, $this->redis->exists($this->keyOptional));
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 
@@ -105,6 +120,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists($this->key));
         $this->assertEquals(1, $this->redis->exists($this->keyOptional));
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 
@@ -137,6 +153,7 @@ class RedisKeysTest extends TestCase
         $this->assertEquals(0, $this->redis->exists($this->key));
         $this->assertEquals(1, $this->redis->exists($this->keyOptional));
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 
@@ -160,7 +177,7 @@ class RedisKeysTest extends TestCase
             $this->assertContains($this->redis->randomKey(), $this->key);
             // --------------------  T E S T  --------------------
         }
-
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(5, $this->redis->delete($this->key));
     }
 
