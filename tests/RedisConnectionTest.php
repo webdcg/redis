@@ -8,11 +8,13 @@ use Webdcg\Redis\Redis;
 class RedisConnectionTest extends TestCase
 {
     protected $redis;
+    protected $key;
 
     protected function setUp(): void
     {
         $this->redis = new Redis;
         $this->redis->connect();
+        $this->key = 'Connection';
     }
 
     /** @test */
@@ -139,11 +141,11 @@ class RedisConnectionTest extends TestCase
     {
         $this->redis_connection_getoption_prefix_string();
         // Actual key name will be redis:key
-        $this->assertTrue($this->redis->set('key', 'value'));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
         // We're actually fetching redis:key
-        $this->assertEquals('value', $this->redis->get('key'));
-        $this->assertEquals(1, $this->redis->delete('key'));
-        $this->assertEquals(0, $this->redis->exists('key'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->key));
     }
 
     /** @test */
@@ -151,11 +153,11 @@ class RedisConnectionTest extends TestCase
     {
         $this->redis_connection_getoption_prefix_integer();
         // Actual key name will be 20200104key
-        $this->assertTrue($this->redis->set('key', 'value'));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
         // We're actually fetching 20200104key
-        $this->assertEquals('value', $this->redis->get('key'));
-        $this->assertEquals(1, $this->redis->delete('key'));
-        $this->assertEquals(0, $this->redis->exists('key'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->key));
     }
 
     /** @test */
