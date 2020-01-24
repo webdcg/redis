@@ -20,6 +20,29 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_object_nonexisting_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertFalse($this->redis->object('encoding', $this->key));
+        $this->assertFalse($this->redis->object('refcount', $this->key));
+        $this->assertFalse($this->redis->object('idletime', $this->key));
+    }
+
+    /** @test */
+    public function redis_keys_object_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals('embstr', $this->redis->object('encoding', $this->key));
+        $this->assertEquals(1, $this->redis->object('refcount', $this->key));
+        $this->assertEquals(0, $this->redis->object('idletime', $this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_keys_move_single_key()
     {
         // Start from scratch

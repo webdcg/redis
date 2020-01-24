@@ -220,9 +220,19 @@ trait Keys
         return $this->redis->move($key, $db);
     }
 
-    public function object(): bool
+    /**
+     * Describes the object pointed to by a key.
+     *
+     * @param  string $subcommand       The information to retrieve.
+     * @param  string $key              The key to fetch that data from.
+     *
+     * @return mixed|string|int|bool    STRING for "encoding", LONG for
+     *                                  "refcount" and "idletime", FALSE if the
+     *                                  key doesn't exist.
+     */
+    public function object(string $subcommand, string $key)
     {
-        return false;
+        return $this->redis->object($subcommand, $key);
     }
 
     public function persist(): bool
