@@ -19,14 +19,160 @@ class RedisListsTest extends TestCase
     }
 
     /** @test */
+    public function redis_lists_lremove_remove_b_one()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->lRemove($this->key, 'B', 1));
+        $this->assertEquals(['A', 'A', 'C', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lremove_remove_b_all()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->lRemove($this->key, 'B'));
+        $this->assertEquals(['A', 'A', 'C', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lremove_remove_c()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->lRemove($this->key, 'D'));
+        $this->assertEquals(1, $this->redis->lRemove($this->key, 'C'));
+        $this->assertEquals(['A', 'A', 'B', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lremove_remove_d()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->lRemove($this->key, 'D'));
+        $this->assertEquals(['A', 'A', 'B', 'C', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lrem_remove_b_one()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->lRem($this->key, 'B', 1));
+        $this->assertEquals(['A', 'A', 'C', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lrem_remove_b_all()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->lRem($this->key, 'B'));
+        $this->assertEquals(['A', 'A', 'C', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lrem_remove_c()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->lRem($this->key, 'D'));
+        $this->assertEquals(1, $this->redis->lRem($this->key, 'C'));
+        $this->assertEquals(['A', 'A', 'B', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lrem_remove_d()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        $this->assertEquals(4, $this->redis->lPush($this->key, "B"));
+        $this->assertEquals(5, $this->redis->lPush($this->key, "A"));
+        $this->assertEquals(6, $this->redis->lPush($this->key, "A"));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->lRem($this->key, 'D'));
+        $this->assertEquals(['A', 'A', 'B', 'C', 'B', 'A'], $this->redis->lGetRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_lists_lgetrange()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        // --------------------  T E S T  --------------------
         $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
         $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
         $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        // --------------------  T E S T  --------------------
         $this->assertEquals(['C', 'B', 'A'], $this->redis->lGetRange($this->key));
         $this->assertEquals(['C', 'B', 'A'], $this->redis->lGetRange($this->key, 0, -1));
         $this->assertEquals(['C', 'B'], $this->redis->lGetRange($this->key, 0, -2));
@@ -41,10 +187,10 @@ class RedisListsTest extends TestCase
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        // --------------------  T E S T  --------------------
         $this->assertEquals(1, $this->redis->lPush($this->key, "A"));
         $this->assertEquals(2, $this->redis->lPush($this->key, "B"));
         $this->assertEquals(3, $this->redis->lPush($this->key, "C"));
+        // --------------------  T E S T  --------------------
         $this->assertEquals(['C', 'B', 'A'], $this->redis->lRange($this->key));
         $this->assertEquals(['C', 'B', 'A'], $this->redis->lRange($this->key, 0, -1));
         $this->assertEquals(['C', 'B'], $this->redis->lRange($this->key, 0, -2));

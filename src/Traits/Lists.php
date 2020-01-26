@@ -119,14 +119,48 @@ trait Lists
         return $this->redis->lRange($key, $start, $end);
     }
 
-    public function lRem(): bool
+    /**
+     * Removes the first count occurrences of the value element from the list.
+     * If count is zero, all the matching elements are removed. If count is
+     * negative, elements are removed from tail to head.
+     * Note: The argument order is not the same as in the Redis documentation.
+     * This difference is kept for compatibility reasons.
+     * See: https://redis.io/commands/lrem.
+     *
+     * @param  string      $key
+     * @param  mixed       $value
+     * @param  int|integer $count
+     *
+     * @return int                  LONG the number of elements to remove.
+     *                              BOOL FALSE if the value identified by
+     *                              key is not a list.
+     */
+    public function lRem(string $key, $value, int $count = 0): int
     {
-        return false;
+        return $this->redis->lRem($key, $value, $count);
     }
 
-    public function lRemove(): bool
+    /**
+     * Removes the first count occurrences of the value element from the list.
+     * If count is zero, all the matching elements are removed. If count is
+     * negative, elements are removed from tail to head.
+     * Note: The argument order is not the same as in the Redis documentation.
+     * This difference is kept for compatibility reasons.
+     * Note: lRemove is an alias for lRem and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/lrem.
+     *
+     * @param  string      $key
+     * @param  mixed       $value
+     * @param  int|integer $count
+     *
+     * @return int                  LONG the number of elements to remove.
+     *                              BOOL FALSE if the value identified by
+     *                              key is not a list.
+     */
+    public function lRemove(string $key, $value, int $count = 0): int
     {
-        return false;
+        return $this->redis->lRem($key, $value, $count);
     }
 
     public function lSet(): bool
