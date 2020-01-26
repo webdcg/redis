@@ -19,6 +19,35 @@ class RedisHashesTest extends TestCase
     }
 
     /** @test */
+    public function redis_hashes_hscan()
+    {
+        $iterator = null;
+        $hash = [
+            'tswift' => 'Taylor Swift',
+            'millaj' => 'Milla Jovovich',
+            'kbeck' => 'Kate Beckinsale',
+        ];
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->hMSet($this->key, $hash));
+        // --------------------  T E S T  --------------------
+        /* Don't ever return an empty array until we're done iterating */
+        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
+        $this->assertIsArray($this->redis->hScan($this->key, $iterator, '*', 1));
+        $this->assertFalse($this->redis->hScan($this->key, $iterator, '*', 1));
+        // --------------------  T E S T  --------------------
+
+        // while ($arr_keys = $this->redis->hScan($this->key, $it, '*', 1)) {
+        //     foreach ($arr_keys as $str_field => $str_value) {
+        //         echo "$str_field => $str_value\n"; /* Print the hash member and value */
+        //     }
+        // }
+
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_hashes_hstrlen()
     {
         // Start from scratch

@@ -210,9 +210,20 @@ trait Hashes
         return $this->redis->hVals($key);
     }
 
-    public function hScan(): bool
+    /**
+     * Scan a HASH value for members, with an optional pattern and count.
+     *
+     * @param  string      $key
+     * @param  [type]      $iterator    Long (reference)
+     * @param  string      $pattern     Optional pattern to match against
+     * @param  int|integer $count       How many keys to return in a go (only a
+     *                                  suggestion to Redis)
+     *
+     * @return array                    An array of members that match our pattern
+     */
+    public function hScan(string $key, &$iterator, string $pattern = '*', int $count = 10)
     {
-        return false;
+        return $this->redis->hScan($key, $iterator, $pattern, $count);
     }
 
     /**
