@@ -93,9 +93,21 @@ trait Hashes
         return $this->redis->hSet($key, $field, $value);
     }
 
-    public function hSetNx(): bool
+    /**
+     * Adds a value to the hash stored at key only if this field isn't already
+     * in the hash.
+     * See: https://redis.io/commands/hsetnx.
+     *
+     * @param  string $key
+     * @param  string $field
+     * @param  string $value
+     *
+     * @return bool             TRUE if the field was set, FALSE if it was
+     *                          already present.
+     */
+    public function hSetNx(string $key, string $field, string $value): bool
     {
-        return false;
+        return $this->redis->hSetNx($key, $field, $value);
     }
 
     public function hVals(): bool
