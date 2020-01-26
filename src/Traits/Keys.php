@@ -163,9 +163,9 @@ trait Keys
     /**
      * Scan the keyspace for keys.
      *
-     * @param  [type]      $iterator [description]
-     * @param  string      $pattern  [description]
-     * @param  int|int $count    [description]
+     * @param  [type]      $iterator
+     * @param  string      $pattern
+     * @param  int|int $count
      *
      * @return mixed|array|bool     This function will return an array of keys
      *                              or FALSE if Redis returned zero keys.
@@ -184,7 +184,7 @@ trait Keys
      *
      * @param  string $host         The destination host
      * @param  int    $port         The TCP port to connect to.
-     * @param  array  $keys         [description]
+     * @param  array  $keys
      * @param  int    $db           The target DB.
      * @param  int    $timeout      The maximum amount of time given to this transfer.
      * @param  bool   $copy         (optional) Should we send the COPY flag to redis.
@@ -240,7 +240,7 @@ trait Keys
      * Remove the expiration timer from a key.
      * See: https://redis.io/commands/persist.
      *
-     * @param  string $key [description]
+     * @param  string $key
      *
      * @return bool         TRUE if a timeout was removed, FALSE if the key
      *                      didn’t exist or didn’t have an expiration timer.
@@ -311,7 +311,7 @@ trait Keys
      * Returns the type of data pointed by a given key.
      * See: https://redis.io/commands/type.
      *
-     * @param  string $key [description]
+     * @param  string $key
      *
      * @return mixed        Depending on the type of the data pointed by the key,
      *                      this method will return the following value:

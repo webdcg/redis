@@ -37,8 +37,8 @@ trait Strings
      * Decrement the number stored at key by the given decrement.
      * See: https://redis.io/commands/decrby.
      *
-     * @param  string $key       [description]
-     * @param  int    $decrement [description]
+     * @param  string $key
+     * @param  int    $decrement
      *
      * @return int              The new value
      */
@@ -51,7 +51,7 @@ trait Strings
      * Get the value related to the specified key.
      * See: https://redis.io/commands/get.
      *
-     * @param  string $key [description]
+     * @param  string $key
      *
      * @return mixed|string|bool    If key didn't exist, FALSE is returned.
      *                              Otherwise, the value related to this key
@@ -66,9 +66,9 @@ trait Strings
      * Return a substring of a larger string.
      * See: https://redis.io/commands/getrange.
      *
-     * @param  string $key   [description]
-     * @param  int    $start [description]
-     * @param  int    $end   [description]
+     * @param  string $key
+     * @param  int    $start
+     * @param  int    $end
      *
      * @return string       the substring
      */
@@ -82,8 +82,8 @@ trait Strings
      * Returns an error when key exists but does not hold a string value.
      * See: https://redis.io/commands/getset.
      *
-     * @param  string $key   [description]
-     * @param  string $value [description]
+     * @param  string $key
+     * @param  string $value
      *
      * @return string       Bulk string reply: the old value stored at key,
      *                      or nil when key did not exist.
@@ -97,7 +97,7 @@ trait Strings
      * Increment the number stored at key by one.
      * See: https://redis.io/commands/incr.
      *
-     * @param  string $key [description]
+     * @param  string $key
      *
      * @return int         The new value.
      */
@@ -110,8 +110,8 @@ trait Strings
      * Increment the number stored at key by the given increment.
      * See: https://redis.io/commands/incrby.
      *
-     * @param  string $key       [description]
-     * @param  int    $increment [description]
+     * @param  string $key
+     * @param  int    $increment
      *
      * @return int                  The new value
      */
@@ -124,8 +124,8 @@ trait Strings
      * Increment the number stored at key by the given increment.
      * See: https://redis.io/commands/incrbyfloat.
      *
-     * @param  string $key       [description]
-     * @param  float  $increment [description]
+     * @param  string $key
+     * @param  float  $increment
      *
      * @return float                The new value.
      */
@@ -139,7 +139,7 @@ trait Strings
      * exist, the array will contain FALSE at the position of the key.
      * See: https://redis.io/commands/mget.
      *
-     * @param  array  $keys [description]
+     * @param  array  $keys
      *
      * @return array        Array reply: list of values at the specified keys.
      */
@@ -153,7 +153,7 @@ trait Strings
      * exist, the array will contain FALSE at the position of the key.
      * See: https://redis.io/commands/mget.
      *
-     * @param  array  $keys [description]
+     * @param  array  $keys
      *
      * @return array        Array reply: list of values at the specified keys.
      */
@@ -166,7 +166,7 @@ trait Strings
      * Sets multiple key-value pairs in one atomic command.
      * See: https://redis.io/commands/mset.
      *
-     * @param  array  $pairs [description]
+     * @param  array  $pairs
      *
      * @return bool         TRUE in case of success, FALSE in case of failure.
      */
@@ -184,7 +184,7 @@ trait Strings
      * TRUE if all the keys were set (see SETNX).
      * See: https://redis.io/commands/msetnx.
      *
-     * @param  array  $pairs [description]
+     * @param  array  $pairs
      *
      * @return bool         TRUE in case of success, FALSE in case of failure.
      */
@@ -257,8 +257,8 @@ trait Strings
      * already exist in the database.
      * See: https://redis.io/commands/setnx.
      *
-     * @param string $key   [description]
-     * @param string $value [description]
+     * @param string $key
+     * @param string $value
      *
      * @return bool         TRUE in case of success, FALSE in case of failure.
      */
@@ -271,9 +271,9 @@ trait Strings
      * Changes a substring of a larger string.
      * See: https://redis.io/commands/setrange.
      *
-     * @param string $key    [description]
-     * @param int    $offset [description]
-     * @param string $value  [description]
+     * @param string $key
+     * @param int    $offset
+     * @param string $value
      *
      * @return int          the length of the string after it was modified.
      */
@@ -287,7 +287,7 @@ trait Strings
      * returned when key holds a non-string value.
      * See: https://redis.io/commands/strlen.
      *
-     * @param  string $key [description]
+     * @param  string $key
      *
      * @return int          The length of the string at key, or 0 when key does
      *                      not exist.

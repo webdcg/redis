@@ -33,6 +33,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
         // --------------------  T E S T  --------------------
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
@@ -49,6 +50,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
         // --------------------  T E S T  --------------------
         $this->assertEquals(123, $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
@@ -65,6 +67,7 @@ class RedisKeysTest extends TestCase
         $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
         // --------------------  T E S T  --------------------
         $this->assertEquals(123.456, $this->redis->get($this->keyOptional));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
