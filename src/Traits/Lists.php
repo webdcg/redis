@@ -49,9 +49,21 @@ trait Lists
         return false;
     }
 
-    public function lPush(): bool
+    /**
+     * Adds the string value to the head (left) of the list. Creates the list
+     * if the key didn't exist. If the key exists and is not a list, FALSE is
+     * returned.
+     * See: https://redis.io/commands/lpush.
+     *
+     * @param  string $key
+     * @param  string $value    Value to push in key
+     *
+     * @return int              LONG The new length of the list in case of
+     *                          success, FALSE in case of Failure.
+     */
+    public function lPush(string $key, string $value): int
     {
-        return false;
+        return $this->redis->lPush($key, $value);
     }
 
     public function lPushx(): bool

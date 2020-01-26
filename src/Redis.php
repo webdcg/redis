@@ -8,6 +8,7 @@ use Webdcg\Redis\Traits\Geocoding;
 use Webdcg\Redis\Traits\Hashes;
 use Webdcg\Redis\Traits\HyperLogLogs;
 use Webdcg\Redis\Traits\Keys;
+use Webdcg\Redis\Traits\Lists;
 use Webdcg\Redis\Traits\Strings;
 
 class Redis
@@ -17,6 +18,7 @@ class Redis
     use Geocoding;
     use Hashes;
     use HyperLogLogs;
+    use Lists;
     use Keys;
     use Strings;
 

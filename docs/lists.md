@@ -12,7 +12,7 @@
 |[lLen](#lLen)              |Get the length/size of a list                                                              |:x:        |:x:        |Lists          |lLen           |
 |[lSize](#lSize)            |Get the length/size of a list                                                              |:x:        |:x:        |Lists          |lSize          |
 |[lPop](#lPop)              |Remove and get the first element in a list                                                 |:x:        |:x:        |Lists          |lPop           |
-|[lPush](#lPush)            |Prepend one or multiple values to a list                                                   |:x:        |:x:        |Lists          |lPush          |
+|[lPush](#lPush)            |Prepend one or multiple values to a list                                                   |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lPush          |
 |[lPushx](#lPushx)          |Prepend a value to a list, only if the list exists                                         |:x:        |:x:        |Lists          |lPushx         |
 |[lRange](#lRange)          |Get a range of elements from a list                                                        |:x:        |:x:        |Lists          |lRange         |
 |[lGetRange](#lGetRange)    |Get a range of elements from a list                                                        |:x:        |:x:        |Lists          |lGetRange      |
