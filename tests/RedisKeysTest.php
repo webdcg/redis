@@ -22,6 +22,54 @@ class RedisKeysTest extends TestCase
     }
 
     /** @test */
+    public function redis_keys_restore_string_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $value = $this->redis->dump($this->key);
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_keys_restore_int_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertTrue($this->redis->set($this->key, 123));
+        $value = $this->redis->dump($this->key);
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(123, $this->redis->get($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_keys_restore_float_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertTrue($this->redis->set($this->key, 123.456));
+        $value = $this->redis->dump($this->key);
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->restore($this->keyOptional, 0, $value));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(123.456, $this->redis->get($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
     public function redis_keys_type_string()
     {
         // Start from scratch

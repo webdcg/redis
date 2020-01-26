@@ -18,17 +18,17 @@
 |[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |scan    |
 |[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |migrate    |
 |[move](#move)              | Move a key to another database                                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |move    |
-|[object](#object)          | Inspect the internals of Redis objects                                            |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |object    |
-|[persist](#persist)        | Remove the expiration from a key                                                  |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |persist    |
-|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |randomKey    |
-|[rename](#rename)          | Rename a key                                                                      |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |rename    |
-|[renameKey](#renameKey)    | Rename a key                                                                      |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |renameKey    |
-|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |renameNx    |
-|[type](#type)              | Determine the type stored at key                                                  |:x:                    |:x:                    |Keys           |type    |
+|[object](#object)          | Inspect the internals of Redis objects                                            |:white\_check\_mark:                    |:x:                    |Keys           |object    |
+|[persist](#persist)        | Remove the expiration from a key                                                  |:white\_check\_mark:                    |:x:                    |Keys           |persist    |
+|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:white\_check\_mark:                    |:x:                    |Keys           |randomKey    |
+|[rename](#rename)          | Rename a key                                                                      |:white\_check\_mark:                    |:x:                    |Keys           |rename    |
+|[renameKey](#renameKey)    | Rename a key                                                                      |:white\_check\_mark:                    |:x:                    |Keys           |renameKey    |
+|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:white\_check\_mark:                    |:x:                    |Keys           |renameNx    |
+|[type](#type)              | Determine the type stored at key                                                  |:white\_check\_mark:                    |:x:                    |Keys           |type    |
 |[sort](#sort)              | Sort the elements in a list, set or sorted set                                    |:x:                    |:x:                    |Keys           |sort    |
-|[ttl](#ttl)                | Get the time to live for a key                                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |ttl    |
-|[pttl](#pttl)              | Get the time to live for a key                                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |pttl    |
-|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:x:                    |:x:                    |Keys           |restore    |
+|[ttl](#ttl)                | Get the time to live for a key                                                    |:white\_check\_mark:                    |:x:                    |Keys           |ttl    |
+|[pttl](#pttl)              | Get the time to live for a key                                                    |:white\_check\_mark:                    |:x:                    |Keys           |pttl    |
+|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:white\_check\_mark:                    |:x:                    |Keys           |restore    |
 
 ## del
 

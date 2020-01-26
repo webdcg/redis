@@ -385,8 +385,18 @@ trait Keys
         return $this->redis->pttl($key);
     }
 
-    public function restore(): bool
+    /**
+     * Restore a key from the result of a DUMP operation.
+     * See: https://redis.io/commands/restore.
+     *
+     * @param  string $key   The key name
+     * @param  int    $ttl   How long the key should live (if zero, no expire will be set on the key)
+     * @param  string $value String (binary). The Redis encoded key value (from DUMP)
+     *
+     * @return mixed
+     */
+    public function restore(string $key, int $ttl = 0, string $value = '')
     {
-        return false;
+        return $this->redis->restore($key, $ttl, $value);
     }
 }
