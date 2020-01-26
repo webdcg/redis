@@ -56,19 +56,29 @@ trait Lists
      * See: https://redis.io/commands/lpush.
      *
      * @param  string $key
-     * @param  string $value    Value to push in key
+     * @param  mixed $value     Value to push in key
      *
      * @return int              LONG The new length of the list in case of
      *                          success, FALSE in case of Failure.
      */
-    public function lPush(string $key, string $value): int
+    public function lPush(string $key, $value): int
     {
         return $this->redis->lPush($key, $value);
     }
 
-    public function lPushx(): bool
+    /**
+     * Adds the string value to the head (left) of the list if the list exists.
+     * See: https://redis.io/commands/lpushx.
+     *
+     * @param  string $key
+     * @param  mixed $value    Value to push in key
+     *
+     * @return int              LONG The new length of the list in case of
+     *                          success, FALSE in case of Failure.
+     */
+    public function lPushx(string $key, $value): int
     {
-        return false;
+        return $this->redis->lPushx($key, $value);
     }
 
     public function lRange(): bool
