@@ -18,7 +18,7 @@ class RedisHashesTest extends TestCase
         $this->key = 'Hashes';
     }
 
-        /** @test */
+    /** @test */
     public function redis_hashes_hstrlen()
     {
         // Start from scratch
