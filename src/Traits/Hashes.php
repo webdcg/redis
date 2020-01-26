@@ -215,8 +215,20 @@ trait Hashes
         return false;
     }
 
-    public function hStrLen(): bool
+    /**
+     * Get the string length of the value associated with field in the hash
+     * stored at key.
+     * See: https://redis.io/commands/hstrlen.
+     *
+     * @param  string $key
+     * @param  string $field
+     *
+     * @return int              LONG the string length of the value associated
+     *                          with field, or zero when field is not present
+     *                          in the hash or key does not exist at all.
+     */
+    public function hStrLen(string $key, string $field): int
     {
-        return false;
+        return $this->redis->hStrLen($key, $field);
     }
 }

@@ -18,6 +18,22 @@ class RedisHashesTest extends TestCase
         $this->key = 'Hashes';
     }
 
+        /** @test */
+    public function redis_hashes_hstrlen()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'tswift', 'Taylor Swift'));
+        $this->assertEquals('Taylor Swift', $this->redis->hGet($this->key, 'tswift'));
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'millaj', 'Milla Jovovich'));
+        $this->assertEquals('Milla Jovovich', $this->redis->hGet($this->key, 'millaj'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(12, $this->redis->hStrLen($this->key, 'tswift'));
+        $this->assertEquals(14, $this->redis->hStrLen($this->key, 'millaj'));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
     /** @test */
     public function redis_hashes_hmget()
     {
