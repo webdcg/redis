@@ -43,7 +43,7 @@ trait Hashes
      * @param  string $key
      * @param  string $field
      *
-     * @return string       STRING The value, if the command executed successfully
+     * @return mixed       STRING The value, if the command executed successfully
      *                      BOOL FALSE in case of failure
      */
     public function hGet(string $key, string $field)
@@ -133,9 +133,20 @@ trait Hashes
         return false;
     }
 
-    public function hMSet(): bool
+    /**
+     * Fills in a whole hash. Non-string values are converted to string, using
+     * the standard (string) cast. NULL values are stored as empty strings.
+     * See: https://redis.io/commands/hmset.
+     *
+     * @param  string $key
+     * @param  array  $hash key → value array
+     *
+     * @return bool         TRUE if the field was set, FALSE if it was
+     *                      already present.
+     */
+    public function hMSet(string $key, array $hash): bool
     {
-        return false;
+        return $this->redis->hMSet($key, $hash);
     }
 
     /**

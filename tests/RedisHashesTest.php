@@ -19,6 +19,26 @@ class RedisHashesTest extends TestCase
     }
 
     /** @test */
+    public function redis_hashes_hmset()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $hash = [
+            'tswift' => 'Taylor Swift',
+            'millaj' => 'Milla Jovovich',
+            'kbeck' => 'Kate Beckinsale',
+        ];
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->hMSet($this->key, $hash));
+        $this->assertEquals($hash['tswift'], $this->redis->hGet($this->key, 'tswift'));
+        $this->assertEquals($hash['millaj'], $this->redis->hGet($this->key, 'millaj'));
+        $this->assertEquals($hash['kbeck'], $this->redis->hGet($this->key, 'kbeck'));
+        // --------------------  T E S T  --------------------
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_hashes_hincrbyfloat()
     {
         // Start from scratch
