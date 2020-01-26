@@ -13,9 +13,9 @@
 |[lSize](#lSize)            |Get the length/size of a list                                                              |:x:        |:x:        |Lists          |lSize          |
 |[lPop](#lPop)              |Remove and get the first element in a list                                                 |:x:        |:x:        |Lists          |lPop           |
 |[lPush](#lPush)            |Prepend one or multiple values to a list                                                   |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lPush          |
-|[lPushx](#lPushx)          |Prepend a value to a list, only if the list exists                                         |:x:        |:x:        |Lists          |lPushx         |
-|[lRange](#lRange)          |Get a range of elements from a list                                                        |:x:        |:x:        |Lists          |lRange         |
-|[lGetRange](#lGetRange)    |Get a range of elements from a list                                                        |:x:        |:x:        |Lists          |lGetRange      |
+|[lPushx](#lPushx)          |Prepend a value to a list, only if the list exists                                         |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lPushx         |
+|[lRange](#lRange)          |Get a range of elements from a list                                                        |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lRange         |
+|[lGetRange](#lGetRange)    |Get a range of elements from a list                                                        |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lGetRange      |
 |[lRem](#lRem)              |Remove elements from a list                                                                |:x:        |:x:        |Lists          |lRem           |
 |[lRemove](#lRemove)        |Remove elements from a list                                                                |:x:        |:x:        |Lists          |lRemove        |
 |[lSet](#lSet)              |Set the value of an element in a list by its index                                         |:x:        |:x:        |Lists          |lSet           |

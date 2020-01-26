@@ -81,14 +81,42 @@ trait Lists
         return $this->redis->lPushx($key, $value);
     }
 
-    public function lRange(): bool
+    /**
+     * Returns the specified elements of the list stored at the specified key
+     * in the range [start, end]. start and stop are interpreted as indices:
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     * See: https://redis.io/commands/lrange.
+     *
+     * @param  string      $key
+     * @param  int|integer $start
+     * @param  int|integer $end
+     *
+     * @return array                Array containing the values in specified range.
+     */
+    public function lRange(string $key, int $start = 0, int $end = -1): array
     {
-        return false;
+        return $this->redis->lRange($key, $start, $end);
     }
 
-    public function lGetRange(): bool
+    /**
+     * Returns the specified elements of the list stored at the specified key
+     * in the range [start, end]. start and stop are interpreted as indices:
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     * Note: lGetRange is an alias for lRange and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/lrange.
+     *
+     * @param  string      $key
+     * @param  int|integer $start
+     * @param  int|integer $end
+     *
+     * @return array                Array containing the values in specified range.
+     */
+    public function lGetRange(string $key, int $start = 0, int $end = -1): array
     {
-        return false;
+        return $this->redis->lRange($key, $start, $end);
     }
 
     public function lRem(): bool
