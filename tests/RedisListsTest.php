@@ -18,6 +18,35 @@ class RedisListsTest extends TestCase
         $this->key = 'Lists';
     }
 
+    /** @test */
+    public function redis_lists_lsize()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(10, $this->redis->lSize($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_llen()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(10, $this->redis->lLen($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 
     /** @test */
     public function redis_lists_rpushx_float()

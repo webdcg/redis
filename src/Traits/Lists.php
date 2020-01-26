@@ -34,14 +34,40 @@ trait Lists
         return false;
     }
 
-    public function lLen(): bool
+    /**
+     * Returns the size of a list identified by Key.
+     * If the list didn't exist or is empty, the command returns 0. If the data
+     * type identified by Key is not a list, the command return FALSE.
+     * See: https://redis.io/commands/llen.
+     *
+     * @param  string $key
+     *
+     * @return int          LONG The size of the list identified by Key exists.
+     *                      BOOL FALSE if the data type identified by Key is
+     *                      not list.
+     */
+    public function lLen(string $key): int
     {
-        return false;
+        return $this->redis->lLen($key);
     }
 
-    public function lSize(): bool
+    /**
+     * Returns the size of a list identified by Key.
+     * If the list didn't exist or is empty, the command returns 0. If the data
+     * type identified by Key is not a list, the command return FALSE.
+     * Note: lSize is an alias for lLen and will be removed in future versions
+     * of phpredis.
+     * See: https://redis.io/commands/llen.
+     *
+     * @param  string $key
+     *
+     * @return int          LONG The size of the list identified by Key exists.
+     *                      BOOL FALSE if the data type identified by Key is
+     *                      not list.
+     */
+    public function lSize(string $key): int
     {
-        return false;
+        return $this->redis->lLen($key);
     }
 
     public function lPop(): bool
