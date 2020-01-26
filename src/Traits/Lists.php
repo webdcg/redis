@@ -19,14 +19,48 @@ trait Lists
         return false;
     }
 
-    public function lIndex(): bool
+    /**
+     * Return the specified element of the list stored at the specified key.
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     * Return FALSE in case of a bad index or a key that doesn't point to a
+     * list.
+     * See: https://redis.io/commands/lindex.
+     *
+     * @param  string $key
+     * @param  int    $index
+     *
+     * @return string       String the element at this index
+     *                      Bool FALSE if the key identifies a non-string data
+     *                      type, or no value corresponds to this index in the
+     *                      list Key.
+     */
+    public function lIndex(string $key, int $index): string
     {
-        return false;
+        return $this->redis->lIndex($key, $index);
     }
 
-    public function lGet(): bool
+    /**
+     * Return the specified element of the list stored at the specified key.
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     * Return FALSE in case of a bad index or a key that doesn't point to a
+     * list.
+     * Note: lGet is an alias for lIndex and will be removed in future versions
+     * of phpredis.
+     * See: https://redis.io/commands/lindex.
+     *
+     * @param  string $key
+     * @param  int    $index
+     *
+     * @return string       String the element at this index
+     *                      Bool FALSE if the key identifies a non-string data
+     *                      type, or no value corresponds to this index in the
+     *                      list Key.
+     */
+    public function lGet(string $key, int $index): string
     {
-        return false;
+        return $this->redis->lIndex($key, $index);
     }
 
     public function lInsert(): bool

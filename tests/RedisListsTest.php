@@ -19,6 +19,114 @@ class RedisListsTest extends TestCase
     }
 
     /** @test */
+    public function redis_lists_lGet_float()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i * 1.1));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1.1, $this->redis->lGet($this->key, 0));
+        $this->assertEquals(11, $this->redis->lGet($this->key, 9));
+        $this->assertEquals(11, $this->redis->lGet($this->key, -1));
+        $this->assertEquals('', $this->redis->lGet($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lGet_int()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->lGet($this->key, 0));
+        $this->assertEquals(10, $this->redis->lGet($this->key, 9));
+        $this->assertEquals(10, $this->redis->lGet($this->key, -1));
+        $this->assertEquals('', $this->redis->lGet($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lGet_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, "Item{$i}"));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals("Item1", $this->redis->lGet($this->key, 0));
+        $this->assertEquals("Item10", $this->redis->lGet($this->key, 9));
+        $this->assertEquals("Item10", $this->redis->lGet($this->key, -1));
+        $this->assertEquals('', $this->redis->lGet($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lindex_float()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i * 1.1));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1.1, $this->redis->lIndex($this->key, 0));
+        $this->assertEquals(11, $this->redis->lIndex($this->key, 9));
+        $this->assertEquals(11, $this->redis->lIndex($this->key, -1));
+        $this->assertEquals('', $this->redis->lIndex($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lindex_int()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, $i));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->lIndex($this->key, 0));
+        $this->assertEquals(10, $this->redis->lIndex($this->key, 9));
+        $this->assertEquals(10, $this->redis->lIndex($this->key, -1));
+        $this->assertEquals('', $this->redis->lIndex($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_lindex_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        for ($i = 1; $i <= 10; $i++) {
+            // --------------------  T E S T  --------------------
+            $this->assertEquals($i, $this->redis->rPush($this->key, "Item{$i}"));
+        }
+        // --------------------  T E S T  --------------------
+        $this->assertEquals("Item1", $this->redis->lIndex($this->key, 0));
+        $this->assertEquals("Item10", $this->redis->lIndex($this->key, 9));
+        $this->assertEquals("Item10", $this->redis->lIndex($this->key, -1));
+        $this->assertEquals('', $this->redis->lIndex($this->key, 10));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_lists_lsize()
     {
         // Start from scratch
