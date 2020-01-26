@@ -41,9 +41,17 @@ trait Hashes
         return $this->redis->hGet($key, $field);
     }
 
-    public function hGetAll(): bool
+    /**
+     * Returns the whole hash, as an array of strings indexed by strings.
+     * See: https://redis.io/commands/hgetall.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the contents of the hash.
+     */
+    public function hGetAll(string $key): array
     {
-        return false;
+        return $this->redis->hGetAll($key);
     }
 
     public function hIncrBy(): bool
