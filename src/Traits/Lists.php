@@ -212,13 +212,36 @@ trait Lists
         return false;
     }
 
-    public function rPush(): bool
+    /**
+     * Adds the string value to the tail (right) of the list. Creates the list
+     * if the key didn't exist. If the key exists and is not a list, FALSE is
+     * returned.
+     * See: https://redis.io/commands/rpush.
+     *
+     * @param  string $key
+     * @param  mixed $value
+     *
+     * @return int          LONG The new length of the list in case of success,
+     *                      FALSE in case of Failure.
+     */
+    public function rPush(string $key, $value): int
     {
-        return false;
+        return $this->redis->rPush($key, $value);
     }
 
-    public function rPushX(): bool
+    /**
+     * Adds the string value to the tail (right) of the list if the list exists.
+     * FALSE in case of Failure.
+     * See: https://redis.io/commands/rpushx.
+     *
+     * @param  string $key
+     * @param  mixed $value
+     *
+     * @return int          LONG The new length of the list in case of success,
+     *                      FALSE in case of Failure.
+     */
+    public function rPushX(string $key, $value): int
     {
-        return false;
+        return $this->redis->rPushX($key, $value);
     }
 }
