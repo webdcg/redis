@@ -20,9 +20,19 @@ trait Hashes
         return $this->redis->hDel($key, ...$fields);
     }
 
-    public function hExists(): bool
+    /**
+     * Verify if the specified member exists in a key.
+     * See: https://redis.io/commands/hexists.
+     *
+     * @param  string $key
+     * @param  string $field
+     *
+     * @return bool             If the member exists in the hash table, return
+     *                          TRUE, otherwise return FALSE.
+     */
+    public function hExists(string $key, string $field): bool
     {
-        return false;
+        return $this->redis->hExists($key, $field);
     }
 
     /**
@@ -43,6 +53,8 @@ trait Hashes
 
     /**
      * Returns the whole hash, as an array of strings indexed by strings.
+     * The order is random and corresponds to redis' own internal
+     * representation of the set structure.
      * See: https://redis.io/commands/hgetall.
      *
      * @param  string $key

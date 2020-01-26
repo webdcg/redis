@@ -19,6 +19,19 @@ class RedisHashesTest extends TestCase
     }
 
     /** @test */
+    public function redis_hashes_hexists()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'field', 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->hExists($this->key, 'field'));
+        $this->assertFalse($this->redis->hExists($this->key, 'field2'));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_hashes_hgetall()
     {
         // Start from scratch
