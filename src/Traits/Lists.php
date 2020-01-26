@@ -255,9 +255,20 @@ trait Lists
         return $this->redis->lRem($key, $value, $count);
     }
 
-    public function lSet(): bool
+    /**
+     * Set the list at index with the new value.
+     *
+     * @param  string $key
+     * @param  int    $index
+     * @param  mixed  $value
+     *
+     * @return bool             TRUE if the new value was set. FALSE if the
+     *                          index is out of range, or data type identified
+     *                          by key is not a list.
+     */
+    public function lSet(string $key, int $index, $value): bool
     {
-        return false;
+        return $this->redis->lSet($key, $index, $value);
     }
 
     /**

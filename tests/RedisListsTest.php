@@ -20,6 +20,24 @@ class RedisListsTest extends TestCase
     }
 
     /** @test */
+    public function redis_lists_lset()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 'B'));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 'C'));
+        $this->assertEquals('A', $this->redis->lIndex($this->key, 0));
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->lSet($this->key, 0, 'X'));
+        $this->assertEquals('X', $this->redis->lIndex($this->key, 0));
+        $this->assertTrue($this->redis->lSet($this->key, -1, 'Z'));
+        $this->assertEquals('Z', $this->redis->lIndex($this->key, -1));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_lists_lpop()
     {
         // Start from scratch
