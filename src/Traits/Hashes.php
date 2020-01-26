@@ -56,9 +56,18 @@ trait Hashes
         return false;
     }
 
-    public function hKeys(): bool
+    /**
+     * Returns the keys in a hash, as an array of strings.
+     * See: https://redis.io/commands/hkeys.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the keys of the hash.
+     *                      This works like PHP's array_keys().
+     */
+    public function hKeys(string $key): array
     {
-        return false;
+        return $this->redis->hKeys($key);
     }
 
     /**
