@@ -58,6 +58,8 @@ trait Hashes
 
     /**
      * Returns the keys in a hash, as an array of strings.
+     * The order is random and corresponds to redis' own internal
+     * representation of the set structure.
      * See: https://redis.io/commands/hkeys.
      *
      * @param  string $key
@@ -128,9 +130,20 @@ trait Hashes
         return $this->redis->hSetNx($key, $field, $value);
     }
 
-    public function hVals(): bool
+    /**
+     * Returns the values in a hash, as an array of strings.
+     * The order is random and corresponds to redis' own internal
+     * representation of the set structure.
+     * See: https://redis.io/commands/hvals.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the values of the hash.
+     *                      This works like PHP's array_values().
+     */
+    public function hVals(string $key): array
     {
-        return false;
+        return $this->redis->hVals($key);
     }
 
     public function hScan(): bool
