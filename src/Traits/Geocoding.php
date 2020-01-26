@@ -53,12 +53,12 @@ trait Geocoding
      * Return the distance between two members in a geospatial set. If units
      * are passed it must be one of the following values:.
      *
-     * @param  string $key      [description]
-     * @param  string $member1  [description]
-     * @param  string $member2  [description]
-     * @param  string $unit     [description]
+     * @param  string $key
+     * @param  string $member1
+     * @param  string $member2
+     * @param  string $unit
      *
-     * @return float            [description]
+     * @return float
      */
     public function geoDist(string $key, string $member1, string $member2, string $unit = 'm'): float
     {
@@ -69,12 +69,12 @@ trait Geocoding
      * Return members of a set with geospatial information that are within the
      * radius specified by the caller.
      *
-     * @param  string $key       [description]
-     * @param  float  $longitude [description]
-     * @param  float  $latitude  [description]
-     * @param  float  $radius    [description]
-     * @param  string $unit      [description]
-     * @param  array  $options   [description]
+     * @param  string $key
+     * @param  float  $longitude
+     * @param  float  $latitude
+     * @param  float  $radius
+     * @param  string $unit
+     * @param  array  $options
      *
      * @return array            When no STORE option is passed, this function
      *                          returns an array of results.
@@ -95,11 +95,11 @@ trait Geocoding
      * longitude and latitude as the "source" you pass an existing member in
      * the geospatial set.
      *
-     * @param  string $key     [description]
-     * @param  string $member  [description]
-     * @param  float  $radius  [description]
-     * @param  string $unit    [description]
-     * @param  array  $options [description]
+     * @param  string $key
+     * @param  string $member
+     * @param  float  $radius
+     * @param  string $unit
+     * @param  array  $options
      *
      * @return array
      */
