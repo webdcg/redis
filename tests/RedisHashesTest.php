@@ -23,8 +23,38 @@ class RedisHashesTest extends TestCase
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        $this->assertTrue($this->redis->set($this->key, 'value'));
-        $this->assertEquals('value', $this->redis->get($this->key));
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'field', 'value'));
+        $this->assertEquals('value', $this->redis->hGet($this->key, 'field'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->hDel($this->key, 'field'));
+        // --------------------  T E S T  --------------------
+        $this->assertFalse($this->redis->hGet($this->key, 'field'));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_hashes_hget()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'field', 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals('value', $this->redis->hGet($this->key, 'field'));
+        // Cleanup used keys
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_hashes_hset()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->hSet($this->key, 'field', 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals('value', $this->redis->hGet($this->key, 'field'));
+        // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 }

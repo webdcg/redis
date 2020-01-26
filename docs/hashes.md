@@ -3,21 +3,21 @@
 
 |Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method         |
 |---                            |---                                                                    |:-:                    |:-:                    |---            |---            |
-|[hDel](#hDel)                  |Delete one or more hash fields                                         |:x:                    |:x:                    |Hashes         |hDel           |
-|[hExists](#hExists)            |Determine if a hash field exists                                       |:x:                    |:x:                    |Hashes         |hExists        |
-|[hGet](#hGet)                  |Get the value of a hash field                                          |:x:                    |:x:                    |Hashes         |hGet           |
-|[hGetAll](#hGetAll)            |Get all the fields and values in a hash                                |:x:                    |:x:                    |Hashes         |hGetAll        |
-|[hIncrBy](#hIncrBy)            |Increment the integer value of a hash field by the given number        |:x:                    |:x:                    |Hashes         |hIncrBy        |
-|[hIncrByFloat](#hIncrByFloat)  |Increment the float value of a hash field by the given amount          |:x:                    |:x:                    |Hashes         |hIncrByFloat   |
-|[hKeys](#hKeys)                |Get all the fields in a hash                                           |:x:                    |:x:                    |Hashes         |hKeys          |
-|[hLen](#hLen)                  |Get the number of fields in a hash                                     |:x:                    |:x:                    |Hashes         |hLen           |
-|[hMGet](#hMGet)                |Get the values of all the given hash fields                            |:x:                    |:x:                    |Hashes         |hMGet          |
-|[hMSet](#hMSet)                |Set multiple hash fields to multiple values                            |:x:                    |:x:                    |Hashes         |hMSet          |
-|[hSet](#hSet)                  |Set the string value of a hash field                                   |:x:                    |:x:                    |Hashes         |hSet           |
-|[hSetNx](#hSetNx)              |Set the value of a hash field, only if the field does not exist        |:x:                    |:x:                    |Hashes         |hSetNx         |
-|[hVals](#hVals)                |Get all the values in a hash                                           |:x:                    |:x:                    |Hashes         |hVals          |
-|[hScan](#hScan)                |Scan a hash key for members                                            |:x:                    |:x:                    |Hashes         |hScan          |
-|[hStrLen](#hStrLen)            |Get the string length of the value associated with field in the hash   |:x:                    |:x:                    |Hashes         |hStrLen        |
+|[hDel](#hDel)                  |Delete one or more hash fields                                         |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hDel           |
+|[hExists](#hExists)            |Determine if a hash field exists                                       |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hExists        |
+|[hGet](#hGet)                  |Get the value of a hash field                                          |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hGet           |
+|[hGetAll](#hGetAll)            |Get all the fields and values in a hash                                |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hGetAll        |
+|[hIncrBy](#hIncrBy)            |Increment the integer value of a hash field by the given number        |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hIncrBy        |
+|[hIncrByFloat](#hIncrByFloat)  |Increment the float value of a hash field by the given amount          |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hIncrByFloat   |
+|[hKeys](#hKeys)                |Get all the fields in a hash                                           |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hKeys          |
+|[hLen](#hLen)                  |Get the number of fields in a hash                                     |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hLen           |
+|[hMGet](#hMGet)                |Get the values of all the given hash fields                            |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hMGet          |
+|[hMSet](#hMSet)                |Set multiple hash fields to multiple values                            |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hMSet          |
+|[hSet](#hSet)                  |Set the string value of a hash field                                   |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hSet           |
+|[hSetNx](#hSetNx)              |Set the value of a hash field, only if the field does not exist        |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hSetNx         |
+|[hVals](#hVals)                |Get all the values in a hash                                           |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hVals          |
+|[hScan](#hScan)                |Scan a hash key for members                                            |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hScan          |
+|[hStrLen](#hStrLen)            |Get the string length of the value associated with field in the hash   |:white\_check\_mark:                    |:white\_check\_mark:                    |Hashes         |hStrLen        |
 
 ## hDel
 
