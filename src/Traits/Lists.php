@@ -168,14 +168,38 @@ trait Lists
         return false;
     }
 
-    public function lTrim(): bool
+    /**
+     * Trims an existing list so that it will contain only a specified range
+     * of elements.
+     * See: https://redis.io/commands/ltrim.
+     *
+     * @param  string      $key
+     * @param  int|integer $start
+     * @param  int|integer $stop
+     *
+     * @return bool                 return FALSE if the key identify a non-list value.
+     */
+    public function lTrim(string $key, int $start = 0, int $stop = -1): bool
     {
-        return false;
+        return $this->redis->lTrim($key, $start, $stop);
     }
 
-    public function listTrim(): bool
+    /**
+     * Trims an existing list so that it will contain only a specified range
+     * of elements.
+     * Note: listTrim is an alias for lTrim and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/ltrim.
+     *
+     * @param  string      $key
+     * @param  int|integer $start
+     * @param  int|integer $stop
+     *
+     * @return bool                 return FALSE if the key identify a non-list value.
+     */
+    public function listTrim(string $key, int $start = 0, int $stop = -1): bool
     {
-        return false;
+        return $this->redis->lTrim($key, $start, $stop);
     }
 
     public function rPop(): bool
