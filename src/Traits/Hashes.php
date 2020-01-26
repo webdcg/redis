@@ -61,9 +61,18 @@ trait Hashes
         return false;
     }
 
-    public function hLen(): bool
+    /**
+     * Returns the length of a hash, in number of items.
+     * See: https://redis.io/commands/hlen.
+     *
+     * @param  string $key
+     *
+     * @return int          LONG the number of items in a hash, FALSE if the
+     *                      key doesn't exist or isn't a hash.
+     */
+    public function hLen(string $key): int
     {
-        return false;
+        return $this->redis->hLen($key);
     }
 
     public function hMGet(): bool
