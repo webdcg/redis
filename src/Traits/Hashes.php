@@ -82,9 +82,20 @@ trait Hashes
         return $this->redis->hIncrBy($key, $field, $increment);
     }
 
-    public function hIncrByFloat(): bool
+    /**
+     * Increments the value of a hash member by the provided float value.
+     * See: https://redis.io/commands/hincrbyfloat.
+     *
+     * @param  string $key
+     * @param  string $field
+     * @param  float  $increment    (float) value that will be added to the
+     *                              member's value
+     *
+     * @return float                the new value
+     */
+    public function hIncrByFloat(string $key, string $field, float $increment = 1.0): float
     {
-        return false;
+        return $this->redis->hIncrByFloat($key, $field, $increment);
     }
 
     /**
