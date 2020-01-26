@@ -128,9 +128,20 @@ trait Hashes
         return $this->redis->hLen($key);
     }
 
-    public function hMGet(): bool
+    /**
+     * Retrieve the values associated to the specified fields in the hash.
+     * See: https://redis.io/commands/hmget.
+     *
+     * @param  string $key
+     * @param  array  $fields
+     *
+     * @return array            An array of elements, the values of the
+     *                          specified fields in the hash, with the hash
+     *                          keys as array keys.
+     */
+    public function hMGet(string $key, array $fields): array
     {
-        return false;
+        return $this->redis->hMGet($key, $fields);
     }
 
     /**
