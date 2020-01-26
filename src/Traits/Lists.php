@@ -127,9 +127,18 @@ trait Lists
         return $this->redis->lLen($key);
     }
 
-    public function lPop(): bool
+    /**
+     * Return and remove the first element of the list.
+     * See: https://redis.io/commands/lpop.
+     *
+     * @param  string $key
+     *
+     * @return string       STRING if command executed successfully
+     *                      BOOL FALSE in case of failure (empty list)
+     */
+    public function lPop(string $key): string
     {
-        return false;
+        return $this->redis->lPop($key);
     }
 
     /**
