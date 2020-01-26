@@ -160,73 +160,243 @@ trait Keys
         return $this->redis->keys($pattern);
     }
 
-    public function scan(): bool
+    /**
+     * Scan the keyspace for keys.
+     *
+     * @param  [type]      $iterator [description]
+     * @param  string      $pattern  [description]
+     * @param  int|int $count    [description]
+     *
+     * @return mixed|array|bool     This function will return an array of keys
+     *                              or FALSE if Redis returned zero keys.
+     */
+    public function scan($iterator = null, string $pattern = '*', int $count = 10)
     {
-        return false;
+        return $this->redis->scan($iterator, $pattern, $count);
     }
 
-    public function migrate(): bool
-    {
-        return false;
+    /**
+     * Migrates a key to a different Redis instance.
+     * Note:: Redis introduced migrating multiple keys in 3.0.6, so you must
+     * have at least that version in order to call migrate with an array of
+     * keys.
+     * See: https://redis.io/commands/migrate.
+     *
+     * @param  string $host         The destination host
+     * @param  int    $port         The TCP port to connect to.
+     * @param  array  $keys         [description]
+     * @param  int    $db           The target DB.
+     * @param  int    $timeout      The maximum amount of time given to this transfer.
+     * @param  bool   $copy         (optional) Should we send the COPY flag to redis.
+     * @param  bool   $replace      (optional) Should we send the REPLACE flag to redis.
+     *
+     * @return bool                 Simple string reply: The command returns OK
+     *                              on success, or NOKEY if no keys were found
+     *                              in the source instance.
+     */
+    public function migrate(
+        string $host,
+        int $port,
+        array $keys,
+        int $db,
+        int $timeout,
+        ?bool $copy = false,
+        ?bool $replace = false
+    ): bool {
+        return $this->redis->migrate($host, $port, $keys, $db, $timeout);
     }
 
-    public function move(): bool
+    /**
+     * Moves a key to a different database.
+     * See: https://redis.io/commands/move.
+     *
+     * @param  string $key  key, the key to move.
+     * @param  int    $db   dbindex, the database number to move the key to.
+     *
+     * @return bool         TRUE in case of success, FALSE in case of failure.
+     */
+    public function move(string $key, int $db): bool
     {
-        return false;
+        return $this->redis->move($key, $db);
     }
 
-    public function object(): bool
+    /**
+     * Describes the object pointed to by a key.
+     * See: https://redis.io/commands/object.
+     *
+     * @param  string $subcommand       The information to retrieve.
+     * @param  string $key              The key to fetch that data from.
+     *
+     * @return mixed|string|int|bool    STRING for "encoding", LONG for
+     *                                  "refcount" and "idletime", FALSE if the
+     *                                  key doesn't exist.
+     */
+    public function object(string $subcommand, string $key)
     {
-        return false;
+        return $this->redis->object($subcommand, $key);
     }
 
-    public function persist(): bool
+    /**
+     * Remove the expiration timer from a key.
+     * See: https://redis.io/commands/persist.
+     *
+     * @param  string $key [description]
+     *
+     * @return bool         TRUE if a timeout was removed, FALSE if the key
+     *                      didn’t exist or didn’t have an expiration timer.
+     */
+    public function persist(string $key): bool
     {
-        return false;
+        return $this->redis->persist($key);
     }
 
-    public function randomKey(): bool
+    /**
+     * Returns a random key.
+     * See: https://redis.io/commands/randomkey.
+     *
+     * @return string   An existing key in redis.
+     */
+    public function randomKey(): string
     {
-        return false;
+        return $this->redis->randomKey();
     }
 
-    public function rename(): bool
+    /**
+     * Renames key to newkey. It returns an error when key does not exist.
+     * If newkey already exists it is overwritten.
+     * See: https://redis.io/commands/rename.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function rename(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->rename($key, $newKey);
     }
 
-    public function renameKey(): bool
+    /**
+     * Renames key to newkey. It returns an error when key does not exist.
+     * If newkey already exists it is overwritten.
+     * Note: renameKey is an alias for rename and will be removed in future versions of phpredis.
+     * See: https://redis.io/commands/rename.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function renameKey(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->rename($key, $newKey);
     }
 
-    public function renameNx(): bool
+    /**
+     * Renames key to newkey,. but will not replace a key if the destination
+     * already exists. This is the same behaviour as setNx.
+     * See: https://redis.io/commands/renamenx.
+     *
+     * @param  string $key      Source key, the key to rename.
+     * @param  string $newKey   Destination key, the new name for the key.
+     *
+     * @return bool             TRUE in case of success, FALSE in case of failure.
+     */
+    public function renameNx(string $key, string $newKey): bool
     {
-        return false;
+        return $this->redis->renameNx($key, $newKey);
     }
 
-    public function type(): bool
+    /**
+     * Returns the type of data pointed by a given key.
+     * See: https://redis.io/commands/type.
+     *
+     * @param  string $key [description]
+     *
+     * @return mixed        Depending on the type of the data pointed by the key,
+     *                      this method will return the following value:
+     *                      string: Redis::REDIS_STRING
+     *                      set: Redis::REDIS_SET
+     *                      list: Redis::REDIS_LIST
+     *                      zset: Redis::REDIS_ZSET
+     *                      hash: Redis::REDIS_HASH
+     *                      other: Redis::REDIS_NOT_FOUND
+     */
+    public function type(string $key)
     {
-        return false;
+        return $this->redis->type($key);
     }
 
-    public function sort(): bool
+    /**
+     * Sort the elements in a list, set or sorted set.
+     * See: https://redis.io/commands/sort.
+     *
+     * @param  string $key
+     * @param  array $options   [key => value, ...] - optional, with the
+     *                          following keys and values:
+     *                          'by' => 'some_pattern_*',
+     *                          'limit' => [0, 1],
+     *                          'get' => 'some_other_pattern_*' or an array of patterns,
+     *                          'sort' => 'asc' or 'desc',
+     *                          'alpha' => TRUE,
+     *                          'store' => 'external-key'
+     *
+     * @return array            An array of values, or a number corresponding
+     *                          to the number of elements stored if that was used.
+     */
+    public function sort(string $key, array $options = []): array
     {
-        return false;
+        if (empty($options)) {
+            return $this->redis->sort($key);
+        }
+
+        if (!$this->is_associative($pairs)) {
+            throw new NotAssociativeArrayException('The array provided is not associative.', 1);
+        }
+
+        return $this->redis->sort($key, $options);
     }
 
-    public function ttl(): bool
+    /**
+     * Returns the time to live left for a given key in seconds (ttl).
+     * See: https://redis.io/commands/ttl.
+     *
+     * @param  string $key
+     *
+     * @return int          The time to live in seconds. If the key has no ttl,
+     *                      -1 will be returned, and -2 if the key doesn't exist.
+     */
+    public function ttl(string $key): int
     {
-        return false;
+        return $this->redis->ttl($key);
     }
 
-    public function pttl(): bool
+    /**
+     * Returns the time to live left for a given key in milliseconds (pttl).
+     * See: https://redis.io/commands/pttl.
+     *
+     * @param  string $key
+     *
+     * @return int          The time to live in seconds. If the key has no ttl,
+     *                      -1 will be returned, and -2 if the key doesn't exist.
+     */
+    public function pttl(string $key): int
     {
-        return false;
+        return $this->redis->pttl($key);
     }
 
-    public function restore(): bool
+    /**
+     * Restore a key from the result of a DUMP operation.
+     * See: https://redis.io/commands/restore.
+     *
+     * @param  string $key   The key name
+     * @param  int    $ttl   How long the key should live (if zero, no expire will be set on the key)
+     * @param  string $value String (binary). The Redis encoded key value (from DUMP)
+     *
+     * @return mixed
+     */
+    public function restore(string $key, int $ttl = 0, string $value = '')
     {
-        return false;
+        return $this->redis->restore($key, $ttl, $value);
     }
 }

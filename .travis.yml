@@ -25,6 +25,7 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
   - sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
+  - sudo redis-server /etc/redis/redis.conf --port 6381
 
 script:
   - "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"

@@ -4,11 +4,6 @@ namespace Webdcg\Redis\Traits;
 
 use Webdcg\Redis\Exceptions\NotAssociativeArrayException;
 
-function is_associative(array $array)
-{
-    return array_keys($array) !== range(0, count($array) - 1);
-}
-
 trait Strings
 {
     /**
@@ -177,7 +172,7 @@ trait Strings
      */
     public function mSet(array $pairs): bool
     {
-        if (! is_associative($pairs)) {
+        if (!$this->is_associative($pairs)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 
@@ -195,7 +190,7 @@ trait Strings
      */
     public function mSetNX(array $pairs): bool
     {
-        if (! is_associative($pairs)) {
+        if (!$this->is_associative($pairs)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 

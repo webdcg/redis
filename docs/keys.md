@@ -15,20 +15,20 @@
 |[pexpireAt](#pexpireAt)    |Set the expiration for a key as a UNIX timestamp with millisecond precision        |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
 |[keys](#keys)              |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |keys       |
 |[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |getKeys    |
-|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:x:                    |:x:                    |Keys           |scan    |
-|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:x:                    |:x:                    |Keys           |migrate    |
-|[move](#move)              | Move a key to another database                                                    |:x:                    |:x:                    |Keys           |move    |
-|[object](#object)          | Inspect the internals of Redis objects                                            |:x:                    |:x:                    |Keys           |object    |
-|[persist](#persist)        | Remove the expiration from a key                                                  |:x:                    |:x:                    |Keys           |persist    |
-|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:x:                    |:x:                    |Keys           |randomKey    |
-|[rename](#rename)          | Rename a key                                                                      |:x:                    |:x:                    |Keys           |rename    |
-|[renameKey](#renameKey)    | Rename a key                                                                      |:x:                    |:x:                    |Keys           |renameKey    |
-|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:x:                    |:x:                    |Keys           |renameNx    |
-|[type](#type)              | Determine the type stored at key                                                  |:x:                    |:x:                    |Keys           |type    |
+|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |scan    |
+|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |migrate    |
+|[move](#move)              | Move a key to another database                                                    |:white\_check\_mark:                    |:white\_check\_mark:                    |Keys           |move    |
+|[object](#object)          | Inspect the internals of Redis objects                                            |:white\_check\_mark:                    |:x:                    |Keys           |object    |
+|[persist](#persist)        | Remove the expiration from a key                                                  |:white\_check\_mark:                    |:x:                    |Keys           |persist    |
+|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:white\_check\_mark:                    |:x:                    |Keys           |randomKey    |
+|[rename](#rename)          | Rename a key                                                                      |:white\_check\_mark:                    |:x:                    |Keys           |rename    |
+|[renameKey](#renameKey)    | Rename a key                                                                      |:white\_check\_mark:                    |:x:                    |Keys           |renameKey    |
+|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:white\_check\_mark:                    |:x:                    |Keys           |renameNx    |
+|[type](#type)              | Determine the type stored at key                                                  |:white\_check\_mark:                    |:x:                    |Keys           |type    |
 |[sort](#sort)              | Sort the elements in a list, set or sorted set                                    |:x:                    |:x:                    |Keys           |sort    |
-|[ttl](#ttl)                | Get the time to live for a key                                                    |:x:                    |:x:                    |Keys           |ttl    |
-|[pttl](#pttl)              | Get the time to live for a key                                                    |:x:                    |:x:                    |Keys           |pttl    |
-|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:x:                    |:x:                    |Keys           |restore    |
+|[ttl](#ttl)                | Get the time to live for a key                                                    |:white\_check\_mark:                    |:x:                    |Keys           |ttl    |
+|[pttl](#pttl)              | Get the time to live for a key                                                    |:white\_check\_mark:                    |:x:                    |Keys           |pttl    |
+|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:white\_check\_mark:                    |:x:                    |Keys           |restore    |
 
 ## del
 
@@ -411,4 +411,136 @@ array(3) {
   [2] => string(4) "key2"
 }
 */
+```
+
+## scan
+
+_**Description**_: Scan the keyspace for keys.
+
+##### *Prototype*  
+
+```php
+public function scan($iterator = null, string $pattern = '*', int $count = 10) {
+    return $this->redis->scan($iterator, $pattern, $count);
+}
+```
+
+##### *Parameters*
+
+- *iterator*: String. LONG (reference): Iterator, initialized to NULL.
+- *pattern*: String. Pattern to match, using '\*' as a wildcard.
+- *count*: Integer. LONG, Optional: Count of keys per iteration (only a suggestion to Redis).
+
+##### *Return value*
+
+*array*: Array, boolean: This function will return an array of keys or FALSE if Redis returned zero keys.
+
+##### *Example*
+
+```php
+/* Without enabling Redis::SCAN_RETRY (default condition) */
+$it = NULL;
+do {
+    // Scan for some keys
+    $arr_keys = $redis->scan($it);
+
+    // Redis may return empty results, so protect against that
+    if ($arr_keys !== FALSE) {
+        foreach($arr_keys as $str_key) {
+            echo "Here is a key: $str_key\n";
+        }
+    }
+} while ($it > 0);
+echo "No more keys to scan!\n";
+
+/* With Redis::SCAN_RETRY enabled */
+$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+$it = NULL;
+
+/* phpredis will retry the SCAN command if empty results are returned from the
+   server, so no empty results check is required. */
+while ($arr_keys = $redis->scan($it)) {
+    foreach ($arr_keys as $str_key) {
+        echo "Here is a key: $str_key\n";
+    }
+}
+echo "No more keys to scan!\n";
+```
+
+## migrate
+
+_**Description**_: Migrates a key to a different Redis instance.
+
+Note:: Redis introduced migrating multiple keys in 3.0.6, so you must have at least that version in order to call migrate with an array of keys.
+
+##### *Prototype*  
+
+```php
+public function migrate(
+    string $host,
+    int $port,
+    array $keys,
+    int $db,
+    int $timeout,
+    ?bool $copy = false,
+    ?bool $replace = false
+) : bool {
+    return $this->redis->migrate($host, $port, $keys, $db, $timeout);
+}
+```
+
+##### *Parameters*
+
+- *host*: String. The destination host.
+- *port*: Integer. The TCP port to connect to.
+- *keys*: Array. Key(s) to be moved.
+- *db*: Integer. The target DB.
+- *timeout*: Integer. The maximum amount of time given to this transfer.
+- *copy*: Boolean. (optional) Should we send the COPY flag to redis.
+- *replace*: Boolean. (optional) Should we send the REPLACE flag to redis.
+
+##### *Return value*
+
+*array*: Array of string: The keys that match a certain pattern.
+
+##### *Example*
+
+```php
+$redis->migrate('backup', 6379, 'foo', 0, 3600);
+$redis->migrate('backup', 6379, 'foo', 0, 3600, true, true); /* copy and replace */
+$redis->migrate('backup', 6379, 'foo', 0, 3600, false, true); /* just REPLACE flag */
+
+/* Migrate multiple keys (requires Redis >= 3.0.6)
+$redis->migrate('backup', 6379, ['key1', 'key2', 'key3'], 0, 3600);
+```
+
+## move
+
+_**Description**_: Moves a key to a different database.
+
+##### *Prototype*  
+
+```php
+public function move(string $key, int $db): bool {
+    return $this->redis->move($key, $db);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. the key to move.
+- *db*: Integer. dbindex, the database number to move the key to.
+
+##### *Return value*
+
+*bool*: true in case of success, false in case of failure.
+
+##### *Example*
+
+```php
+$redis->select(0);      // switch to DB 0
+$redis->set('x', '42'); // write 42 to x
+$redis->move('x', 1);   // move to DB 1
+$redis->select(1);      // switch to DB 1
+$redis->get('x');       // will return 42
 ```

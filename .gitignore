@@ -4,3 +4,5 @@ vendor
 coverage
 .idea
 clover.xml
+.ecs_cache
+.phpintel
