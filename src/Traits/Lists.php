@@ -2,6 +2,8 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Exception;
+
 trait Lists
 {
     public function blPop(): bool
@@ -63,9 +65,30 @@ trait Lists
         return $this->redis->lIndex($key, $index);
     }
 
-    public function lInsert(): bool
+    /**
+     * Insert value in the list before or after the pivot value.
+     * The parameter options specify the position of the insert (before or
+     * after). If the list didn't exists, or the pivot didn't exists, the
+     * value is not inserted.
+     * See: https://redis.io/commands/linsert.
+     *
+     * @param  string $key
+     * @param  string $position b => Redis::BEFORE | a => Redis::AFTER
+     * @param  mixed $pivot
+     * @param  mixed $value
+     *
+     * @return int              The number of the elements in the list, -1 if
+     *                          the pivot didn't exists.
+     */
+    public function lInsert(string $key, string $position, $pivot, $value): int
     {
-        return false;
+        if (strtolower($position) == 'a') {
+            return $this->redis->lInsert($key, \Redis::AFTER, $pivot, $value);
+        } elseif (strtolower($position) == 'b') {
+            return $this->redis->lInsert($key, \Redis::BEFORE, $pivot, $value);
+        } else {
+            throw new Exception("Error Processing Request", 1);
+        }
     }
 
     /**

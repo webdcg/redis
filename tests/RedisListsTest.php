@@ -2,6 +2,7 @@
 
 namespace Webdcg\Redis\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
 
@@ -16,6 +17,61 @@ class RedisListsTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Lists';
+    }
+
+    /** @test */
+    public function redis_lists_linsert_exception()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->expectException(Exception::class);
+        $this->assertEquals(2, $this->redis->lInsert($this->key, 'c', 'A', 'X'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(['X', 'A'], $this->redis->lRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_linsert_before()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->lInsert($this->key, 'b', 'A', 'X'));
+        $this->assertEquals(-1, $this->redis->lInsert($this->key, 'b', 'B', 'Y'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(['X', 'A'], $this->redis->lRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_linsert_after()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->lInsert($this->key, 'a', 'A', 'X'));
+        $this->assertEquals(-1, $this->redis->lInsert($this->key, 'a', 'B', 'Y'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(['A', 'X'], $this->redis->lRange($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_lists_linsert_empty()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->lInsert($this->key, 'a', 'A', 'X'));
+        $this->assertEquals(0, $this->redis->lInsert($this->key, 'b', 'A', 'X'));
     }
 
     /** @test */
