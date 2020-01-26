@@ -66,9 +66,20 @@ trait Hashes
         return $this->redis->hGetAll($key);
     }
 
-    public function hIncrBy(): bool
+    /**
+     * Increments the value of a member from a hash by a given amount.
+     * See: https://redis.io/commands/hincrby.
+     *
+     * @param  string      $key
+     * @param  string      $field       (integer) value that will be added to
+     *                                  the member's value
+     * @param  int|integer $increment
+     *
+     * @return int                      LONG the new value
+     */
+    public function hIncrBy(string $key, string $field, int $increment = 1): int
     {
-        return false;
+        return $this->redis->hIncrBy($key, $field, $increment);
     }
 
     public function hIncrByFloat(): bool
@@ -122,13 +133,13 @@ trait Hashes
      *
      * @param  string $key
      * @param  string $field
-     * @param  string $value
+     * @param  mixed $value
      *
      * @return int          LONG 1 if value didn't exist and was added
      *                      successfully, 0 if the value was already present
      *                      and was replaced, FALSE if there was an error.
      */
-    public function hSet(string $key, string $field, string $value): int
+    public function hSet(string $key, string $field, $value): int
     {
         return $this->redis->hSet($key, $field, $value);
     }
