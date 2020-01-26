@@ -21,6 +21,11 @@ jobs:
         host port: 6380
         container port: 6379
         redis password: 'secret'
+    - uses: getong/redis-action@v1
+      with:
+        redis version: '5.0.7'
+        host port: 6381
+        container port: 6379
 
     - uses: actions/checkout@v1
 
