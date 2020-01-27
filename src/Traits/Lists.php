@@ -305,9 +305,17 @@ trait Lists
         return $this->redis->lTrim($key, $start, $stop);
     }
 
-    public function rPop(): bool
+    /**
+     * Returns and removes the last element of the list.
+     *
+     * @param  string $key
+     *
+     * @return mixed        STRING if command executed successfully
+     *                      BOOL FALSE in case of failure (empty list)
+     */
+    public function rPop(string $key)
     {
-        return false;
+        return $this->redis->rPop($key);
     }
 
     public function rPopLPush(): bool
