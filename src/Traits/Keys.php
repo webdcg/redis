@@ -2,6 +2,8 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Webdcg\Redis\Exceptions\NotAssociativeArrayException;
+
 trait Keys
 {
     /**
@@ -329,6 +331,7 @@ trait Keys
 
     /**
      * Sort the elements in a list, set or sorted set.
+     * ONLY WORKS WITH NUMERIC VALUES
      * See: https://redis.io/commands/sort.
      *
      * @param  string $key
@@ -341,16 +344,16 @@ trait Keys
      *                          'alpha' => TRUE,
      *                          'store' => 'external-key'
      *
-     * @return array            An array of values, or a number corresponding
+     * @return mixed|array|int  An array of values, or a number corresponding
      *                          to the number of elements stored if that was used.
      */
-    public function sort(string $key, array $options = []): array
+    public function sort(string $key, array $options = [])
     {
         if (empty($options)) {
             return $this->redis->sort($key);
         }
 
-        if (!$this->is_associative($pairs)) {
+        if (!$this->is_associative($options)) {
             throw new NotAssociativeArrayException('The array provided is not associative.', 1);
         }
 
