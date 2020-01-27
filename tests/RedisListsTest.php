@@ -10,6 +10,7 @@ class RedisListsTest extends TestCase
 {
     protected $redis;
     protected $key;
+    protected $keyOptional;
 
     protected function setUp(): void
     {
@@ -17,6 +18,58 @@ class RedisListsTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Lists';
+        $this->keyOptional = 'Lists:Optional';
+    }
+
+    /** @test */
+    public function redis_lists_rpoplpush_float()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1.1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 2.2));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 3.33));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(3.33, $this->redis->rPopLPush($this->key, $this->keyOptional));
+        $this->assertEquals([1.1, 2.2], $this->redis->lRange($this->key));
+        $this->assertEquals([3.33], $this->redis->lRange($this->keyOptional));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_lists_rpoplpush_int()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 22));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 333));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(333, $this->redis->rPopLPush($this->key, $this->keyOptional));
+        $this->assertEquals([1, 22], $this->redis->lRange($this->key));
+        $this->assertEquals([333], $this->redis->lRange($this->keyOptional));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_lists_rpoplpush_string()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 'B'));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals('C', $this->redis->rPopLPush($this->key, $this->keyOptional));
+        $this->assertEquals(['A', 'B'], $this->redis->lRange($this->key));
+        $this->assertEquals(['C'], $this->redis->lRange($this->keyOptional));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
     }
 
     /** @test */

@@ -307,20 +307,32 @@ trait Lists
 
     /**
      * Returns and removes the last element of the list.
+     * See: https://redis.io/commands/rpop.
      *
      * @param  string $key
      *
-     * @return mixed        STRING if command executed successfully
+     * @return string        STRING if command executed successfully
      *                      BOOL FALSE in case of failure (empty list)
      */
-    public function rPop(string $key)
+    public function rPop(string $key): string
     {
         return $this->redis->rPop($key);
     }
 
-    public function rPopLPush(): bool
+    /**
+     * Pops a value from the tail of a list, and pushes it to the front of
+     * another list. Also return this value. (redis >= 1.1)
+     * See: https://redis.io/commands/rpoplpush.
+     *
+     * @param  string $sourceKey
+     * @param  string $destinationKey
+     *
+     * @return string                   The element that was moved in case of
+     *                                  success, FALSE in case of failure.
+     */
+    public function rPopLPush(string $sourceKey, string $destinationKey): string
     {
-        return false;
+        return $this->redis->rPopLPush($sourceKey, $destinationKey);
     }
 
     /**
