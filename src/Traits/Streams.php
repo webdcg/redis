@@ -33,7 +33,7 @@ trait Streams
         if (is_null($maxLenght) && is_null($approximate)) {
             return $this->redis->xAdd($key, $id, $message);
         }
-        
+
         return $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
     }
 
