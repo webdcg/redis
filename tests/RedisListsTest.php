@@ -29,9 +29,33 @@ class RedisListsTest extends TestCase
      * a single element on a Queue.
      * See: https://symfony.com/doc/current/index.html#gsc.tab=0.
      *
-     * @return [type] [description]
+     * @return
      */
-    protected function producer()
+    protected function produceSingleTail()
+    {
+        $this->producer = new PhpProcess(
+            <<<EOF
+<?php
+require __DIR__ . '/vendor/autoload.php';
+use Webdcg\Redis\Redis;
+\$redis = new Redis();
+\$redis->connect();
+usleep(1000 * random_int(50, 100));
+\$redis->rPush({$this->key}, 'A');
+EOF
+        );
+        $this->producer->run();
+    }
+
+    /**
+     * Queue Producer
+     * Using the Symfony Process component, we connect to Redis and create
+     * a single element on a Queue.
+     * See: https://symfony.com/doc/current/index.html#gsc.tab=0.
+     *
+     * @return
+     */
+    protected function produceSingleHead()
     {
         $this->producer = new PhpProcess(
             <<<EOF
@@ -48,11 +72,22 @@ EOF
     }
 
     /** @test */
+    public function redis_lists_brpop()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->produceSingleTail();
+        // --------------------  T E S T  --------------------
+        $this->assertEquals([$this->key, 'A'], $this->redis->brPop([$this->key], 2));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+    }
+
+    /** @test */
     public function redis_lists_blpop()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        $this->producer();
+        $this->produceSingleHead();
         // --------------------  T E S T  --------------------
         $this->assertEquals([$this->key, 'A'], $this->redis->blPop([$this->key], 2));
         $this->assertEquals(0, $this->redis->exists($this->key));
