@@ -7,6 +7,7 @@ use Webdcg\Redis\Traits\Connection;
 use Webdcg\Redis\Traits\Geocoding;
 use Webdcg\Redis\Traits\Hashes;
 use Webdcg\Redis\Traits\HyperLogLogs;
+use Webdcg\Redis\Traits\Introspection;
 use Webdcg\Redis\Traits\Keys;
 use Webdcg\Redis\Traits\Lists;
 use Webdcg\Redis\Traits\Pubsub;
@@ -24,6 +25,7 @@ class Redis
     use Geocoding;
     use Hashes;
     use HyperLogLogs;
+    use Introspection;
     use Lists;
     use Keys;
     use Pubsub;
