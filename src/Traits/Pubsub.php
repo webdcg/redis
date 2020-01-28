@@ -2,7 +2,7 @@
 
 namespace Webdcg\Redis\Traits;
 
-trait PubSub
+trait Pubsub
 {
     public function pSubscribe(): bool
     {
