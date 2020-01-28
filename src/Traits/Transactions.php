@@ -4,14 +4,29 @@ namespace Webdcg\Redis\Traits;
 
 trait Transactions
 {
-    public function multi(): bool
+    /**
+     * Marks the start of a transaction block. Subsequent commands will be
+     * queued for atomic execution using EXEC.
+     * See: https://redis.io/commands/multi.
+     *
+     * @return transaction context
+     */
+    public function multi()
     {
-        return false;
+        return $this->redis->multi();
     }
 
-    public function exec(): bool
+    /**
+     * Executes all previously queued commands in a transaction and restores
+     * the connection state to normal.
+     * See: https://redis.io/commands/exec.
+     *
+     * @return array    each element being the reply to each of the commands
+     *                  in the atomic transaction.
+     */
+    public function exec(): array
     {
-        return false;
+        return $this->redis->exec();
     }
 
     public function discard(): bool

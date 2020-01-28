@@ -15,6 +15,7 @@ use Webdcg\Redis\Traits\Sets;
 use Webdcg\Redis\Traits\SortedSets;
 use Webdcg\Redis\Traits\Streams;
 use Webdcg\Redis\Traits\Strings;
+use Webdcg\Redis\Traits\Transactions;
 
 class Redis
 {
@@ -31,6 +32,7 @@ class Redis
     use SortedSets;
     use Streams;
     use Strings;
+    use Transactions;
 
     protected $redis;
 
