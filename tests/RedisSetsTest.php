@@ -2,9 +2,7 @@
 
 namespace Webdcg\Redis\Tests;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Process\PhpProcess;
 use Webdcg\Redis\Redis;
 
 class RedisSetsTest extends TestCase
