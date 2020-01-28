@@ -19,7 +19,7 @@ trait Sets
         if (is_array($members[0])) {
             return $this->redis->sAdd($key, ...$members[0]);
         }
-        
+
         return $this->redis->sAdd($key, ...$members);
     }
 
