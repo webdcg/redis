@@ -9,6 +9,7 @@ use Webdcg\Redis\Traits\Hashes;
 use Webdcg\Redis\Traits\HyperLogLogs;
 use Webdcg\Redis\Traits\Keys;
 use Webdcg\Redis\Traits\Lists;
+use Webdcg\Redis\Traits\PubSub;
 use Webdcg\Redis\Traits\Sets;
 use Webdcg\Redis\Traits\SortedSets;
 use Webdcg\Redis\Traits\Streams;
@@ -23,6 +24,7 @@ class Redis
     use HyperLogLogs;
     use Lists;
     use Keys;
+    use PubSub;
     use Sets;
     use SortedSets;
     use Streams;
