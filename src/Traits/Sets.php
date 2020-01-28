@@ -23,14 +23,34 @@ trait Sets
         return $this->redis->sAdd($key, ...$members);
     }
 
-    public function sCard(): bool
+    /**
+     * Returns the cardinality of the set identified by key.
+     * See: https://redis.io/commands/scard.
+     *
+     * @param  string $key
+     *
+     * @return int          the cardinality of the set identified by key,
+     *                      0 if the set doesn't exist.
+     */
+    public function sCard(string $key): int
     {
-        return false;
+        return $this->redis->sCard($key);
     }
 
-    public function sSize(): bool
+    /**
+     * Returns the cardinality of the set identified by key.
+     * See: https://redis.io/commands/scard.
+     * Note: sSize is an alias for sCard and will be removed in future
+     * versions of phpredis.
+     *
+     * @param  string $key
+     *
+     * @return int          the cardinality of the set identified by key,
+     *                      0 if the set doesn't exist.
+     */
+    public function sSize(string $key): int
     {
-        return false;
+        return $this->redis->sCard($key);
     }
 
     public function sDiff(): bool
