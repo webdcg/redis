@@ -3,6 +3,7 @@
 namespace Webdcg\Redis\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Webdcg\Redis\Exceptions\NotAssociativeArrayException;
 use Webdcg\Redis\Redis;
 
 class RedisKeysTest extends TestCase
@@ -19,6 +20,88 @@ class RedisKeysTest extends TestCase
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Keys';
         $this->keyOptional = 'KeysOptional';
+    }
+
+    /** @test */
+    public function redis_keys_sort_store()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 3));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 2));
+        $this->assertEquals(4, $this->redis->rPush($this->key, 4));
+        $this->assertEquals([1, 3, 2, 4], $this->redis->lRange($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(4, $this->redis->sort($this->key, ['store' => $this->keyOptional]));
+        $this->assertEquals([1, 2, 3, 4], $this->redis->lRange($this->keyOptional));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_sort_alpha()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'A'));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 'Z'));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 'B'));
+        $this->assertEquals(4, $this->redis->rPush($this->key, 'Y'));
+        $this->assertEquals(['A', 'Z', 'B', 'Y'], $this->redis->lRange($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(['A', 'B', 'Y', 'Z'], $this->redis->sort($this->key, ['alpha' => true]));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_sort_desc()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 3));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 2));
+        $this->assertEquals(4, $this->redis->rPush($this->key, 4));
+        $this->assertEquals([1, 3, 2, 4], $this->redis->lRange($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals([4, 3, 2, 1], $this->redis->sort($this->key, ['sort' => 'desc']));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_sort_exception()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 3));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 2));
+        $this->assertEquals(4, $this->redis->rPush($this->key, 4));
+        $this->assertEquals([1, 3, 2, 4], $this->redis->lRange($this->key));
+        // --------------------  T E S T  --------------------
+        $this->expectException(NotAssociativeArrayException::class);
+        $this->assertEquals([1, 2, 3, 4], $this->redis->sort($this->key, ['by', 'limit']));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_keys_sort()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 1));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 3));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 2));
+        $this->assertEquals(4, $this->redis->rPush($this->key, 4));
+        $this->assertEquals([1, 3, 2, 4], $this->redis->lRange($this->key));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals([1, 2, 3, 4], $this->redis->sort($this->key));
+        // Cleanup used keys
+        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
