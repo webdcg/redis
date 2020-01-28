@@ -3,7 +3,7 @@
 
 |Command                    |Description                                                    |Supported  |Tested     |Class/Trait    |Method         |
 |---                        |---                                                            |:-:        |:-:        |---            |---            |
-|[sAdd](#sAdd)              |Add one or more members to a set.                              |:x:        |:x:        |Sets           |sAdd           |
+|[sAdd](#sAdd)              |Add one or more members to a set.                              |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sAdd           |
 |[sCard](#sCard)            |Get the number of members in a set.                            |:x:        |:x:        |Sets           |sCard          |
 |[sSize](#sSize)            |Get the number of members in a set.                            |:x:        |:x:        |Sets           |sSize          |
 |[sDiff](#sDiff)            |Subtract multiple sets.                                        |:x:        |:x:        |Sets           |sDiff          |

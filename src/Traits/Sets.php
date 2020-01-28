@@ -4,9 +4,23 @@ namespace Webdcg\Redis\Traits;
 
 trait Sets
 {
-    public function sAdd(): bool
+    /**
+     * Adds a value to the set value stored at key. If this value is already
+     * in the set, FALSE is returned.
+     * See: https://redis.io/commands/sadd.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements added to the set.
+     */
+    public function sAdd(string $key, ...$members): int
     {
-        return false;
+        if (is_array($members[0])) {
+            return $this->redis->sAdd($key, ...$members[0]);
+        }
+        
+        return $this->redis->sAdd($key, ...$members);
     }
 
     public function sCard(): bool

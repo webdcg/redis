@@ -9,6 +9,7 @@ use Webdcg\Redis\Traits\Hashes;
 use Webdcg\Redis\Traits\HyperLogLogs;
 use Webdcg\Redis\Traits\Keys;
 use Webdcg\Redis\Traits\Lists;
+use Webdcg\Redis\Traits\Sets;
 use Webdcg\Redis\Traits\Strings;
 
 class Redis
@@ -20,6 +21,7 @@ class Redis
     use HyperLogLogs;
     use Lists;
     use Keys;
+    use Sets;
     use Strings;
 
     protected $redis;
