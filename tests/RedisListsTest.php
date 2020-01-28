@@ -4,6 +4,7 @@ namespace Webdcg\Redis\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Process\PhpProcess;
 use Webdcg\Redis\Redis;
 
 class RedisListsTest extends TestCase
@@ -11,6 +12,7 @@ class RedisListsTest extends TestCase
     protected $redis;
     protected $key;
     protected $keyOptional;
+    protected $producer;
 
     protected function setUp(): void
     {
@@ -19,6 +21,41 @@ class RedisListsTest extends TestCase
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Lists';
         $this->keyOptional = 'Lists:Optional';
+    }
+
+    /**
+     * Queue Producer
+     * Using the Symfony Process component, we connect to Redis and create
+     * a single element on a Queue.
+     * See: https://symfony.com/doc/current/index.html#gsc.tab=0.
+     *
+     * @return [type] [description]
+     */
+    protected function producer()
+    {
+        $this->producer = new PhpProcess(
+            <<<EOF
+<?php
+require __DIR__ . '/vendor/autoload.php';
+use Webdcg\Redis\Redis;
+\$redis = new Redis();
+\$redis->connect();
+usleep(1000 * random_int(50, 100));
+\$redis->lPush({$this->key}, 'A');
+EOF
+        );
+        $this->producer->run();
+    }
+
+    /** @test */
+    public function redis_lists_blpop()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->producer();
+        // --------------------  T E S T  --------------------
+        $this->assertEquals([$this->key, 'A'], $this->redis->blPop([$this->key], 2));
+        $this->assertEquals(0, $this->redis->exists($this->key));
     }
 
     /** @test */

@@ -3,8 +3,8 @@
 
 |Command                    |Description                                                                                |Supported  |Tested     |Class/Trait    |Method         |
 |---                        |---                                                                                        |:-:        |:-:        |---            |---            |
-|[blPop](#blPop)            |Remove and get the first/last element in a list                                            |:x:        |:x:        |Lists          |blPop          |
-|[brPop](#brPop)            |Remove and get the first/last element in a list                                            |:x:        |:x:        |Lists          |brPop          |
+|[blPop](#blPop)            |Remove and get the first element in a list                                            |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |blPop          |
+|[brPop](#brPop)            |Remove and get the last element in a list                                            |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |brPop          |
 |[bRPopLPush](#bRPopLPush)  |Pop a value from a list, push it to another list and return it                             |:x:        |:x:        |Lists          |bRPopLPush     |
 |[lIndex](#lIndex)          |Get an element from a list by its index                                                    |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lIndex         |
 |[lGet](#lGet)              |Get an element from a list by its index                                                    |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |lGet           |
