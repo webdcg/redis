@@ -22,6 +22,37 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_ssize_multiple()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(3, $this->redis->sAdd($this->key, 'A', 'B', 'C'));
+        $this->assertEquals(3, $this->redis->sSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_ssize_duplicate()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(0, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_ssize_single()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_scard_multiple()
     {
         // Start from scratch
