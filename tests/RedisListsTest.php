@@ -72,13 +72,27 @@ EOF
     }
 
     /** @test */
+    public function redis_lists_brpoplpush()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->produceSingleTail();
+        // --------------------  T E S T  --------------------
+        $this->assertEquals('A', $this->redis->bRPopLPush($this->key, $this->keyOptional, 1));
+        $this->assertEquals('A', $this->redis->lPop($this->keyOptional));
+        $this->assertEquals(0, $this->redis->exists($this->key));
+        $this->assertEquals(0, $this->redis->exists($this->keyOptional));
+    }
+
+    /** @test */
     public function redis_lists_brpop()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->produceSingleTail();
         // --------------------  T E S T  --------------------
-        $this->assertEquals([$this->key, 'A'], $this->redis->brPop([$this->key], 2));
+        $this->assertEquals([$this->key, 'A'], $this->redis->brPop([$this->key], 1));
         $this->assertEquals(0, $this->redis->exists($this->key));
     }
 
@@ -89,7 +103,7 @@ EOF
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->produceSingleHead();
         // --------------------  T E S T  --------------------
-        $this->assertEquals([$this->key, 'A'], $this->redis->blPop([$this->key], 2));
+        $this->assertEquals([$this->key, 'A'], $this->redis->blPop([$this->key], 1));
         $this->assertEquals(0, $this->redis->exists($this->key));
     }
 

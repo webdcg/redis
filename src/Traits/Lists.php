@@ -44,9 +44,21 @@ trait Lists
         return $this->redis->brPop($keys, $timeout);
     }
 
-    public function bRPopLPush(): bool
+    /**
+     * A blocking version of rPopLPush, with an integral timeout in the third
+     * parameter.
+     * See: https://redis.io/commands/brpoplpush.
+     *
+     * @param  string $sourceKey
+     * @param  string $destinationKey
+     * @param  int    $timeout
+     *
+     * @return string                   The element that was moved in case of
+     *                                  success, FALSE in case of timeout.
+     */
+    public function bRPopLPush(string $sourceKey, string $destinationKey, int $timeout): string
     {
-        return false;
+        return $this->redis->bRPopLPush($sourceKey, $destinationKey, $timeout);
     }
 
     /**
