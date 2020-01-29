@@ -53,9 +53,16 @@ trait Sets
         return $this->redis->sCard($key);
     }
 
-    public function sDiff(): bool
+    /**
+     * Performs the difference between N sets and returns it.
+     *
+     * @param  splat $keys
+     *
+     * @return array
+     */
+    public function sDiff(...$keys): array
     {
-        return false;
+        return $this->redis->sDiff(...$keys);
     }
 
     public function sDiffStore(): bool
