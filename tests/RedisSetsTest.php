@@ -22,6 +22,32 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_contains_finds_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(true, $this->redis->sContains($this->key, 'A'));
+        $this->assertTrue($this->redis->sContains($this->key, 'A'));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_contains_does_not_find_the_element()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(false, $this->redis->sContains($this->key, 'B'));
+        $this->assertFalse($this->redis->sContains($this->key, 'B'));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_ismember_finds_elements()
     {
         // Start from scratch

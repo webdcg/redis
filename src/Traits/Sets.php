@@ -131,9 +131,21 @@ trait Sets
         return $this->redis->sIsMember($key, $member);
     }
 
-    public function sContains(): bool
+    /**
+     * Checks if member is a member of the set stored at the key key.
+     * Note: sContains is an alias for sIsMember and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/sismember.
+     *
+     * @param  string $key
+     * @param  mixed $member
+     *
+     * @return bool             TRUE if value is a member of the set at key key,
+     *                          FALSE otherwise.
+     */
+    public function sContains(string $key, $member): bool
     {
-        return false;
+        return $this->redis->sIsMember($key, $member);
     }
 
     public function sMembers(): bool
