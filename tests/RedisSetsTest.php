@@ -52,7 +52,7 @@ class RedisSetsTest extends TestCase
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
-    
+
     /** @test */
     public function redis_sets_smembers_does_not_find_elements()
     {
