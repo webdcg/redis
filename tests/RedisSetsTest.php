@@ -41,7 +41,7 @@ class RedisSetsTest extends TestCase
         $this->assertContains('B', $this->redis->sInter($this->key, $this->keyOptional));
         $this->assertContains('C', $this->redis->sInter($this->key, $this->keyOptional));
         // --------------------  T E S T  --------------------
-        
+
         $this->assertEquals(1, $this->redis->sAdd($destinationKey, 'B'));
         $this->assertEquals(1, $this->redis->sAdd($destinationKey, 'D'));
 
