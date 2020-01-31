@@ -180,9 +180,23 @@ trait Sets
         return $this->redis->sMembers($key);
     }
 
-    public function sMove(): bool
+    /**
+     * Moves the specified member from the set at sourceKey to the set at
+     * destinationKey.
+     * See: https://redis.io/commands/smove.
+     *
+     * @param  string $sourceKey
+     * @param  string $destinationKey
+     * @param  mixed $member
+     *
+     * @return bool                 If the operation is successful, return TRUE.
+     *                              If the sourceKey and/or destinationKey didn't
+     *                              exist, and/or the member didn't exist in sourceKey,
+     *                              FALSE is returned.
+     */
+    public function sMove(string $sourceKey, string $destinationKey, $member): bool
     {
-        return false;
+        return $this->redis->sMove($sourceKey, $destinationKey, $member);
     }
 
     public function sPop(): bool

@@ -22,6 +22,53 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_smove_existing_keys_missing_member()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'B'));
+
+        // --------------------  T E S T  --------------------
+        $this->assertFalse($this->redis->sMove($this->key, $this->keyOptional, 'A'));
+
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_sets_smove_non_existing_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+
+        // --------------------  T E S T  --------------------
+        $this->assertFalse($this->redis->sMove($this->key, $this->keyOptional, 'A'));
+    }
+
+    /** @test */
+    public function redis_sets_smove_existing_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'B'));
+
+        // --------------------  T E S T  --------------------
+        $this->assertTrue($this->redis->sMove($this->key, $this->keyOptional, 'A'));
+
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
     public function redis_sets_sGetMembers_does_not_find_elements()
     {
         // Start from scratch
