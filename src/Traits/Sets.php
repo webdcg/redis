@@ -80,9 +80,24 @@ trait Sets
         return $this->redis->sDiffStore($destinationKey, ...$keys);
     }
 
-    public function sInter(): bool
+    /**
+     * Returns the members of a set resulting from the intersection of all the
+     * sets held at the specified keys.
+     * If just a single key is specified, then this command produces the members
+     * of this set. If one of the keys is missing, FALSE is returned.
+     * See: https://redis.io/commands/sinter.
+     *
+     * @param  splat $keys  key1, key2, keyN: keys identifying the different
+     *                      sets on which we will apply the intersection.
+     *
+     * @return array        Contain the result of the intersection between
+     *                      those keys. If the intersection between the
+     *                      different sets is empty, the return value will be
+     *                      empty array.
+     */
+    public function sInter(...$keys): array
     {
-        return false;
+        return $this->redis->sInter(...$keys);
     }
 
     public function sInterStore(): bool

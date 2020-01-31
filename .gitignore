@@ -1,4 +1,5 @@
 build
+docs/html
 composer.lock
 vendor
 coverage
