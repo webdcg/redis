@@ -22,6 +22,70 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_sGetMembers_does_not_find_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($this->redis->sGetMembers($this->key));
+        $this->assertContains('A', $this->redis->sGetMembers($this->key));
+        $this->assertNotContains('C', $this->redis->sGetMembers($this->key));
+        $this->assertArraySubset(['A', 'B'], $this->redis->sGetMembers($this->key));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_sGetMembers_finds_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($this->redis->sGetMembers($this->key));
+        $this->assertContains('A', $this->redis->sGetMembers($this->key));
+        $this->assertContains('B', $this->redis->sGetMembers($this->key));
+        $this->assertArraySubset(['A', 'B'], $this->redis->sGetMembers($this->key));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+    
+    /** @test */
+    public function redis_sets_smembers_does_not_find_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($this->redis->sMembers($this->key));
+        $this->assertContains('A', $this->redis->sMembers($this->key));
+        $this->assertNotContains('C', $this->redis->sMembers($this->key));
+        $this->assertArraySubset(['A', 'B'], $this->redis->sMembers($this->key));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_smembers_finds_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($this->redis->sMembers($this->key));
+        $this->assertContains('A', $this->redis->sMembers($this->key));
+        $this->assertContains('B', $this->redis->sMembers($this->key));
+        $this->assertArraySubset(['A', 'B'], $this->redis->sMembers($this->key));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_contains_finds_elements()
     {
         // Start from scratch

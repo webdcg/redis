@@ -148,14 +148,36 @@ trait Sets
         return $this->redis->sIsMember($key, $member);
     }
 
-    public function sMembers(): bool
+    /**
+     * Returns the contents of a set.
+     * The order is random and corresponds to redis' own internal representation
+     * of the set structure.
+     * See: https://redis.io/commands/smembers.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the contents of the set.
+     */
+    public function sMembers(string $key): array
     {
-        return false;
+        return $this->redis->sMembers($key);
     }
 
-    public function sGetMembers(): bool
+    /**
+     * Returns the contents of a set.
+     * The order is random and corresponds to redis' own internal representation
+     * of the set structure.
+     * Note: sGetMembers is an alias for sMembers and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/smembers.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the contents of the set.
+     */
+    public function sGetMembers(string $key): array
     {
-        return false;
+        return $this->redis->sMembers($key);
     }
 
     public function sMove(): bool
