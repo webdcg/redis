@@ -116,9 +116,19 @@ trait Sets
         return $this->redis->sInterStore($destinationKey, ...$keys);
     }
 
-    public function sIsMember(): bool
+    /**
+     * Checks if member is a member of the set stored at the key key.
+     * See: https://redis.io/commands/sismember.
+     *
+     * @param  string $key
+     * @param  mixed $member
+     *
+     * @return bool             TRUE if value is a member of the set at key key,
+     *                          FALSE otherwise.
+     */
+    public function sIsMember(string $key, $member): bool
     {
-        return false;
+        return $this->redis->sIsMember($key, $member);
     }
 
     public function sContains(): bool

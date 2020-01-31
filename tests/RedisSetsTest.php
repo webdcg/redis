@@ -22,6 +22,32 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_ismember_finds_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(true, $this->redis->sIsMember($this->key, 'A'));
+        $this->assertTrue($this->redis->sIsMember($this->key, 'A'));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_ismember_does_not_find_the_element()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(false, $this->redis->sIsMember($this->key, 'B'));
+        $this->assertFalse($this->redis->sIsMember($this->key, 'B'));
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_sinterstore_simple()
     {
         $destinationKey = $this->key . ':' . $this->keyOptional;
@@ -45,6 +71,7 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(2, $this->redis->sSize($destinationKey));
         $this->assertEquals(0, $this->redis->sAdd($destinationKey, 'B'));
 
+        // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
@@ -76,6 +103,7 @@ class RedisSetsTest extends TestCase
 
         $this->assertContains('B', $this->redis->sInter($this->key, $this->keyOptional, $destinationKey));
 
+        // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
