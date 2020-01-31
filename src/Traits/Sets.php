@@ -100,9 +100,20 @@ trait Sets
         return $this->redis->sInter(...$keys);
     }
 
-    public function sInterStore(): bool
+    /**
+     * Performs a sInter command and stores the result in a new set.
+     * See: https://redis.io/commands/sinterstore.
+     *
+     * @param  string $destinationKey   The key to store the diff into.
+     * @param  plat $keys               key1, key2... keyN. key1..keyN are
+     *                                  intersected as in sInter.
+     *
+     * @return int                      The cardinality of the resulting set,
+     *                                  or FALSE in case of a missing key.
+     */
+    public function sInterStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        return $this->redis->sInterStore($destinationKey, ...$keys);
     }
 
     public function sIsMember(): bool

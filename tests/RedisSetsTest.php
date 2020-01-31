@@ -22,6 +22,35 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_sinterstore_simple()
+    {
+        $destinationKey = $this->key . ':' . $this->keyOptional;
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($destinationKey));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'D'));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'C'));
+
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->sInterStore($destinationKey, $this->key, $this->keyOptional));
+        // --------------------  T E S T  --------------------
+        
+        $this->assertEquals(2, $this->redis->sSize($destinationKey));
+        $this->assertEquals(0, $this->redis->sAdd($destinationKey, 'B'));
+
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(1, $this->redis->delete($destinationKey));
+    }
+
+    /** @test */
     public function redis_sets_sint_simple()
     {
         $destinationKey = $this->key . ':' . $this->keyOptional;
