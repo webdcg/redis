@@ -65,9 +65,19 @@ trait Sets
         return $this->redis->sDiff(...$keys);
     }
 
-    public function sDiffStore(): bool
+    /**
+     * Performs the same action as sDiff, but stores the result in the first key.
+     *
+     * @param  string $destinationKey The key to store the diff into.
+     * @param  splat $keys            key1, key2, ... , keyN: Any number of keys
+     *                                corresponding to sets in redis.
+     *
+     * @return The cardinality of the resulting set, or FALSE in case of a
+     * missing key.
+     */
+    public function sDiffStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        return $this->redis->sDiffStore($destinationKey, ...$keys);
     }
 
     public function sInter(): bool
