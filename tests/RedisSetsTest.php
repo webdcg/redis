@@ -62,6 +62,7 @@ class RedisSetsTest extends TestCase
 
         // --------------------  T E S T  --------------------
         $this->assertTrue($this->redis->sMove($this->key, $this->keyOptional, 'A'));
+        $this->assertEquals(2, $this->redis->sCard($this->keyOptional));
 
         // Cleanup
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
