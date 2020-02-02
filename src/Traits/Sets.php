@@ -201,6 +201,7 @@ trait Sets
 
     /**
      * Removes and returns a random element from the set value at Key.
+     * See: https://redis.io/commands/spop.
      *
      * @param  string      $key
      * @param  int|integer $count Number of elemets to be returned
@@ -218,9 +219,27 @@ trait Sets
         return $this->redis->sPop($key);
     }
 
-    public function sRandMember(): bool
+    /**
+     * Returns a random element from the set value at Key, without removing it.
+     * See: https://redis.io/commands/srandmember.
+     *
+     * @param  string      $key
+     * @param  int|integer $count
+     *
+     * @return mixed|string|array   If no count is provided, a random String
+     *                              value from the set will be returned. If a
+     *                              count is provided, an array of values from
+     *                              the set will be returned. Read about the
+     *                              different ways to use the count here:
+     *                              SRANDMEMBER Bool FALSE if set identified by
+     *                              key is empty or doesn't exist.
+     */
+    public function sRandMember(string $key, int $count = 1)
     {
-        return false;
+        if ($count > 1) {
+            return $this->redis->sRandMember($key, $count);
+        }
+        return $this->redis->sRandMember($key);
     }
 
     public function sRem(): bool

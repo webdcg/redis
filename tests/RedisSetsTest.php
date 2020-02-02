@@ -22,6 +22,50 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_srandmember_random_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $popped = $this->redis->sRandMember($this->key, 2);
+        $this->assertContains($popped[0], ['A', 'B', 'C']);
+        $this->assertContains($popped[1], ['A', 'B', 'C']);
+        $this->assertEquals(3, $this->redis->sCard($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_srandmember_random_element()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $this->assertContains($this->redis->sRandMember($this->key), ['A', 'B', 'C']);
+        $this->assertEquals(3, $this->redis->sCard($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_srandmember_non_existing_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertFalse($this->redis->sRandMember($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_spop_random_elements()
     {
         // Start from scratch
