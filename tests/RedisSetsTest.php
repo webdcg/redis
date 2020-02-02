@@ -22,6 +22,86 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_sremove_multiple_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->sRemove($this->key, 'A', 'C', 'D'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_sremove_single_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->sRemove($this->key, 'A'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_sremove_non_existing_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->sRemove($this->key, 'C'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_srem_multiple_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(2, $this->redis->sRem($this->key, 'A', 'C', 'D'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_srem_single_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(1, $this->redis->sRem($this->key, 'A'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_srem_non_existing_members()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $this->assertEquals(0, $this->redis->sRem($this->key, 'C'));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_srandmember_random_elements()
     {
         // Start from scratch

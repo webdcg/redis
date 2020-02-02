@@ -242,14 +242,34 @@ trait Sets
         return $this->redis->sRandMember($key);
     }
 
-    public function sRem(): bool
+    /**
+     * Removes the specified member from the set value stored at key.
+     * See: https://redis.io/commands/srem.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements removed from the set.
+     */
+    public function sRem(string $key, ...$members): int
     {
-        return false;
+        return $this->redis->sRem($key, ...$members);
     }
 
-    public function sRemove(): bool
+    /**
+     * Removes the specified member from the set value stored at key.
+     * Note: sRemove is an alias for sRem and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/srem.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements removed from the set.
+     */
+    public function sRemove(string $key, ...$members): int
     {
-        return false;
+        return $this->redis->sRem($key, ...$members);
     }
 
     public function sUnion(): bool
