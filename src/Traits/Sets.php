@@ -199,9 +199,23 @@ trait Sets
         return $this->redis->sMove($sourceKey, $destinationKey, $member);
     }
 
-    public function sPop(): bool
+    /**
+     * Removes and returns a random element from the set value at Key.
+     *
+     * @param  string      $key
+     * @param  int|integer $count Number of elemets to be returned
+     *
+     * @return mixed|string|array   String "popped" value.
+     *                              Array Member(s) returned or an empty array
+     *                              if the set doesn't exist
+     *                              FALSE on error if the key is not a set.
+     */
+    public function sPop(string $key, int $count = 1)
     {
-        return false;
+        if ($count > 1) {
+            return $this->redis->sPop($key, $count);
+        }
+        return $this->redis->sPop($key);
     }
 
     public function sRandMember(): bool

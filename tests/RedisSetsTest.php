@@ -22,6 +22,50 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_spop_random_elements()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $popped = $this->redis->sPop($this->key, 2);
+        $this->assertContains($popped[0], ['A', 'B', 'C']);
+        $this->assertContains($popped[1], ['A', 'B', 'C']);
+        $this->assertEquals(1, $this->redis->sCard($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_spop_random_element()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        // --------------------  T E S T  --------------------
+        $this->assertContains($this->redis->sPop($this->key), ['A', 'B', 'C']);
+        $this->assertEquals(2, $this->redis->sCard($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_spop_non_existing_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        // --------------------  T E S T  --------------------
+        $this->assertFalse($this->redis->sPop($this->key));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_smove_existing_keys_missing_member()
     {
         // Start from scratch
