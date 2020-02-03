@@ -274,6 +274,7 @@ trait Sets
 
     /**
      * Performs the union between N sets and returns it.
+     * See: https://redis.io/commands/sunion.
      *
      * @param  splat $keys
      *
@@ -282,16 +283,27 @@ trait Sets
      */
     public function sUnion(...$keys): array
     {
-        if (is_array($keys[0])) {
-            return $this->redis->sUnion($keys[0]);
-        }
-        
         return $this->redis->sUnion(...$keys);
     }
 
-    public function sUnionStore(): bool
+    /**
+     * Performs the same action as sUnion, but stores the result in the first
+     * key.
+     * See: https://redis.io/commands/sunionstore.
+     *
+     * @param  string $destinationKey
+     * @param  splat $keys
+     *
+     * @return int                      The cardinality of the resulting set,
+     *                                  or FALSE in case of a missing key.
+     */
+    public function sUnionStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        if (is_array($keys[0])) {
+            return $this->redis->sUnionStore($destinationKey, ...$keys[0]);
+        }
+
+        return $this->redis->sUnionStore($destinationKey, ...$keys);
     }
 
     public function sScan(): bool
