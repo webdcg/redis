@@ -457,10 +457,11 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
         // --------------------  T E S T  --------------------
-        $this->assertIsArray($this->redis->sGetMembers($this->key));
-        $this->assertContains('A', $this->redis->sGetMembers($this->key));
-        $this->assertNotContains('C', $this->redis->sGetMembers($this->key));
-        $this->assertArraySubset(['A', 'B'], $this->redis->sGetMembers($this->key));
+        $members = $this->redis->sGetMembers($this->key);
+        $this->assertIsArray($members);
+        $this->assertContains('A', $members);
+        $this->assertContains('B', $members);
+        $this->assertNotContains('C', $members);
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -473,10 +474,11 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
         // --------------------  T E S T  --------------------
-        $this->assertIsArray($this->redis->sGetMembers($this->key));
-        $this->assertContains('A', $this->redis->sGetMembers($this->key));
-        $this->assertContains('B', $this->redis->sGetMembers($this->key));
-        $this->assertArraySubset(['A', 'B'], $this->redis->sGetMembers($this->key));
+        $members = $this->redis->sGetMembers($this->key);
+        $this->assertIsArray($members);
+        $this->assertContains('A', $members);
+        $this->assertContains('B', $members);
+        $this->assertNotContains('C', $members);
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -489,10 +491,11 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
         // --------------------  T E S T  --------------------
-        $this->assertIsArray($this->redis->sMembers($this->key));
-        $this->assertContains('A', $this->redis->sMembers($this->key));
-        $this->assertNotContains('C', $this->redis->sMembers($this->key));
-        $this->assertArraySubset(['A', 'B'], $this->redis->sMembers($this->key));
+        $members = $this->redis->sMembers($this->key);
+        $this->assertIsArray($members);
+        $this->assertContains('A', $members);
+        $this->assertContains('B', $members);
+        $this->assertNotContains('C', $members);
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -505,10 +508,10 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
         // --------------------  T E S T  --------------------
-        $this->assertIsArray($this->redis->sMembers($this->key));
-        $this->assertContains('A', $this->redis->sMembers($this->key));
-        $this->assertContains('B', $this->redis->sMembers($this->key));
-        $this->assertArraySubset(['A', 'B'], $this->redis->sMembers($this->key));
+        $members = $this->redis->sMembers($this->key);
+        $this->assertIsArray($members);
+        $this->assertContains('A', $members);
+        $this->assertContains('B', $members);
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -671,7 +674,9 @@ class RedisSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->sAdd($this->key . ':' . $this->keyOptional, 'D'));
         $this->assertEquals(1, $this->redis->sAdd($this->key . ':' . $this->keyOptional, 'E'));
         // --------------------  T E S T  --------------------
-        $this->assertEquals(['A', 'Z'], $this->redis->sDiff($this->key, $this->keyOptional, $destinationKey));
+        $difference = $this->redis->sDiff($this->key, $this->keyOptional, $destinationKey);
+        $this->assertContains('A', $difference);
+        $this->assertContains('Z', $difference);
         // --------------------  T E S T  --------------------
         // Cleanup
         $this->assertEquals(1, $this->redis->delete($this->key));
