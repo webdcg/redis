@@ -28,7 +28,7 @@ class RedisSetsTest extends TestCase
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
-        
+
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
         $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
         $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'C'));
