@@ -19,6 +19,6 @@
 |[sRandMember](#sRandMember)|Get one or multiple random members from a set.                 |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRandMember    |
 |[sRem](#sRem)              |Remove one or more members from a set.                         |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRem           |
 |[sRemove](#sRemove)        |Remove one or more members from a set.                         |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRemove        |
-|[sUnion](#sUnion)          |Add multiple sets.                                             |:x:        |:x:        |Sets           |sUnion         |
-|[sUnionStore](#sUnionStore)|Add multiple sets and store the resulting set in a key.        |:x:        |:x:        |Sets           |sUnionStore    |
-|[sScan](#sScan)            |Scan a set for members.                                        |:x:        |:x:        |Sets           |sScan          |
+|[sUnion](#sUnion)          |Add multiple sets.                                             |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sUnion         |
+|[sUnionStore](#sUnionStore)|Add multiple sets and store the resulting set in a key.        |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sUnionStore    |
+|[sScan](#sScan)            |Scan a set for members.                                        |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sScan          |
