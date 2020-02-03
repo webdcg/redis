@@ -9,9 +9,18 @@ trait Pubsub
         return false;
     }
 
-    public function publish(): bool
+    /**
+     * Publish messages to channels. Warning: this function will probably change
+     * in the future.
+     *
+     * @param  string $channel  A channel to publish to.
+     * @param  string $message  The message to be broadcasted.
+     *
+     * @return int              the number of clients that received the message.
+     */
+    public function publish(string $channel, string $message): int
     {
-        return false;
+        return $this->redis->publish($channel, $message);
     }
 
     public function subscribe(): bool

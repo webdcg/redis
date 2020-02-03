@@ -9,9 +9,32 @@ trait Streams
         return false;
     }
 
-    public function xAdd(): bool
-    {
-        return false;
+    /**
+     * Appends the specified stream entry to the stream at the specified key.
+     * If the key does not exist, as a side effect of running this command the
+     * key is created with a stream value.
+     * See: https://redis.io/commands/xadd.
+     *
+     * @param  string      $key
+     * @param  string      $id
+     * @param  array       $message
+     * @param  int|integer $maxLenght
+     * @param  bool        $approximate
+     *
+     * @return string                   The added message ID
+     */
+    public function xAdd(
+        string $key,
+        string $id,
+        array $message,
+        ?int $maxLenght = null,
+        ?bool $approximate = null
+    ): string {
+        if (is_null($maxLenght) && is_null($approximate)) {
+            return $this->redis->xAdd($key, $id, $message);
+        }
+
+        return $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
     }
 
     public function xClaim(): bool

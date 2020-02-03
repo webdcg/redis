@@ -4,98 +4,323 @@ namespace Webdcg\Redis\Traits;
 
 trait Sets
 {
-    public function sAdd(): bool
+    /**
+     * Adds a value to the set value stored at key. If this value is already
+     * in the set, FALSE is returned.
+     * See: https://redis.io/commands/sadd.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements added to the set.
+     */
+    public function sAdd(string $key, ...$members): int
     {
-        return false;
+        if (is_array($members[0])) {
+            return $this->redis->sAdd($key, ...$members[0]);
+        }
+
+        return $this->redis->sAdd($key, ...$members);
     }
 
-    public function sCard(): bool
+    /**
+     * Returns the cardinality of the set identified by key.
+     * See: https://redis.io/commands/scard.
+     *
+     * @param  string $key
+     *
+     * @return int          the cardinality of the set identified by key,
+     *                      0 if the set doesn't exist.
+     */
+    public function sCard(string $key): int
     {
-        return false;
+        return $this->redis->sCard($key);
     }
 
-    public function sSize(): bool
+    /**
+     * Returns the cardinality of the set identified by key.
+     * See: https://redis.io/commands/scard.
+     * Note: sSize is an alias for sCard and will be removed in future
+     * versions of phpredis.
+     *
+     * @param  string $key
+     *
+     * @return int          the cardinality of the set identified by key,
+     *                      0 if the set doesn't exist.
+     */
+    public function sSize(string $key): int
     {
-        return false;
+        return $this->redis->sCard($key);
     }
 
-    public function sDiff(): bool
+    /**
+     * Performs the difference between N sets and returns it.
+     *
+     * @param  splat $keys
+     *
+     * @return array
+     */
+    public function sDiff(...$keys): array
     {
-        return false;
+        return $this->redis->sDiff(...$keys);
     }
 
-    public function sDiffStore(): bool
+    /**
+     * Performs the same action as sDiff, but stores the result in the first key.
+     *
+     * @param  string $destinationKey The key to store the diff into.
+     * @param  splat $keys            key1, key2, ... , keyN: Any number of keys
+     *                                corresponding to sets in redis.
+     *
+     * @return The cardinality of the resulting set, or FALSE in case of a
+     * missing key.
+     */
+    public function sDiffStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        return $this->redis->sDiffStore($destinationKey, ...$keys);
     }
 
-    public function sInter(): bool
+    /**
+     * Returns the members of a set resulting from the intersection of all the
+     * sets held at the specified keys.
+     * If just a single key is specified, then this command produces the members
+     * of this set. If one of the keys is missing, FALSE is returned.
+     * See: https://redis.io/commands/sinter.
+     *
+     * @param  splat $keys  key1, key2, keyN: keys identifying the different
+     *                      sets on which we will apply the intersection.
+     *
+     * @return array        Contain the result of the intersection between
+     *                      those keys. If the intersection between the
+     *                      different sets is empty, the return value will be
+     *                      empty array.
+     */
+    public function sInter(...$keys): array
     {
-        return false;
+        return $this->redis->sInter(...$keys);
     }
 
-    public function sInterStore(): bool
+    /**
+     * Performs a sInter command and stores the result in a new set.
+     * See: https://redis.io/commands/sinterstore.
+     *
+     * @param  string $destinationKey   The key to store the diff into.
+     * @param  plat $keys               key1, key2... keyN. key1..keyN are
+     *                                  intersected as in sInter.
+     *
+     * @return int                      The cardinality of the resulting set,
+     *                                  or FALSE in case of a missing key.
+     */
+    public function sInterStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        return $this->redis->sInterStore($destinationKey, ...$keys);
     }
 
-    public function sIsMember(): bool
+    /**
+     * Checks if member is a member of the set stored at the key key.
+     * See: https://redis.io/commands/sismember.
+     *
+     * @param  string $key
+     * @param  mixed $member
+     *
+     * @return bool             TRUE if value is a member of the set at key key,
+     *                          FALSE otherwise.
+     */
+    public function sIsMember(string $key, $member): bool
     {
-        return false;
+        return $this->redis->sIsMember($key, $member);
     }
 
-    public function sContains(): bool
+    /**
+     * Checks if member is a member of the set stored at the key key.
+     * Note: sContains is an alias for sIsMember and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/sismember.
+     *
+     * @param  string $key
+     * @param  mixed $member
+     *
+     * @return bool             TRUE if value is a member of the set at key key,
+     *                          FALSE otherwise.
+     */
+    public function sContains(string $key, $member): bool
     {
-        return false;
+        return $this->redis->sIsMember($key, $member);
     }
 
-    public function sMembers(): bool
+    /**
+     * Returns the contents of a set.
+     * The order is random and corresponds to redis' own internal representation
+     * of the set structure.
+     * See: https://redis.io/commands/smembers.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the contents of the set.
+     */
+    public function sMembers(string $key): array
     {
-        return false;
+        return $this->redis->sMembers($key);
     }
 
-    public function sGetMembers(): bool
+    /**
+     * Returns the contents of a set.
+     * The order is random and corresponds to redis' own internal representation
+     * of the set structure.
+     * Note: sGetMembers is an alias for sMembers and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/smembers.
+     *
+     * @param  string $key
+     *
+     * @return array        An array of elements, the contents of the set.
+     */
+    public function sGetMembers(string $key): array
     {
-        return false;
+        return $this->redis->sMembers($key);
     }
 
-    public function sMove(): bool
+    /**
+     * Moves the specified member from the set at sourceKey to the set at
+     * destinationKey.
+     * See: https://redis.io/commands/smove.
+     *
+     * @param  string $sourceKey
+     * @param  string $destinationKey
+     * @param  mixed $member
+     *
+     * @return bool                 If the operation is successful, return TRUE.
+     *                              If the sourceKey and/or destinationKey didn't
+     *                              exist, and/or the member didn't exist in sourceKey,
+     *                              FALSE is returned.
+     */
+    public function sMove(string $sourceKey, string $destinationKey, $member): bool
     {
-        return false;
+        return $this->redis->sMove($sourceKey, $destinationKey, $member);
     }
 
-    public function sPop(): bool
+    /**
+     * Removes and returns a random element from the set value at Key.
+     * See: https://redis.io/commands/spop.
+     *
+     * @param  string      $key
+     * @param  int|integer $count Number of elemets to be returned
+     *
+     * @return mixed|string|array   String "popped" value.
+     *                              Array Member(s) returned or an empty array
+     *                              if the set doesn't exist
+     *                              FALSE on error if the key is not a set.
+     */
+    public function sPop(string $key, int $count = 1)
     {
-        return false;
+        if ($count > 1) {
+            return $this->redis->sPop($key, $count);
+        }
+        return $this->redis->sPop($key);
     }
 
-    public function sRandMember(): bool
+    /**
+     * Returns a random element from the set value at Key, without removing it.
+     * See: https://redis.io/commands/srandmember.
+     *
+     * @param  string      $key
+     * @param  int|integer $count
+     *
+     * @return mixed|string|array   If no count is provided, a random String
+     *                              value from the set will be returned. If a
+     *                              count is provided, an array of values from
+     *                              the set will be returned. Read about the
+     *                              different ways to use the count here:
+     *                              SRANDMEMBER Bool FALSE if set identified by
+     *                              key is empty or doesn't exist.
+     */
+    public function sRandMember(string $key, int $count = 1)
     {
-        return false;
+        if ($count > 1) {
+            return $this->redis->sRandMember($key, $count);
+        }
+        return $this->redis->sRandMember($key);
     }
 
-    public function sRem(): bool
+    /**
+     * Removes the specified member from the set value stored at key.
+     * See: https://redis.io/commands/srem.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements removed from the set.
+     */
+    public function sRem(string $key, ...$members): int
     {
-        return false;
+        return $this->redis->sRem($key, ...$members);
     }
 
-    public function sRemove(): bool
+    /**
+     * Removes the specified member from the set value stored at key.
+     * Note: sRemove is an alias for sRem and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/srem.
+     *
+     * @param  string $key
+     * @param  splat $members
+     *
+     * @return int              The number of elements removed from the set.
+     */
+    public function sRemove(string $key, ...$members): int
     {
-        return false;
+        return $this->redis->sRem($key, ...$members);
     }
 
-    public function sUnion(): bool
+    /**
+     * Performs the union between N sets and returns it.
+     * See: https://redis.io/commands/sunion.
+     *
+     * @param  splat $keys
+     *
+     * @return array        key1, key2, ... , keyN: Any number of keys
+     *                      corresponding to sets in redis.
+     */
+    public function sUnion(...$keys): array
     {
-        return false;
+        return $this->redis->sUnion(...$keys);
     }
 
-    public function sUnionStore(): bool
+    /**
+     * Performs the same action as sUnion, but stores the result in the first
+     * key.
+     * See: https://redis.io/commands/sunionstore.
+     *
+     * @param  string $destinationKey
+     * @param  splat $keys
+     *
+     * @return int                      The cardinality of the resulting set,
+     *                                  or FALSE in case of a missing key.
+     */
+    public function sUnionStore(string $destinationKey, ...$keys): int
     {
-        return false;
+        if (is_array($keys[0])) {
+            return $this->redis->sUnionStore($destinationKey, ...$keys[0]);
+        }
+
+        return $this->redis->sUnionStore($destinationKey, ...$keys);
     }
 
-    public function sScan(): bool
+    /**
+     * Scan a set for members.
+     * See: https://redis.io/commands/sscan.
+     *
+     * @param  string      $keys        The set to search.
+     * @param  int         $iterator    LONG (reference) to the iterator as we go.
+     * @param  string      $pattern     String, optional pattern to match against.
+     * @param  int|integer $count       How many members to return at a time
+     *                                  (Redis might return a different amount).
+     *
+     * @return array                    PHPRedis will return an array of keys or
+     *                                  FALSE when we're done iterating.
+     */
+    public function sScan(string $key, ?int &$iterator, string $pattern, int $count = 10)
     {
-        return false;
+        return $this->redis->sScan($key, $iterator, $pattern, $count);
     }
 }

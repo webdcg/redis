@@ -9,9 +9,20 @@ trait SortedSets
         return false;
     }
 
-    public function zAdd(): bool
+    /**
+     * Add one or more members to a sorted set or update its score if it
+     * already exists.
+     * See: https://redis.io/commands/zadd.
+     *
+     * @param  string $key
+     * @param  float  $score
+     * @param  mixed] $member
+     *
+     * @return int              1 if the element is added. 0 otherwise.
+     */
+    public function zAdd(string $key, float $score, $member): int
     {
-        return false;
+        return $this->redis->zAdd($key, $score, $member);
     }
 
     public function zCard(): bool

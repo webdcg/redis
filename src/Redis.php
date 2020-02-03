@@ -7,9 +7,16 @@ use Webdcg\Redis\Traits\Connection;
 use Webdcg\Redis\Traits\Geocoding;
 use Webdcg\Redis\Traits\Hashes;
 use Webdcg\Redis\Traits\HyperLogLogs;
+use Webdcg\Redis\Traits\Introspection;
 use Webdcg\Redis\Traits\Keys;
 use Webdcg\Redis\Traits\Lists;
+use Webdcg\Redis\Traits\Pubsub;
+use Webdcg\Redis\Traits\Scripting;
+use Webdcg\Redis\Traits\Sets;
+use Webdcg\Redis\Traits\SortedSets;
+use Webdcg\Redis\Traits\Streams;
 use Webdcg\Redis\Traits\Strings;
+use Webdcg\Redis\Traits\Transactions;
 
 class Redis
 {
@@ -18,9 +25,16 @@ class Redis
     use Geocoding;
     use Hashes;
     use HyperLogLogs;
+    use Introspection;
     use Lists;
     use Keys;
+    use Pubsub;
+    use Scripting;
+    use Sets;
+    use SortedSets;
+    use Streams;
     use Strings;
+    use Transactions;
 
     protected $redis;
 
