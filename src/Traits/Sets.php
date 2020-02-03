@@ -272,9 +272,21 @@ trait Sets
         return $this->redis->sRem($key, ...$members);
     }
 
-    public function sUnion(): bool
+    /**
+     * Performs the union between N sets and returns it.
+     *
+     * @param  splat $keys
+     *
+     * @return array        key1, key2, ... , keyN: Any number of keys
+     *                      corresponding to sets in redis.
+     */
+    public function sUnion(...$keys): array
     {
-        return false;
+        if (is_array($keys[0])) {
+            return $this->redis->sUnion($keys[0]);
+        }
+        
+        return $this->redis->sUnion(...$keys);
     }
 
     public function sUnionStore(): bool

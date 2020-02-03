@@ -22,6 +22,71 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_sunion_array_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'D'));
+        // --------------------  T E S T  --------------------
+        $union = $this->redis->sUnion([$this->key, $this->keyOptional]);
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($union);
+        $this->assertContains('A', $union);
+        $this->assertContains('B', $union);
+        $this->assertContains('C', $union);
+        $this->assertContains('D', $union);
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_sets_sunion_multiple_keys()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->keyOptional, 'D'));
+        // --------------------  T E S T  --------------------
+        $union = $this->redis->sUnion($this->key, $this->keyOptional);
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($union);
+        $this->assertContains('A', $union);
+        $this->assertContains('B', $union);
+        $this->assertContains('C', $union);
+        $this->assertContains('D', $union);
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+    }
+
+    /** @test */
+    public function redis_sets_sunion_single_key()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        // --------------------  T E S T  --------------------
+        $union = $this->redis->sUnion($this->key);
+        // --------------------  T E S T  --------------------
+        $this->assertIsArray($union);
+        $this->assertContains('A', $union);
+        $this->assertContains('B', $union);
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_sremove_multiple_members()
     {
         // Start from scratch
