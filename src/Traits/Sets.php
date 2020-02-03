@@ -306,8 +306,21 @@ trait Sets
         return $this->redis->sUnionStore($destinationKey, ...$keys);
     }
 
-    public function sScan(): bool
+    /**
+     * Scan a set for members.
+     * See: https://redis.io/commands/sscan.
+     *
+     * @param  string      $keys        The set to search.
+     * @param  int         $iterator    LONG (reference) to the iterator as we go.
+     * @param  string      $pattern     String, optional pattern to match against.
+     * @param  int|integer $count       How many members to return at a time
+     *                                  (Redis might return a different amount).
+     *
+     * @return array                    PHPRedis will return an array of keys or
+     *                                  FALSE when we're done iterating.
+     */
+    public function sScan(string $key, ?int &$iterator, string $pattern, int $count = 10)
     {
-        return false;
+        return $this->redis->sScan($key, $iterator, $pattern, $count);
     }
 }

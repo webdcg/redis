@@ -22,6 +22,79 @@ class RedisSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sets_sscan_prefix_no_matching_pattern()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'D'));
+        $set = $this->redis->sMembers($this->key);
+
+        $iterator = null;
+        /* don't return empty results until we're done */
+        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_NORETRY);
+        while ($members = $this->redis->sScan($this->key, $iterator, "pattern:*", 10)) {
+            foreach ($members as $member) {
+                $this->assertContains($member, $set);
+            }
+        }
+
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_sscan_prefix_pattern()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'pattern:A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'pattern:C'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'D'));
+        $set = $this->redis->sMembers($this->key);
+
+        $iterator = null;
+        /* don't return empty results until we're done */
+        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_NORETRY);
+        while ($members = $this->redis->sScan($this->key, $iterator, "pattern:*", 10)) {
+            foreach ($members as $member) {
+                $this->assertContains($member, $set);
+            }
+        }
+
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sets_sscan_wildcard_pattern()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'A'));
+        $this->assertEquals(1, $this->redis->sAdd($this->key, 'B'));
+        $set = $this->redis->sMembers($this->key);
+
+        $iterator = null;
+        /* don't return empty results until we're done */
+        $this->redis->setOption(\Redis::OPT_SCAN, \Redis::SCAN_NORETRY);
+        while ($members = $this->redis->sScan($this->key, $iterator, "*", 10)) {
+            foreach ($members as $member) {
+                $this->assertContains($member, $set);
+            }
+        }
+
+        // Cleanup
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sets_sunionstore_array_keys()
     {
         $destinationKey = $this->key . ':' . $this->keyOptional;
