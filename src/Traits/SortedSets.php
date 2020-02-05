@@ -210,7 +210,7 @@ trait SortedSets
      */
     public function zPop(string $key, int $count = 1, bool $max = true): array
     {
-        return ($max) ? $this->redis->zPopMax($key, $count) : $this->redis->zPopMin($key, $count);
+        return $max ? $this->redis->zPopMax($key, $count) : $this->redis->zPopMin($key, $count);
     }
 
     /**
