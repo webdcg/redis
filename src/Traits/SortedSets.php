@@ -53,9 +53,22 @@ trait SortedSets
         return $this->redis->zCard($key);
     }
 
-    public function zCount(): bool
+    /**
+     * Returns the number of elements of the sorted set stored at the specified
+     * key which have scores in the range [start, end]. Adding a parenthesis
+     * before start or end excludes it from the range. +inf and -inf are also
+     * valid limits.
+     * See: https://redis.io/commands/zcount.
+     *
+     * @param  string $key
+     * @param  mixed|int|string $start
+     * @param  mixed|int|string $end
+     *
+     * @return int                      the size of a corresponding zRangeByScore.
+     */
+    public function zCount(string $key, $start, $end): int
     {
-        return false;
+        return $this->redis->zCount($key, $start, $end);
     }
 
     public function zIncrBy(): bool
