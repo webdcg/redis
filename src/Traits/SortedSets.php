@@ -25,14 +25,32 @@ trait SortedSets
         return $this->redis->zAdd($key, $score, $member);
     }
 
-    public function zCard(): bool
+    /**
+     * Get the number of members in a sorted set.
+     * See: https://redis.io/commands/zcard.
+     *
+     * @param  string $key
+     *
+     * @return int          The Set's cardinality
+     */
+    public function zCard(string $key): int
     {
-        return false;
+        return $this->redis->zCard($key);
     }
 
-    public function zSize(): bool
+    /**
+     * Get the number of members in a sorted set.
+     * Note: zSize is an alias for zCard and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/zcard.
+     *
+     * @param  string $key
+     *
+     * @return int          The Set's cardinality
+     */
+    public function zSize(string $key): int
     {
-        return false;
+        return $this->redis->zCard($key);
     }
 
     public function zCount(): bool

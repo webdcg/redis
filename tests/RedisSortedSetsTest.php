@@ -22,6 +22,74 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
+    public function redis_sorted_sets_zsize_duplicate()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
+        $this->assertEquals(0, $this->redis->zAdd($this->key, 2.0, 'A'));
+        $this->assertEquals(1, $this->redis->zSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zsize_multiple()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(1, 10);
+        for ($i = 0; $i < $total; $i++) {
+            $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
+        }
+        $this->assertEquals($total, $this->redis->zSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zsize_single()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
+        $this->assertEquals(1, $this->redis->zSize($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zcard_duplicate()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
+        $this->assertEquals(0, $this->redis->zAdd($this->key, 2.0, 'A'));
+        $this->assertEquals(1, $this->redis->zCard($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zcard_multiple()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(1, 10);
+        for ($i = 0; $i < $total; $i++) {
+            $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
+        }
+        $this->assertEquals($total, $this->redis->zCard($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zcard_single()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
+        $this->assertEquals(1, $this->redis->zCard($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
     public function redis_sorted_sets_zadd_multiple()
     {
         // Start from scratch

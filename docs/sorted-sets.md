@@ -5,9 +5,9 @@
 |---                                        |---                                                                                        |:-:        |:-:        |---            |---                |
 |[bzPop](#bzPop)                            |Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.     |:x:        |:x:        |SortedSets     |bzPop              |
 |[zAdd](#zAdd)                              |Add one or more members to a sorted set or update its score if it already exists.          |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zAdd               |
-|[zCard](#zCard)                            |Get the number of members in a sorted set.                                                 |:x:        |:x:        |SortedSets     |zCard              |
-|[zSize](#zSize)                            |Get the number of members in a sorted set.                                                 |:x:        |:x:        |SortedSets     |zSize              |
-|[zCount](#zCount)                          |Count the members in a sorted set with scores within the given values.                     |:x:        |:x:        |SortedSets     |zCount             |
+|[zCard](#zCard)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zCard              |
+|[zSize](#zSize)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zSize              |
+|[zCount](#zCount)                          |Count the members in a sorted set with scores within the given values.                     |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zCount             |
 |[zIncrBy](#zIncrBy)                        |Increment the score of a member in a sorted set.                                           |:x:        |:x:        |SortedSets     |zIncrBy            |
 |[zinterstore](#zinterstore)                |Intersect multiple sorted sets and store the resulting sorted set in a new key.            |:x:        |:x:        |SortedSets     |zinterstore        |
 |[zInter](#zInter)                          |Intersect multiple sorted sets and store the resulting sorted set in a new key.            |:x:        |:x:        |SortedSets     |zInter             |
