@@ -4,7 +4,7 @@
 |Command                                    |Description                                                                                |Supported  |Tested     |Class/Trait    |Method             |
 |---                                        |---                                                                                        |:-:        |:-:        |---            |---                |
 |[bzPop](#bzPop)                            |Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.     |:x:        |:x:        |SortedSets     |bzPop              |
-|[zAdd](#zAdd)                              |Add one or more members to a sorted set or update its score if it already exists.          |:x:        |:x:        |SortedSets     |zAdd               |
+|[zAdd](#zAdd)                              |Add one or more members to a sorted set or update its score if it already exists.          |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zAdd               |
 |[zCard](#zCard)                            |Get the number of members in a sorted set.                                                 |:x:        |:x:        |SortedSets     |zCard              |
 |[zSize](#zSize)                            |Get the number of members in a sorted set.                                                 |:x:        |:x:        |SortedSets     |zSize              |
 |[zCount](#zCount)                          |Count the members in a sorted set with scores within the given values.                     |:x:        |:x:        |SortedSets     |zCount             |
