@@ -192,9 +192,59 @@ trait SortedSets
         return $this->redis->zInterStore($keyOutput, $arrayZSetKeys);
     }
 
-    public function zPop(): bool
+    /**
+     * Can pop the highest or lowest scoring members from one ZSETs.
+     * There are two commands (ZPOPMIN and ZPOPMAX for popping the lowest and
+     * highest scoring elements respectively.).
+     * See: https://redis.io/commands/zpopmin.
+     * See: https://redis.io/commands/zpopmax.
+     *
+     * @param  string       $key
+     * @param  int|integer  $count
+     * @param  bool|boolean $max
+     *
+     * @return array                Either an array with the key member and
+     *                              score of the highest or lowest element
+     *                              or an empty array if there is no element
+     *                              available.
+     */
+    public function zPop(string $key, int $count = 1, bool $max = true): array
     {
-        return false;
+        return ($max) ? $this->redis->zPopMax($key, $count) : $this->redis->zPopMin($key, $count);
+    }
+
+    /**
+     * Can pop the lowest scoring members from one ZSETs.
+     * See: https://redis.io/commands/zpopmin.
+     *
+     * @param  string      $key
+     * @param  int|integer $count
+     *
+     * @return array                Either an array with the key member and
+     *                              score of the highest or lowest element
+     *                              or an empty array if there is no element
+     *                              available.
+     */
+    public function zPopMin(string $key, int $count = 1): array
+    {
+        return $this->redis->zPopMin($key, $count);
+    }
+
+    /**
+     * Can pop the highest scoring members from one ZSETs.
+     * See: https://redis.io/commands/zpopmax.
+     *
+     * @param  string      $key
+     * @param  int|integer $count
+     *
+     * @return array                Either an array with the key member and
+     *                              score of the highest or lowest element
+     *                              or an empty array if there is no element
+     *                              available.
+     */
+    public function zPopMax(string $key, int $count = 1): array
+    {
+        return $this->redis->zPopMax($key, $count);
     }
 
     public function zRange(): bool
