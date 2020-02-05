@@ -2,8 +2,15 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Webdcg\Redis\Exceptions\SetOperationException;
+
 trait SortedSets
 {
+    /*
+     * Available Set Operations
+     */
+    protected $SET_OPERATIONS = ['SUM', 'MIN', 'MAX'];
+
     public function bzPop(): bool
     {
         return false;
@@ -87,14 +94,102 @@ trait SortedSets
         return $this->redis->zIncrBy($key, $value, $member);
     }
 
-    public function zinterstore(): bool
-    {
-        return false;
+    /**
+     * Creates an intersection of sorted sets given in second argument.
+     * The result of the union will be stored in the sorted set defined by the
+     * first argument.
+     * The third optional argument defines weights to apply to the sorted sets
+     * in input. In this case, the weights will be multiplied by the score of
+     * each element in the sorted set before applying the aggregation. The
+     * forth argument defines the AGGREGATE option which specify how the
+     * results of the union are aggregated.
+     * See: https://redis.io/commands/zinterstore.
+     *
+     * @param  string $keyOutput
+     * @param  array  $arrayZSetKeys
+     * @param  array  $arrayWeights
+     * @param  string $aggregateFunction    Either "SUM", "MIN", or "MAX":
+     *                                      defines the behaviour to use on
+     *                                      duplicate entries during the
+     *                                      zInterStore.
+     *
+     * @return int                          The number of values in the new
+     *                                      sorted set.
+     */
+    public function zInterStore(
+        string $keyOutput,
+        array $arrayZSetKeys,
+        ?array $arrayWeights = null,
+        ?string $aggregateFunction = null
+    ): int {
+        // Validate Aggregate Function
+        if (!is_null($aggregateFunction) && !is_null($arrayWeights)) {
+            $operation = strtoupper($aggregateFunction);
+
+            if (!in_array($operation, $this->SET_OPERATIONS)) {
+                throw new SetOperationException('Operation not supported', 1);
+            }
+
+            return $this->redis->zInterStore($keyOutput, $arrayZSetKeys, $arrayWeights, $operation);
+        }
+
+        // Call using Weights
+        if (!is_null($arrayWeights)) {
+            return $this->redis->zInterStore($keyOutput, $arrayZSetKeys, $arrayWeights);
+        }
+
+        // Make simplest call just with the required params
+        return $this->redis->zInterStore($keyOutput, $arrayZSetKeys);
     }
 
-    public function zInter(): bool
-    {
-        return false;
+    /**
+     * Creates an intersection of sorted sets given in second argument.
+     * The result of the union will be stored in the sorted set defined by the
+     * first argument.
+     * The third optional argument defines weights to apply to the sorted sets
+     * in input. In this case, the weights will be multiplied by the score of
+     * each element in the sorted set before applying the aggregation. The
+     * forth argument defines the AGGREGATE option which specify how the
+     * results of the union are aggregated.
+     * Note: zInter is an alias for zinterstore and will be removed in future
+     * versions of phpredis.
+     * See: https://redis.io/commands/zinterstore.
+     *
+     * @param  string $keyOutput
+     * @param  array  $arrayZSetKeys
+     * @param  array  $arrayWeights
+     * @param  string $aggregateFunction    Either "SUM", "MIN", or "MAX":
+     *                                      defines the behaviour to use on
+     *                                      duplicate entries during the
+     *                                      zInterStore.
+     *
+     * @return int                          The number of values in the new
+     *                                      sorted set.
+     */
+    public function zInter(
+        string $keyOutput,
+        array $arrayZSetKeys,
+        ?array $arrayWeights = null,
+        ?string $aggregateFunction = null
+    ): int {
+        // Validate Aggregate Function
+        if (!is_null($aggregateFunction) && !is_null($arrayWeights)) {
+            $operation = strtoupper($aggregateFunction);
+
+            if (!in_array($operation, $this->SET_OPERATIONS)) {
+                throw new SetOperationException('Operation not supported', 1);
+            }
+
+            return $this->redis->zInterStore($keyOutput, $arrayZSetKeys, $arrayWeights, $operation);
+        }
+
+        // Call using Weights
+        if (!is_null($arrayWeights)) {
+            return $this->redis->zInterStore($keyOutput, $arrayZSetKeys, $arrayWeights);
+        }
+
+        // Make simplest call just with the required params
+        return $this->redis->zInterStore($keyOutput, $arrayZSetKeys);
     }
 
     public function zPop(): bool
