@@ -71,9 +71,20 @@ trait SortedSets
         return $this->redis->zCount($key, $start, $end);
     }
 
-    public function zIncrBy(): bool
+    /**
+     * Increments the score of a member from a sorted set by a given amount.
+     * See: https://redis.io/commands/zincrby.
+     *
+     * @param  string $key
+     * @param  float  $value    (double) value that will be added to the
+     *                          member's score).
+     * @param  string $member
+     *
+     * @return float            the new value
+     */
+    public function zIncrBy(string $key, float $value, $member): float
     {
-        return false;
+        return $this->redis->zIncrBy($key, $value, $member);
     }
 
     public function zinterstore(): bool
