@@ -29,7 +29,6 @@ class zRangeByScoreTest extends TestCase
      * ========================================================================
      */
 
-
     /** @test */
     public function redis_sorted_sets_zrangebyscore_options()
     {
