@@ -19,6 +19,7 @@ trait SortedSets
     /**
      * Add one or more members to a sorted set or update its score if it
      * already exists.
+     *
      * See: https://redis.io/commands/zadd.
      *
      * @param  string $key
@@ -47,8 +48,10 @@ trait SortedSets
 
     /**
      * Get the number of members in a sorted set.
+     *
      * Note: zSize is an alias for zCard and will be removed in future
      * versions of phpredis.
+     *
      * See: https://redis.io/commands/zcard.
      *
      * @param  string $key
@@ -65,6 +68,7 @@ trait SortedSets
      * key which have scores in the range [start, end]. Adding a parenthesis
      * before start or end excludes it from the range. +inf and -inf are also
      * valid limits.
+     *
      * See: https://redis.io/commands/zcount.
      *
      * @param  string $key
@@ -80,6 +84,7 @@ trait SortedSets
 
     /**
      * Increments the score of a member from a sorted set by a given amount.
+     *
      * See: https://redis.io/commands/zincrby.
      *
      * @param  string $key
@@ -98,11 +103,13 @@ trait SortedSets
      * Creates an intersection of sorted sets given in second argument.
      * The result of the union will be stored in the sorted set defined by the
      * first argument.
+     *
      * The third optional argument defines weights to apply to the sorted sets
      * in input. In this case, the weights will be multiplied by the score of
      * each element in the sorted set before applying the aggregation. The
      * forth argument defines the AGGREGATE option which specify how the
      * results of the union are aggregated.
+     *
      * See: https://redis.io/commands/zinterstore.
      *
      * @param  string $keyOutput
@@ -146,13 +153,16 @@ trait SortedSets
      * Creates an intersection of sorted sets given in second argument.
      * The result of the union will be stored in the sorted set defined by the
      * first argument.
+     *
      * The third optional argument defines weights to apply to the sorted sets
      * in input. In this case, the weights will be multiplied by the score of
      * each element in the sorted set before applying the aggregation. The
      * forth argument defines the AGGREGATE option which specify how the
      * results of the union are aggregated.
+     *
      * Note: zInter is an alias for zinterstore and will be removed in future
      * versions of phpredis.
+     *
      * See: https://redis.io/commands/zinterstore.
      *
      * @param  string $keyOutput
@@ -196,6 +206,7 @@ trait SortedSets
      * Can pop the highest or lowest scoring members from one ZSETs.
      * There are two commands (ZPOPMIN and ZPOPMAX for popping the lowest and
      * highest scoring elements respectively.).
+     *
      * See: https://redis.io/commands/zpopmin.
      * See: https://redis.io/commands/zpopmax.
      *
@@ -215,6 +226,7 @@ trait SortedSets
 
     /**
      * Can pop the lowest scoring members from one ZSETs.
+     *
      * See: https://redis.io/commands/zpopmin.
      *
      * @param  string      $key
@@ -232,6 +244,7 @@ trait SortedSets
 
     /**
      * Can pop the highest scoring members from one ZSETs.
+     *
      * See: https://redis.io/commands/zpopmax.
      *
      * @param  string      $key
@@ -247,9 +260,26 @@ trait SortedSets
         return $this->redis->zPopMax($key, $count);
     }
 
-    public function zRange(): bool
+    /**
+     * Returns a range of elements from the ordered set stored at the specified
+     * key, with values in the range [start, end].
+     *
+     * Start and stop are interpreted as zero-based indices:
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     *
+     * See: https://redis.io/commands/zrange.
+     *
+     * @param  string       $key
+     * @param  int|integer  $start
+     * @param  int|integer  $end
+     * @param  bool|boolean $withScores
+     *
+     * @return array                    Array containing the values in specified range.
+     */
+    public function zRange(string $key, int $start = 0, int $end = -1, bool $withScores = false): array
     {
-        return false;
+        return $this->redis->zRange($key, $start, $end, $withScores);
     }
 
     public function zRangeByScore(): bool
