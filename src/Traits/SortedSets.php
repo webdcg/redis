@@ -307,7 +307,7 @@ trait SortedSets
         }
 
         $rangeOptions = ['withscores', 'limit'];
-        
+
         if (count(array_intersect(array_keys($options), $rangeOptions)) != count($options)) {
             throw new UnsupportedOptionException("Option Not Supported", 1);
         }
