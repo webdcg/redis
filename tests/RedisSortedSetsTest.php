@@ -22,7 +22,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zadd()
+    public function redis_sorted_sets_zAdd()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
@@ -31,7 +31,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zcount()
+    public function redis_sorted_sets_zCount()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(2, 10);
@@ -47,7 +47,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zsize()
+    public function redis_sorted_sets_zSize()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(1, 10);
@@ -59,7 +59,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zcard()
+    public function redis_sorted_sets_zCard()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(1, 10);
@@ -72,7 +72,7 @@ class RedisSortedSetsTest extends TestCase
 
 
     /** @test */
-    public function redis_sorted_sets_zincrby()
+    public function redis_sorted_sets_zIncrBy()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
@@ -82,7 +82,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zinterstore()
+    public function redis_sorted_sets_zInterStore()
     {
         $destinationKey = $this->key . ':' . $this->keyOptional;
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -101,7 +101,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zinter()
+    public function redis_sorted_sets_zInter()
     {
         $destinationKey = $this->key . ':' . $this->keyOptional;
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -121,7 +121,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zpopmax_multiple()
+    public function redis_sorted_sets_zPopMax()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1, 'A'));
@@ -137,7 +137,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zpopmin()
+    public function redis_sorted_sets_zPopMin()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1, 'A'));
@@ -153,7 +153,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zrangebyscore()
+    public function redis_sorted_sets_zRangeByScore()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(5, 10);
@@ -172,7 +172,7 @@ class RedisSortedSetsTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zrange()
+    public function redis_sorted_sets_zRange()
     {
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1, 'A'));
@@ -186,6 +186,28 @@ class RedisSortedSetsTest extends TestCase
         $this->assertContains('B', $range);
         $this->assertContains('C', $range);
         $this->assertNotContains('D', $range);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zRevRangeByScore()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = 10;
+        for ($i = 0; $i < $total; $i++) {
+            $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
+        }
+        $expected = [
+            'F' => 5.5,
+            'E' => 4.4,
+        ];
+        $range = $this->redis->zRevRangeByScore($this->key, 7, 3, ['withscores' => true, 'limit' => [1, 2]]);
+        $this->assertIsArray($range);
+        $this->assertEquals(2, count($range));
+        $this->assertArraySubset(['F' => 5.5], $range);
+        $this->assertArraySubset(['E' => 4.4], $range);
+        $this->assertArrayNotHasKey('D', $range);
+        $this->assertEquals($expected, $range);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }
