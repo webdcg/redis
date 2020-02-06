@@ -130,11 +130,15 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = [
+            'B', 'C'
+        ];
         $range = $this->redis->zRangeByScore($this->key, '(0', '(3.3');
         $this->assertIsArray($range);
         $this->assertEquals(2, count($range));
         $this->assertContains('B', $range);
         $this->assertContains('C', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -149,12 +153,16 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = [
+            'A', 'B', 'C'
+        ];
         $range = $this->redis->zRangeByScore($this->key, 0, '(3.3');
         $this->assertIsArray($range);
         $this->assertEquals(3, count($range));
         $this->assertContains('A', $range);
         $this->assertContains('B', $range);
         $this->assertContains('C', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -169,12 +177,14 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = ['B', 'C', 'D'];
         $range = $this->redis->zRangeByScore($this->key, '(0', 3.5);
         $this->assertIsArray($range);
         $this->assertEquals(3, count($range));
         $this->assertContains('B', $range);
         $this->assertContains('C', $range);
         $this->assertContains('D', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -189,12 +199,14 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = ['C', 'D', 'E'];
         $range = $this->redis->zRangeByScore($this->key, 2, 5);
         $this->assertIsArray($range);
         $this->assertEquals(3, count($range));
         $this->assertContains('C', $range);
         $this->assertContains('D', $range);
         $this->assertContains('E', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -227,6 +239,7 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = ['F', 'G', 'H', 'I', 'J'];
         $range = $this->redis->zRangeByScore($this->key, 5, '+inf');
         $this->assertIsArray($range);
         $this->assertEquals(5, count($range));
@@ -235,6 +248,7 @@ class RedisSortedSetsTest extends TestCase
         $this->assertContains('H', $range);
         $this->assertContains('I', $range);
         $this->assertContains('J', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
@@ -249,10 +263,12 @@ class RedisSortedSetsTest extends TestCase
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
         // T E S T  -----------------------------------------------------------
+        $expected = ['A'];
         $range = $this->redis->zRangeByScore($this->key, '-inf', 1);
         $this->assertIsArray($range);
         $this->assertEquals(1, count($range));
         $this->assertContains('A', $range);
+        $this->assertEquals($expected, $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
