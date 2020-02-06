@@ -28,7 +28,7 @@ class zCardzCountTest extends TestCase
      */
 
     /** @test */
-    public function redis_sorted_sets_zcount()
+    public function redis_sorted_sets_zcount_all()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
