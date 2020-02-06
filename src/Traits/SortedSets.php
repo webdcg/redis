@@ -3,6 +3,7 @@
 namespace Webdcg\Redis\Traits;
 
 use Webdcg\Redis\Exceptions\SetOperationException;
+use Webdcg\Redis\Exceptions\UnsupportedOptionException;
 
 trait SortedSets
 {
@@ -282,9 +283,36 @@ trait SortedSets
         return $this->redis->zRange($key, $start, $end, $withScores);
     }
 
-    public function zRangeByScore(): bool
+    /**
+     * Returns the elements of the sorted set stored at the specified key which
+     * have scores in the range [start,end]. Adding a parenthesis before start
+     * or end excludes it from the range. +inf and -inf are also valid limits.
+     *
+     * See: https://redis.io/commands/zrangebyscore.
+     *
+     * @param  string     $key
+     * @param  mixed|int|string     $start
+     * @param  mixed|int|string     $end
+     * @param  array|null           $options  Two options are available:
+     *                                        - withscores => TRUE,
+     *                                        and limit => [$offset, $count]
+     *
+     * @return array                        Array containing the values in
+     *                                      specified range.
+     */
+    public function zRangeByScore(string $key, $start, $end, ?array $options = null): array
     {
-        return false;
+        if (is_null($options)) {
+            return $this->redis->zRangeByScore($key, $start, $end);
+        }
+
+        $rangeOptions = ['withscores', 'limit'];
+        
+        if (count(array_intersect(array_keys($options), $rangeOptions)) != count($options)) {
+            throw new UnsupportedOptionException("Option Not Supported", 1);
+        }
+
+        return $this->redis->zRangeByScore($key, $start, $end, $options);
     }
 
     public function zRevRangeByScore(): bool
