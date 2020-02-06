@@ -119,7 +119,7 @@ class RedisSortedSetsTest extends TestCase
      * zPopMax
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zpop_max()
@@ -203,7 +203,7 @@ class RedisSortedSetsTest extends TestCase
      * zPopMin
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zpop_min()
@@ -287,7 +287,7 @@ class RedisSortedSetsTest extends TestCase
      * zInter
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zinter_aggregate_max()
@@ -468,7 +468,7 @@ class RedisSortedSetsTest extends TestCase
      * zInterStore
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zinterstore_aggregate_max()
@@ -650,7 +650,7 @@ class RedisSortedSetsTest extends TestCase
      * zIncrBy
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zincrby_negative()
@@ -696,7 +696,7 @@ class RedisSortedSetsTest extends TestCase
      * zCard, zSize, zCount
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zcount()
@@ -803,7 +803,7 @@ class RedisSortedSetsTest extends TestCase
      * zAdd
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zadd_multiple()
