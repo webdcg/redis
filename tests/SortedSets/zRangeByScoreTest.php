@@ -3,7 +3,6 @@
 namespace Webdcg\Redis\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Webdcg\Redis\Exceptions\SetOperationException;
 use Webdcg\Redis\Exceptions\UnsupportedOptionException;
 use Webdcg\Redis\Redis;
 
