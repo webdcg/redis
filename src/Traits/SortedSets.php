@@ -424,6 +424,57 @@ trait SortedSets
         return $this->redis->zRevRank($key, $member);
     }
 
+    /**
+     * Delete one or more members from a sorted set.
+     *
+     * See: https://redis.io/commands/zrem.
+     *
+     * @param  string $key      The ZSET you wish to run against
+     * @param  splay $members   Member(s) to be removed from the ZSET
+     *
+     * @return int              The number of members deleted.
+     */
+    public function zRem(string $key, ...$members): int
+    {
+        return $this->redis->zRem($key, ...$members);
+    }
+
+    /**
+     * Delete one or more members from a sorted set.
+     *
+     * Note: zDelete and zRemove are an alias for zRem and will be removed
+     * in future versions of phpredis.
+     *
+     * See: https://redis.io/commands/zrem.
+     *
+     * @param  string $key      The ZSET you wish to run against
+     * @param  splay $members   Member(s) to be removed from the ZSET
+     *
+     * @return int              The number of members deleted.
+     */
+    public function zDelete(string $key, ...$members): int
+    {
+        return $this->redis->zDelete($key, ...$members);
+    }
+
+    /**
+     * Delete one or more members from a sorted set.
+     *
+     * Note: zDelete and zRemove are an alias for zRem and will be removed
+     * in future versions of phpredis.
+     *
+     * See: https://redis.io/commands/zrem.
+     *
+     * @param  string $key      The ZSET you wish to run against
+     * @param  splay $members   Member(s) to be removed from the ZSET
+     *
+     * @return int              The number of members deleted.
+     */
+    public function zRemove(string $key, ...$members): int
+    {
+        return $this->redis->zRemove($key, ...$members);
+    }
+
 
     /**
      * ========================================================================
@@ -445,20 +496,7 @@ trait SortedSets
     }
 
 
-    public function zRem(): bool
-    {
-        return false;
-    }
-
-    public function zDelete(): bool
-    {
-        return false;
-    }
-
-    public function zRemove(): bool
-    {
-        return false;
-    }
+    
 
     public function zRemRangeByRank(): bool
     {
