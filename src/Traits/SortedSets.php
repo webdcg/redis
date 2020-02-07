@@ -475,6 +475,47 @@ trait SortedSets
         return $this->redis->zRem($key, ...$members);
     }
 
+    /**
+     * Deletes the elements of the sorted set stored at the specified key which
+     * have rank in the range [start,end].
+     *
+     * See: https://redis.io/commands/zremrangebyrank.
+     *
+     * @param  string $key      The ZSET you wish to run against
+     * @param  int    $start
+     * @param  int    $end
+     *
+     * @return int              The number of values deleted from the sorted set
+     */
+    public function zRemRangeByRank(string $key, int $start, int $end): int
+    {
+        if ($end < $start) {
+            throw new InvalidArgumentException("End should be greater than Start.", 1);
+        }
+
+        return $this->redis->zRemRangeByRank($key, $start, $end);
+    }
+
+    /**
+     * Deletes the elements of the sorted set stored at the specified key which
+     * have rank in the range [start,end].
+     *
+     * Note: zDeleteRangeByRank is an alias for zRemRangeByRank and will be
+     * removed in future versions of phpredis.
+     *
+     * See: https://redis.io/commands/zremrangebyrank.
+     *
+     * @param  string $key      The ZSET you wish to run against
+     * @param  int    $start
+     * @param  int    $end
+     *
+     * @return int              The number of values deleted from the sorted set
+     */
+    public function zDeleteRangeByRank(string $key, int $start, int $end): int
+    {
+        return $this->redis->zRemRangeByRank($key, $start, $end);
+    }
+
 
     /**
      * ========================================================================
@@ -498,15 +539,7 @@ trait SortedSets
 
 
 
-    public function zRemRangeByRank(): bool
-    {
-        return false;
-    }
-
-    public function zDeleteRangeByRank(): bool
-    {
-        return false;
-    }
+    
 
     public function zRemRangeByScore(): bool
     {
@@ -523,10 +556,12 @@ trait SortedSets
         return false;
     }
 
+
     public function zRevRange(): bool
     {
         return false;
     }
+
 
     public function zScore(): bool
     {
@@ -542,6 +577,7 @@ trait SortedSets
     {
         return false;
     }
+
 
     public function zScan(): bool
     {

@@ -26,7 +26,7 @@ class zRemoveTest extends TestCase
      * zRemove
      *
      * Redis | Sorted Sets | zRemove => Delete one or more members from a sorted set.
-     * Note: zRemoveRangeByRank is an alias for zRemRangeByRank and will be removed in future versions of phpredis.
+     * Note: zDelete and zRemove are an alias for zRem and will be removed in future versions of phpredis.
      * ========================================================================
      */
 
