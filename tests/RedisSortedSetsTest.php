@@ -331,4 +331,32 @@ class RedisSortedSetsTest extends TestCase
         $this->assertNotContains($member2, $range);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
+
+    /** @test */
+    public function redis_sorted_sets_zRemove()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(5, 10);
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1 * $i;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        $member = random_int(1, $total / 2);
+        $member = array_keys($data)[$member - 1];
+        $member2 = random_int($total / 2 + 1, $total);
+        $member2 = array_keys($data)[$member2 - 1];
+        $removed = $this->redis->zRemove($this->key, $member, $member2);
+        $this->assertIsInt($removed);
+        $this->assertEquals(2, $removed);
+        $this->assertEquals($total - 2, $this->redis->zCard($this->key));
+        $range = $this->redis->zRange($this->key);
+        $this->assertIsArray($range);
+        $this->assertNotContains($member, $range);
+        $this->assertNotContains($member2, $range);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 }
