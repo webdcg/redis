@@ -426,7 +426,7 @@ trait SortedSets
         return count(preg_grep("/^(\+|\-)?(\({1}.)?(\[{1}.)?$/", $params)) == count($params);
     }
 
-    
+
 
     public function zRevRank(): bool
     {
