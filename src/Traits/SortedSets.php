@@ -601,6 +601,29 @@ trait SortedSets
         return $this->redis->zRemRangeByScore($key, $start, $end);
     }
 
+    /**
+     * Returns the elements of the sorted set stored at the specified key in
+     * the range [start, end] in reverse order. start and stop are interpreted
+     * as zero-based indices:
+     *     0 the first element, 1 the second ...
+     *     -1 the last element, -2 the penultimate ...
+     *
+     * See: https://redis.io/commands/zrevrange.
+     *
+     * @param  string       $key        The ZSET you wish to run against
+     * @param  int          $start      0 the first element, 1 the second ...
+     * @param  int          $end        -1 the last element, -2 the penultimate ...
+     * @param  bool|boolean $withScores false No Scores | true Scores in
+     *                                  associative array
+     *
+     * @return array                    Array containing the values in
+     *                                  specified range.
+     */
+    public function zRevRange(string $key, int $start = 0, int $end = -1, bool $withScores = false): array
+    {
+        return $this->redis->zRevRange($key, $start, $end, $withScores);
+    }
+
 
     /**
      * ========================================================================
@@ -629,10 +652,7 @@ trait SortedSets
 
 
 
-    public function zRevRange(): bool
-    {
-        return false;
-    }
+    
 
 
     public function zScore(): bool

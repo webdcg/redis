@@ -488,4 +488,24 @@ class RedisSortedSetsTest extends TestCase
         $this->assertContains($member, $range);
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
+
+    /** @test */
+    public function redis_sorted_sets_zRevRange_with_scores()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1, 'A'));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 2.2, 'B'));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 3.3, 'C'));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 3.3, 'D'));
+        $this->assertEquals(4, $this->redis->zCard($this->key));
+        $expected = ['C' => 3.3, 'B' => 2.2, ];
+        $range = $this->redis->zRevRange($this->key, 1, 2, true);
+        $this->assertIsArray($range);
+        $this->assertEquals(2, count($range));
+        $this->assertEquals($expected, $range);
+        $this->assertArraySubset(['B' => 2.2], $range);
+        $this->assertArraySubset(['C' => 3.3], $range);
+        $this->assertArrayNotHasKey('A', $range);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 }
