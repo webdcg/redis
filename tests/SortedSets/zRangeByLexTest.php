@@ -30,6 +30,64 @@ class zRangeByLexTest extends TestCase
      * Redis | Sorted Sets | zRangeByLex => Returns a lexicographical range of members in a sorted set, assuming the members have the same score.
      * ========================================================================
      */
+    
+    /** @test */
+    public function redis_sorted_sets_zRangeByLex_limit_offset()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = 10;
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1.1;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        // T E S T  -----------------------------------------------------------
+        $expected = array_keys($data);
+        $range = $this->redis->zRangeByLex($this->key, '-', '[E', 2, 2);
+        
+        $this->assertIsArray($range);
+        $this->assertEquals(2, count($range));
+        
+        for ($i = 2; $i < 4; $i++) {
+            $this->assertContains($expected[$i], $range);
+        }
+
+        $this->assertEquals(array_slice($expected, 2, 2), $range);
+        // Remove all the keys used
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zRangeByLex_top_half()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = 10;
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1.1;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        // T E S T  -----------------------------------------------------------
+        $expected = array_keys($data);
+        $range = $this->redis->zRangeByLex($this->key, '(E', '+');
+
+        $this->assertIsArray($range);
+        $this->assertEquals($total/2, count($range));
+        
+        for ($i = 5; $i < $total; $i++) {
+            $this->assertContains($expected[$i], $range);
+        }
+
+        $this->assertEquals(array_slice($expected, 5, 5), $range);
+        // Remove all the keys used
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 
     /** @test */
     public function redis_sorted_sets_zRangeByLex_bottom_half()
@@ -46,17 +104,16 @@ class zRangeByLexTest extends TestCase
         }
         // T E S T  -----------------------------------------------------------
         $expected = array_keys($data);
-        $range = $this->redis->zRangeByLex($this->key, '-', '(E');
-        dump($range);
-
-        $this->assertIsArray($range);
-        $this->assertEquals($total, count($range));
+        $range = $this->redis->zRangeByLex($this->key, '-', '[E');
         
-        foreach ($expected as $key) {
-            $this->assertContains($key, $range);
+        $this->assertIsArray($range);
+        $this->assertEquals($total/2, count($range));
+        
+        for ($i = 0; $i < $total/2; $i++) {
+            $this->assertContains($expected[$i], $range);
         }
 
-        $this->assertEquals($expected, $range);
+        $this->assertEquals(array_slice($expected, 0, 5), $range);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
