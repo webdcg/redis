@@ -399,9 +399,9 @@ trait SortedSets
      * @param  string $key                      The ZSET you wish to run against
      * @param  mixed|string|int|float $member   The member to look for
      *
-     * @return The member's score
+     * @return int                              The member's rank position
      */
-    public function zRank(string $key, $member)
+    public function zRank(string $key, $member): int
     {
         return $this->redis->zRank($key, $member);
     }
