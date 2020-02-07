@@ -520,6 +520,42 @@ trait SortedSets
         return $this->redis->zRemRangeByRank($key, $start, $end);
     }
 
+    /**
+     * Deletes the elements of the sorted set stored at the specified key which
+     * have scores in the range [start,end].
+     *
+     * See: https://redis.io/commands/zremrangebyscore.
+     *
+     * @param  string $key                  The ZSET you wish to run against
+     * @param  mixed|float|string $start    double or "+inf" or "-inf" string
+     * @param  mixed|float|string $end      double or "+inf" or "-inf" string
+     *
+     * @return The number of values deleted from the sorted set
+     */
+    public function zRemRangeByScore(string $key, $start, $end): int
+    {
+        if ((!is_float($start) && !is_string($start)) || (!is_float($end) && !is_string($end))) {
+            throw new InvalidArgumentException("Start and End should be float or string.", 1);
+        }
+
+        if (is_float($start) && is_float($end) && ($end < $start)) {
+            throw new InvalidArgumentException("End should be greater than Start.", 1);
+        }
+
+        return $this->redis->zRemRangeByScore($key, $start, $end);
+    }
+
+
+    public function zDeleteRangeByScore(): bool
+    {
+        return false;
+    }
+
+    public function zRemoveRangeByScore(): bool
+    {
+        return false;
+    }
+
 
     /**
      * ========================================================================
@@ -545,20 +581,7 @@ trait SortedSets
 
 
 
-    public function zRemRangeByScore(): bool
-    {
-        return false;
-    }
-
-    public function zDeleteRangeByScore(): bool
-    {
-        return false;
-    }
-
-    public function zRemoveRangeByScore(): bool
-    {
-        return false;
-    }
+    
 
 
     public function zRevRange(): bool
