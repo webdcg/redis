@@ -5,7 +5,7 @@ namespace Webdcg\Redis\Tests;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
 
-class zRankTest extends TestCase
+class zRevRankTest extends TestCase
 {
     protected $redis;
     protected $key;
@@ -17,20 +17,20 @@ class zRankTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'SortedSets:zRank';
-        $this->keyOptional = 'SortedSets:zRank:Optional';
+        $this->key = 'SortedSets:zRevRank';
+        $this->keyOptional = 'SortedSets:zRevRank:Optional';
     }
 
     /*
      * ========================================================================
-     * zRank
+     * zRevRank
      *
-     * Redis | Sorted Sets | zRank => Returns the rank of a given member in the specified sorted set, starting at 0 for the item with the smallest score.
+     * Redis | Sorted Sets | zRevRank => Returns the rank of a given member in the specified sorted set, starting at 0 for the item with the smallest score. zRevRank starts at 0 for the item with the largest score.
      * ========================================================================
      */
 
     /** @test */
-    public function redis_sorted_sets_zRank_float_member_int_score()
+    public function redis_sorted_sets_zRevRank_float_member_int_score()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -45,15 +45,15 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = random_int(1, $total);
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals($data[$member], $rank);
+        $this->assertEquals($total - $data[$member] - 1, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
-    public function redis_sorted_sets_zRank_int_member_int_score()
+    public function redis_sorted_sets_zRevRank_int_member_int_score()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -68,15 +68,15 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = random_int(1, $total);
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals($data[$member], $rank);
+        $this->assertEquals($total - $data[$member] - 1, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
-    public function redis_sorted_sets_zRank_string_member_float_score()
+    public function redis_sorted_sets_zRevRank_string_member_float_score()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -91,15 +91,15 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = random_int(1, $total);
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals((int) floor($data[$member]), $rank);
+        $this->assertEquals($total - (int) floor($data[$member]) - 1, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
-    public function redis_sorted_sets_zRank_string_member_int_score()
+    public function redis_sorted_sets_zRevRank_string_member_int_score()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -114,15 +114,15 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = random_int(1, $total);
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals($data[$member], $rank);
+        $this->assertEquals($total - $data[$member] - 1, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
-    public function redis_sorted_sets_zRank_top_member()
+    public function redis_sorted_sets_zRevRank_top_member()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -137,15 +137,15 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = $total;
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals($data[$member], $rank);
+        $this->assertEquals(0, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
-    public function redis_sorted_sets_zRank_bottom_member()
+    public function redis_sorted_sets_zRevRank_bottom_member()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -160,9 +160,9 @@ class zRankTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $member = 1;
         $member = array_keys($data)[$member - 1];
-        $rank = $this->redis->zRank($this->key, $member);
+        $rank = $this->redis->zRevRank($this->key, $member);
         $this->assertIsInt($rank);
-        $this->assertEquals($data[$member], $rank);
+        $this->assertEquals($total - $data[$member] - 1, $rank);
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }

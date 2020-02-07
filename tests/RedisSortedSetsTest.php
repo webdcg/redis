@@ -253,4 +253,27 @@ class RedisSortedSetsTest extends TestCase
         $this->assertEquals($data[$member], $rank);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
+    /** @test */
+    public function redis_sorted_sets_zRevRank()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(1, 10);
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1 * $i;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        // T E S T  -----------------------------------------------------------
+        $member = random_int(1, $total);
+        $member = array_keys($data)[$member - 1];
+        $rank = $this->redis->zRevRank($this->key, $member);
+        $this->assertIsInt($rank);
+        $this->assertEquals($total - $data[$member] - 1, $rank);
+        // Remove all the keys used
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 }

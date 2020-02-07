@@ -406,6 +406,24 @@ trait SortedSets
         return $this->redis->zRank($key, $member);
     }
 
+    /**
+     * Returns the rank of a given member in the specified sorted set, starting
+     * at 0 for the item with the smallest score.
+     *
+     * zRevRank starts at 0 for the item with the largest score.
+     *
+     * See: https://redis.io/commands/zrevrank.
+     *
+     * @param  string $key                      The ZSET you wish to run against
+     * @param  mixed|string|int|float $member   The member to look for
+     *
+     * @return int                              The member's rank position
+     */
+    public function zRevRank(string $key, $member): int
+    {
+        return $this->redis->zRevRank($key, $member);
+    }
+
 
     /**
      * ========================================================================
@@ -426,12 +444,6 @@ trait SortedSets
         return count(preg_grep("/^(\+|\-)?(\({1}.)?(\[{1}.)?$/", $params)) == count($params);
     }
 
-
-
-    public function zRevRank(): bool
-    {
-        return false;
-    }
 
     public function zRem(): bool
     {
