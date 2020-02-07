@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Exceptions\InvalidArgumentException;
 use Webdcg\Redis\Redis;
 
-class zRemRangeByRankTest extends TestCase
+class zDeleteRangeByRankTest extends TestCase
 {
     protected $redis;
     protected $key;
@@ -18,23 +18,23 @@ class zRemRangeByRankTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'SortedSets:zRemRangeByRank';
-        $this->keyOptional = 'SortedSets:zRemRangeByRank:Optional';
+        $this->key = 'SortedSets:zDeleteRangeByRank';
+        $this->keyOptional = 'SortedSets:zDeleteRangeByRank:Optional';
     }
 
 
     /*
      * ========================================================================
-     * zRemRangeByRank
+     * zDeleteRangeByRank
      *
-     * Redis | Sorted Sets | zRemRangeByRank => Deletes the elements of the sorted set stored at the specified key which have rank in the range [start,end].
-     * Note: zDeleteRangeByRank is an alias for zRemRangeByRank and will be removed in future versions of phpredis.
+     * Redis | Sorted Sets | zDeleteRangeByRank => Deletes the elements of the sorted set stored at the specified key which have rank in the range [start,end].
+     * Note: zDeleteRangeByRank is an alias for zDeleteRangeByRank and will be removed in future versions of phpredis.
      * ========================================================================
      */
 
 
     /** @test */
-    public function redis_sorted_sets_zRemRangeByRank_inner_members()
+    public function redis_sorted_sets_zDeleteRangeByRank_inner_members()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -50,7 +50,7 @@ class zRemRangeByRankTest extends TestCase
         $member = array_keys($data)[$member];
         $expected = $total - 2;
         // T E S T  -----------------------------------------------------------
-        $removed = $this->redis->zRemRangeByRank($this->key, 1, $total - 2);
+        $removed = $this->redis->zDeleteRangeByRank($this->key, 1, $total - 2);
         $range = $this->redis->zRange($this->key);
         // T E S T  -----------------------------------------------------------
         $this->assertIsInt($removed);
@@ -63,7 +63,7 @@ class zRemRangeByRankTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zRemRangeByRank_top_half()
+    public function redis_sorted_sets_zDeleteRangeByRank_top_half()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -79,7 +79,7 @@ class zRemRangeByRankTest extends TestCase
         $member = array_keys($data)[$member];
         $expected = (int) floor($total / 2);
         // T E S T  -----------------------------------------------------------
-        $removed = $this->redis->zRemRangeByRank($this->key, $expected, $total);
+        $removed = $this->redis->zDeleteRangeByRank($this->key, $expected, $total);
         $range = $this->redis->zRange($this->key);
         // T E S T  -----------------------------------------------------------
         $expected = $total % 2 == 0 ? $expected : $expected + 1;
@@ -93,7 +93,7 @@ class zRemRangeByRankTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zRemRangeByRank_bottom_half()
+    public function redis_sorted_sets_zDeleteRangeByRank_bottom_half()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -109,7 +109,7 @@ class zRemRangeByRankTest extends TestCase
         $member = array_keys($data)[$member - 1];
         $expected = (int) floor($total / 2);
         // T E S T  -----------------------------------------------------------
-        $removed = $this->redis->zRemRangeByRank($this->key, 0, $expected);
+        $removed = $this->redis->zDeleteRangeByRank($this->key, 0, $expected);
         $range = $this->redis->zRange($this->key);
         // T E S T  -----------------------------------------------------------
         $this->assertIsInt($removed);
@@ -122,17 +122,17 @@ class zRemRangeByRankTest extends TestCase
     }
 
     /** @test */
-    public function redis_sorted_sets_zRemRangeByRank_invalid_arguments()
+    public function redis_sorted_sets_zDeleteRangeByRank_invalid_arguments()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(2, 10);
         $this->expectException(InvalidArgumentException::class);
-        $this->redis->zRemRangeByRank($this->key, $total, 0);
+        $this->redis->zDeleteRangeByRank($this->key, $total, 0);
     }
 
     /** @test */
-    public function redis_sorted_sets_zRemRangeByRank_out_of_bounds()
+    public function redis_sorted_sets_zDeleteRangeByRank_out_of_bounds()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
@@ -146,7 +146,7 @@ class zRemRangeByRankTest extends TestCase
         }
         $member = 'Z';
         // T E S T  -----------------------------------------------------------
-        $removed = $this->redis->zRemRangeByRank($this->key, $total + 1, $total + 2);
+        $removed = $this->redis->zDeleteRangeByRank($this->key, $total + 1, $total + 2);
         // T E S T  -----------------------------------------------------------
         $this->assertIsInt($removed);
         $this->assertEquals(0, $removed);

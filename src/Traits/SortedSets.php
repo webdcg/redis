@@ -513,6 +513,10 @@ trait SortedSets
      */
     public function zDeleteRangeByRank(string $key, int $start, int $end): int
     {
+        if ($end < $start) {
+            throw new InvalidArgumentException("End should be greater than Start.", 1);
+        }
+        
         return $this->redis->zRemRangeByRank($key, $start, $end);
     }
 
