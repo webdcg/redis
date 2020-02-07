@@ -48,7 +48,7 @@ class zRangeByLexTest extends TestCase
 
         $this->assertIsArray($range);
         $this->assertEquals($total, count($range));
-        
+
         foreach ($expected as $key) {
             $this->assertContains($key, $range);
         }
