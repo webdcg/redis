@@ -29,7 +29,7 @@ class zRangeByLexTest extends TestCase
      * Redis | Sorted Sets | zRangeByLex => Returns a lexicographical range of members in a sorted set, assuming the members have the same score.
      * ========================================================================
      */
-    
+
     /** @test */
     public function redis_sorted_sets_zRangeByLex_limit_offset()
     {
@@ -46,10 +46,10 @@ class zRangeByLexTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $expected = array_keys($data);
         $range = $this->redis->zRangeByLex($this->key, '-', '[E', 2, 2);
-        
+
         $this->assertIsArray($range);
         $this->assertEquals(2, count($range));
-        
+
         for ($i = 2; $i < 4; $i++) {
             $this->assertContains($expected[$i], $range);
         }
@@ -78,7 +78,7 @@ class zRangeByLexTest extends TestCase
 
         $this->assertIsArray($range);
         $this->assertEquals($total / 2, count($range));
-        
+
         for ($i = 5; $i < $total; $i++) {
             $this->assertContains($expected[$i], $range);
         }
@@ -104,10 +104,10 @@ class zRangeByLexTest extends TestCase
         // T E S T  -----------------------------------------------------------
         $expected = array_keys($data);
         $range = $this->redis->zRangeByLex($this->key, '-', '[E');
-        
+
         $this->assertIsArray($range);
         $this->assertEquals($total / 2, count($range));
-        
+
         for ($i = 0; $i < $total / 2; $i++) {
             $this->assertContains($expected[$i], $range);
         }
