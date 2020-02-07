@@ -573,9 +573,32 @@ trait SortedSets
         return $this->redis->zRemRangeByScore($key, $start, $end);
     }
 
-    public function zRemoveRangeByScore(): bool
+    /**
+     * Deletes the elements of the sorted set stored at the specified key which
+     * have scores in the range [start,end].
+     *
+     * Note: zDeleteRangeByScore and zRemoveRangeByScore are an alias for
+     * zRemRangeByScore and will be removed in future versions of phpredis.
+     *
+     * See: https://redis.io/commands/zremrangebyscore.
+     *
+     * @param  string $key                  The ZSET you wish to run against
+     * @param  mixed|float|string $start    double or "+inf" or "-inf" string
+     * @param  mixed|float|string $end      double or "+inf" or "-inf" string
+     *
+     * @return The number of values deleted from the sorted set
+     */
+    public function zRemoveRangeByScore(string $key, $start, $end): int
     {
-        return false;
+        if ((!is_float($start) && !is_string($start)) || (!is_float($end) && !is_string($end))) {
+            throw new InvalidArgumentException("Start and End should be float or string.", 1);
+        }
+
+        if (is_float($start) && is_float($end) && ($end < $start)) {
+            throw new InvalidArgumentException("End should be greater than Start.", 1);
+        }
+
+        return $this->redis->zRemRangeByScore($key, $start, $end);
     }
 
 

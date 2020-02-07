@@ -440,7 +440,6 @@ class RedisSortedSetsTest extends TestCase
     /** @test */
     public function redis_sorted_sets_zDeleteRangeByScore()
     {
-        // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(4, 10);
         $data = [];
@@ -454,16 +453,39 @@ class RedisSortedSetsTest extends TestCase
         $start = array_keys($data)[$start];
         $expected = $total - 2;
         $end = array_values($data)[$total - 2] + 0.1;
-        // T E S T  -----------------------------------------------------------
         $removed = $this->redis->zDeleteRangeByScore($this->key, $data[$start], $end);
         $range = $this->redis->zRange($this->key);
-        // T E S T  -----------------------------------------------------------
         $this->assertIsInt($removed);
         $this->assertEquals($expected, $removed);
         $this->assertEquals($total - $removed, $this->redis->zCard($this->key));
         $this->assertIsArray($range);
         $this->assertContains($member, $range);
-        // Remove all the keys used
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_sorted_sets_zRemoveRangeByScore()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(4, 10);
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1.1 * $i;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        $start = 1;
+        $start = array_keys($data)[$start];
+        $expected = $total - 2;
+        $end = array_values($data)[$total - 2] + 0.1;
+        $removed = $this->redis->zRemoveRangeByScore($this->key, $data[$start], $end);
+        $range = $this->redis->zRange($this->key);
+        $this->assertIsInt($removed);
+        $this->assertEquals($expected, $removed);
+        $this->assertEquals($total - $removed, $this->redis->zCard($this->key));
+        $this->assertIsArray($range);
+        $this->assertContains($member, $range);
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 }
