@@ -390,6 +390,22 @@ trait SortedSets
         throw new InvalidArgumentException("The provided parameters do not match the required.", 1);
     }
 
+    /**
+     * Returns the rank of a given member in the specified sorted set, starting
+     * at 0 for the item with the smallest score.
+     *
+     * See: https://redis.io/commands/zrank.
+     *
+     * @param  string $key                      The ZSET you wish to run against
+     * @param  mixed|string|int|float $member   The member to look for
+     *
+     * @return The member's score
+     */
+    public function zRank(string $key, $member)
+    {
+        return $this->redis->zRank($key, $member);
+    }
+
 
     /**
      * ========================================================================
@@ -410,10 +426,7 @@ trait SortedSets
         return count(preg_grep("/^(\+|\-)?(\({1}.)?(\[{1}.)?$/", $params)) == count($params);
     }
 
-    public function zRank(): bool
-    {
-        return false;
-    }
+    
 
     public function zRevRank(): bool
     {

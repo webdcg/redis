@@ -210,4 +210,27 @@ class RedisSortedSetsTest extends TestCase
         $this->assertEquals($expected, $range);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
+    /** @test */
+    public function redis_sorted_sets_zRangeByLex()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = 10;
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = chr($i + 65);
+            $value = 1.1;
+            $data[$member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        $expected = array_keys($data);
+        $range = $this->redis->zRangeByLex($this->key, '-', '[E', 2, 2);
+        $this->assertIsArray($range);
+        $this->assertEquals(2, count($range));
+        for ($i = 2; $i < 4; $i++) {
+            $this->assertContains($expected[$i], $range);
+        }
+        $this->assertEquals(array_slice($expected, 2, 2), $range);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 }
