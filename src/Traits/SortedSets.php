@@ -2,6 +2,7 @@
 
 namespace Webdcg\Redis\Traits;
 
+use Webdcg\Redis\Exceptions\InvalidArgumentException;
 use Webdcg\Redis\Exceptions\SetOperationException;
 use Webdcg\Redis\Exceptions\UnsupportedOptionException;
 
@@ -350,9 +351,63 @@ trait SortedSets
         return $this->redis->zRevRangeByScore($key, $start, $end, $options);
     }
 
-    public function zRangeByLex(): bool
+    /**
+     * Returns a lexicographical range of members in a sorted set, assuming the
+     * members have the same score. The min and max values are required to start
+     * with '(' (exclusive), '[' (inclusive), or be exactly the values
+     * '-' (negative inf) or '+' (positive inf).
+     *
+     * The command must be called with either three or five arguments or will
+     * return FALSE.
+     *
+     * See: https://redis.io/commands/zrangebylex
+     *
+     * @param  string   $key        The ZSET you wish to run against
+     * @param  mixed|string $min    The minimum alphanumeric value you wish to get
+     * @param  mixed|string $max    The maximum alphanumeric value you wish to get
+     * @param  int|null $offset     Optional argument if you wish to start
+     *                              somewhere other than the first element.
+     * @param  int|null $limit      Optional argument if you wish to limit the
+     *                              number of elements returned.
+     *
+     * @return array                Array containing the values in the specified
+     *                              range.
+     */
+    public function zRangeByLex(string $key, $min, $max, ?int $offset = null, ?int $limit = null): array
     {
-        return false;
+        if (!$this->_validateLexParams($min, $max)) {
+            throw new InvalidArgumentException("Redis::zRangeByLex(): min and max arguments must start with '[' or '('", 1);
+        }
+
+        if (is_null($offset) && is_null($limit)) {
+            return $this->redis->zRangeByLex($key, $min, $max);
+        }
+
+        if (!is_null($offset) && !is_null($limit)) {
+            return $this->redis->zRangeByLex($key, $min, $max, $offset, $limit);
+        }
+
+        throw new InvalidArgumentException("The provided parameters do not match the required.", 1);
+    }
+
+
+    /**
+     * ========================================================================
+     * H E L P E R   M E T H O D S
+     * ========================================================================
+     */
+
+
+    /**
+     * Validate Lex Params
+     *
+     * @param  splat $params
+     *
+     * @return bool
+     */
+    protected function _validateLexParams(...$params)
+    {
+        return count(preg_grep("/^(\+|\-)?(\({1}.)?(\[{1}.)?$/", $params)) == count($params);
     }
 
     public function zRank(): bool
