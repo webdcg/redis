@@ -31,7 +31,7 @@ class zRemRangeByRankTest extends TestCase
      * Note: zDeleteRangeByRank is an alias for zRemRangeByRank and will be removed in future versions of phpredis.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zRemRangeByRank_inner_members()
@@ -121,7 +121,7 @@ class zRemRangeByRankTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
-     /** @test */
+    /** @test */
     public function redis_sorted_sets_zRemRangeByRank_invalid_arguments()
     {
         // Start from scratch
