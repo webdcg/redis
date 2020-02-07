@@ -28,7 +28,7 @@ class zRankTest extends TestCase
      * Redis | Sorted Sets | zRank => Returns the rank of a given member in the specified sorted set, starting at 0 for the item with the smallest score.
      * ========================================================================
      */
-    
+
     /** @test */
     public function redis_sorted_sets_zRank_float_member_int_score()
     {
@@ -74,7 +74,7 @@ class zRankTest extends TestCase
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
-    
+
     /** @test */
     public function redis_sorted_sets_zRank_string_member_float_score()
     {
@@ -97,7 +97,7 @@ class zRankTest extends TestCase
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
-    
+
     /** @test */
     public function redis_sorted_sets_zRank_string_member_int_score()
     {
@@ -120,7 +120,7 @@ class zRankTest extends TestCase
         // Remove all the keys used
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
-    
+
     /** @test */
     public function redis_sorted_sets_zRank_top_member()
     {
