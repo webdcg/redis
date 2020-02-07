@@ -516,7 +516,7 @@ trait SortedSets
         if ($end < $start) {
             throw new InvalidArgumentException("End should be greater than Start.", 1);
         }
-        
+
         return $this->redis->zRemRangeByRank($key, $start, $end);
     }
 
