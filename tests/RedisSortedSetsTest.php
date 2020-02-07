@@ -160,7 +160,7 @@ class RedisSortedSetsTest extends TestCase
         for ($i = 0; $i < $total; $i++) {
             $this->assertEquals(1, $this->redis->zAdd($this->key, 1.1 * $i, chr($i + 65)));
         }
-        $expected = ['B' => 1.1, 'C' => 2.2,];
+        $expected = ['B' => 1.1, 'C' => 2.2, ];
         $range = $this->redis->zRangeByScore($this->key, 0, 4, ['withscores' => true, 'limit' => [1, 2]]);
         $this->assertIsArray($range);
         $this->assertEquals(2, count($range));

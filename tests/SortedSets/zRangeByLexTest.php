@@ -4,7 +4,6 @@ namespace Webdcg\Redis\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Exceptions\InvalidArgumentException;
-use Webdcg\Redis\Exceptions\UnsupportedOptionException;
 use Webdcg\Redis\Redis;
 
 class zRangeByLexTest extends TestCase
@@ -78,7 +77,7 @@ class zRangeByLexTest extends TestCase
         $range = $this->redis->zRangeByLex($this->key, '(E', '+');
 
         $this->assertIsArray($range);
-        $this->assertEquals($total/2, count($range));
+        $this->assertEquals($total / 2, count($range));
         
         for ($i = 5; $i < $total; $i++) {
             $this->assertContains($expected[$i], $range);
@@ -107,9 +106,9 @@ class zRangeByLexTest extends TestCase
         $range = $this->redis->zRangeByLex($this->key, '-', '[E');
         
         $this->assertIsArray($range);
-        $this->assertEquals($total/2, count($range));
+        $this->assertEquals($total / 2, count($range));
         
-        for ($i = 0; $i < $total/2; $i++) {
+        for ($i = 0; $i < $total / 2; $i++) {
             $this->assertContains($expected[$i], $range);
         }
 
