@@ -30,7 +30,7 @@ class zRemTest extends TestCase
      */
 
 
-     /** @test */
+    /** @test */
     public function redis_sorted_sets_zRem_all_members()
     {
         // Start from scratch
@@ -55,7 +55,7 @@ class zRemTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
-     /** @test */
+    /** @test */
     public function redis_sorted_sets_zRem_multiple_members()
     {
         // Start from scratch
@@ -112,7 +112,7 @@ class zRemTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
-     /** @test */
+    /** @test */
     public function redis_sorted_sets_zRem_nonexisting_member()
     {
         // Start from scratch
