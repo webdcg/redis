@@ -454,7 +454,7 @@ trait SortedSets
      */
     public function zDelete(string $key, ...$members): int
     {
-        return $this->redis->zDelete($key, ...$members);
+        return $this->redis->zRem($key, ...$members);
     }
 
     /**
@@ -472,7 +472,7 @@ trait SortedSets
      */
     public function zRemove(string $key, ...$members): int
     {
-        return $this->redis->zRemove($key, ...$members);
+        return $this->redis->zRem($key, ...$members);
     }
 
 
