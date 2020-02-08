@@ -549,4 +549,24 @@ class RedisSortedSetsTest extends TestCase
         $this->assertEquals($data[$member], $score);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
+
+    /** @test */
+    public function redis_sorted_sets_zUnionStore()
+    {
+        $destinationKey = $this->key . ':' . $this->keyOptional;
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 1.0, 'A'));
+        $this->assertEquals(1, $this->redis->zAdd($this->key, 2.0, 'B'));
+        $this->assertEquals(2, $this->redis->zCard($this->key));
+        $this->assertEquals(1, $this->redis->zAdd($this->keyOptional, 2.0, 'B'));
+        $this->assertEquals(1, $this->redis->zAdd($this->keyOptional, 3.0, 'C'));
+        $this->assertEquals(2, $this->redis->zCard($this->keyOptional));
+        $this->assertEquals(3, $this->redis->zUnionStore($destinationKey, [$this->key, $this->keyOptional], [1, 1], 'SUM'));
+        $this->assertEquals(3, $this->redis->zCard($destinationKey));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->keyOptional));
+        $this->assertEquals(1, $this->redis->delete($destinationKey));
+    }
 }

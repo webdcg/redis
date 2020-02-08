@@ -28,6 +28,6 @@
 |[zRemoveRangeByScore](#zRemoveRangeByScore)|Remove all members in a sorted set within the given scores.                                |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRemoveRangeByScore|
 |[zRevRange](#zRevRange)                    |Return a range of members in a sorted set, by index, with scores ordered from high to low. |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRevRange          |
 |[zScore](#zScore)                          |Get the score associated with the given member in a sorted set.                            |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zScore             |
-|[zunionstore](#zunionstore)                |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:x:        |:x:        |SortedSets     |zunionstore        |
-|[zUnion](#zUnion)                          |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:x:        |:x:        |SortedSets     |zUnion             |
+|[zunionstore](#zunionstore)                |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zunionstore        |
+|[zUnion](#zUnion)                          |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zUnion             |
 |[zScan](#zScan)                            |Scan a sorted set for members.                                                             |:x:        |:x:        |SortedSets     |zScan              |
