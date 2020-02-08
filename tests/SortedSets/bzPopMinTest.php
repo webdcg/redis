@@ -51,15 +51,6 @@ class bzPopMinTest extends TestCase
     * ========================================================================
     */
 
-    private function produce()
-    {
-        $redis = new Redis();
-        $redis->connect();
-        usleep(1000 * random_int(50, 100));
-        $redis->zAdd($this->key, 1.1, 'A');
-        $redis->zAdd($this->key, 2.2, 'B');
-    }
-
 
     /**
      * Using the Symfony Process component, we connect to Redis and create

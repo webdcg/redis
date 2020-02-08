@@ -30,7 +30,7 @@ class bzPopMaxTest extends TestCase
      * Redis | Sorted Sets | bzPopMax => Block until Redis can pop the lowest scoring members from one or more ZSETs.
      * ========================================================================
      */
-
+    
 
     /** @test */
     public function redis_sorted_sets_bzPopMax()
@@ -50,16 +50,7 @@ class bzPopMaxTest extends TestCase
     * H E L P E R   M E T H O D S
     * ========================================================================
     */
-
-    private function produce()
-    {
-        $redis = new Redis();
-        $redis->connect();
-        usleep(1000 * random_int(50, 100));
-        $redis->zAdd($this->key, 1.1, 'A');
-        $redis->zAdd($this->key, 2.2, 'B');
-    }
-
+    
 
     /**
      * Using the Symfony Process component, we connect to Redis and create
