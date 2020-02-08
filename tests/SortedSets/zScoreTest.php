@@ -29,7 +29,7 @@ class zScoreTest extends TestCase
      * Redis | Sorted Sets | zScore => Returns the score of a given member in the specified sorted set.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_zScore_float_member_int_score()
