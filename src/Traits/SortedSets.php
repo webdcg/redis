@@ -765,9 +765,21 @@ trait SortedSets
     }
 
 
-    public function zScan(): bool
+    /**
+     * Scan a sorted set for members, with optional pattern and count.
+     *
+     * @param  string      $key       The ZSET you wish to run against.
+     * @param  int         &$iterator Long (reference), initialized to NULL
+     * @param  string      $pattern   String (optional), the pattern to match
+     * @param  int|integer $count     How many keys to return per iteration
+     *                                (Redis might return a different number).
+     *
+     * @return Array, boolean         PHPRedis will return matching keys from Redis,
+     *                                or FALSE when iteration is complete
+     */
+    public function zScan(string $key, ?int &$iterator, string $pattern = '*', int $count = 10)
     {
-        return false;
+        return $this->redis->zScan($key, $iterator, $pattern, $count);
     }
 
 

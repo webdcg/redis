@@ -570,6 +570,7 @@ class RedisSortedSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
 
+
     /** @test */
     public function redis_sorted_sets_zUnion()
     {
@@ -587,5 +588,28 @@ class RedisSortedSetsTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
+    }
+
+
+    /** @test */
+    public function redis_keys_zScan_defaults()
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $total = random_int(1, 10);
+        $data = [];
+        for ($i = 0; $i < $total; $i++) {
+            $member = ($i * 1.1) + 65;
+            $value = 1.1 * $i;
+            $data[(string) $member] = $value;
+            $this->assertEquals(1, $this->redis->zAdd($this->key, $value, $member));
+        }
+        $it = null;
+        do {
+            $members = $this->redis->zScan($this->key, $it);
+            if ($members !== false) {
+                $this->assertContains($this->key, $members);
+            }
+        } while ($it > 0);
+        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }

@@ -58,6 +58,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
 
+
     /** @test */
     public function redis_sorted_sets_zUnion_aggregate_min()
     {
@@ -83,6 +84,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
+
 
     /** @test */
     public function redis_sorted_sets_zUnion_aggregate_sum()
@@ -110,6 +112,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
 
+
     /** @test */
     public function redis_sorted_sets_zUnion_multiply_weights()
     {
@@ -135,6 +138,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
+
 
     /** @test */
     public function redis_sorted_sets_zUnion_with_weights()
@@ -162,6 +166,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
 
+
     /** @test */
     public function redis_sorted_sets_zUnion_simple_intersection()
     {
@@ -187,6 +192,7 @@ class zUnionTest extends TestCase
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
         $this->assertEquals(1, $this->redis->delete($destinationKey));
     }
+
 
     /** @test */
     public function redis_sorted_sets_zUnion_wrong_operation()
