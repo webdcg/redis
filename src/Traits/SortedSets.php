@@ -13,9 +13,68 @@ trait SortedSets
      */
     protected $SET_OPERATIONS = ['SUM', 'MIN', 'MAX'];
 
-    public function bzPop(): bool
+
+    /**
+     * Block until Redis can pop the highest or lowest scoring members from one
+     * or more ZSETs. There are two commands (BZPOPMIN and BZPOPMAX for popping
+     * the lowest and highest scoring elements respectively.)
+     *
+     * Note: Calling these functions with an array of keys or with a variable
+     * number of arguments is functionally identical.
+     *
+     * See: https://redis.io/commands/bzpopmin.
+     * See: https://redis.io/commands/bzpopmax.
+     *
+     * @param  array        $keys    The ZSETs you wish to run against
+     * @param  int          $timeout [description]
+     * @param  bool|boolean $max     [description]
+     *
+     * @return array            Either an array with the key member and score
+     *                          of the highest or lowest element or an empty
+     *                          array if the timeout was reached without an
+     *                          element to pop.
+     */
+    public function bzPop(array $keys, int $timeout, bool $max = false): array
     {
-        return false;
+        return $max ?
+            $this->redis->bzPopMax($keys, $timeout) :
+            $this->redis->bzPopMin($keys, $timeout);
+    }
+
+    /**
+     * Block until Redis can pop the lowest scoring members from one or more ZSETs.
+     *
+     * See: https://redis.io/commands/bzpopmin.
+     *
+     * @param  array  $keys    The ZSETs you wish to run against
+     * @param  int    $timeout [description]
+     *
+     * @return array            Either an array with the key member and score
+     *                          of the highest or lowest element or an empty
+     *                          array if the timeout was reached without an
+     *                          element to pop.
+     */
+    public function bzPopMin(array $keys, int $timeout): array
+    {
+        return $this->redis->bzPopMin($keys, $timeout);
+    }
+
+    /**
+     * Block until Redis can pop the lowest scoring members from one or more ZSETs.
+     *
+     * See: https://redis.io/commands/bzpopmax.
+     *
+     * @param  array  $keys    The ZSETs you wish to run against
+     * @param  int    $timeout [description]
+     *
+     * @return array            Either an array with the key member and score
+     *                          of the highest or lowest element or an empty
+     *                          array if the timeout was reached without an
+     *                          element to pop.
+     */
+    public function bzPopMax(array $keys, int $timeout): array
+    {
+        return $this->redis->bzPopMax($keys, $timeout);
     }
 
 

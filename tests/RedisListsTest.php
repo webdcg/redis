@@ -23,6 +23,14 @@ class RedisListsTest extends TestCase
         $this->keyOptional = 'Lists:Optional';
     }
 
+
+    /**
+     * ========================================================================
+     * H E L P E R   M E T H O D S
+     * ========================================================================
+     */
+
+
     /**
      * Queue Producer
      * Using the Symfony Process component, we connect to Redis and create
@@ -41,11 +49,12 @@ use Webdcg\Redis\Redis;
 \$redis = new Redis();
 \$redis->connect();
 usleep(1000 * random_int(50, 100));
-\$redis->rPush({$this->key}, 'A');
+\$redis->rPush('{$this->key}', 'A');
 EOF
         );
         $this->producer->run();
     }
+
 
     /**
      * Queue Producer
@@ -65,11 +74,19 @@ use Webdcg\Redis\Redis;
 \$redis = new Redis();
 \$redis->connect();
 usleep(1000 * random_int(50, 100));
-\$redis->lPush({$this->key}, 'A');
+\$redis->lPush('{$this->key}', 'A');
 EOF
         );
         $this->producer->run();
     }
+
+
+    /**
+     * ========================================================================
+     * L I S T S   S P E C I F I C   M E T H O D S
+     * ========================================================================
+     */
+
 
     /** @test */
     public function redis_lists_brpoplpush()
@@ -85,6 +102,7 @@ EOF
         $this->assertEquals(0, $this->redis->exists($this->keyOptional));
     }
 
+
     /** @test */
     public function redis_lists_brpop()
     {
@@ -96,6 +114,7 @@ EOF
         $this->assertEquals(0, $this->redis->exists($this->key));
     }
 
+
     /** @test */
     public function redis_lists_blpop()
     {
@@ -106,6 +125,7 @@ EOF
         $this->assertEquals([$this->key, 'A'], $this->redis->blPop([$this->key], 1));
         $this->assertEquals(0, $this->redis->exists($this->key));
     }
+
 
     /** @test */
     public function redis_lists_rpoplpush_float()
@@ -124,6 +144,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
     }
 
+
     /** @test */
     public function redis_lists_rpoplpush_int()
     {
@@ -140,6 +161,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
     }
+
 
     /** @test */
     public function redis_lists_rpoplpush_string()
@@ -158,6 +180,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->keyOptional));
     }
 
+
     /** @test */
     public function redis_lists_rpop_float()
     {
@@ -174,6 +197,7 @@ EOF
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_rpop_int()
     {
@@ -189,6 +213,7 @@ EOF
         // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_rpop_string()
@@ -224,6 +249,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpop_float()
     {
@@ -239,6 +265,7 @@ EOF
         // Cleanup used keys
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lpop_int()
@@ -256,6 +283,7 @@ EOF
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpop_string()
     {
@@ -272,6 +300,7 @@ EOF
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_linsert_exception()
     {
@@ -286,6 +315,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_linsert_before()
@@ -302,6 +332,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_linsert_after()
     {
@@ -317,6 +348,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_linsert_empty()
     {
@@ -326,6 +358,7 @@ EOF
         $this->assertEquals(0, $this->redis->lInsert($this->key, 'a', 'A', 'X'));
         $this->assertEquals(0, $this->redis->lInsert($this->key, 'b', 'A', 'X'));
     }
+
 
     /** @test */
     public function redis_lists_lGet_float()
@@ -345,6 +378,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lGet_int()
     {
@@ -362,6 +396,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lGet_string()
@@ -381,6 +416,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lindex_float()
     {
@@ -398,6 +434,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lindex_int()
@@ -417,6 +454,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lindex_string()
     {
@@ -435,6 +473,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lsize()
     {
@@ -449,6 +488,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_llen()
@@ -465,6 +505,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_rpushx_float()
     {
@@ -478,6 +519,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_rpushx_int()
@@ -493,6 +535,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_rpushx_string()
     {
@@ -506,6 +549,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+    
 
     /** @test */
     public function redis_lists_rpush_float()
@@ -524,6 +568,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_rpush_int()
     {
@@ -541,6 +586,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_rpush_string()
     {
@@ -557,6 +603,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_listtrim_keep_middle()
@@ -576,6 +623,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_listtrim_keep_head()
     {
@@ -593,6 +641,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_listtrim_keep_tail()
@@ -612,6 +661,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_ltrim_keep_middle()
     {
@@ -629,6 +679,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_ltrim_keep_head()
@@ -648,6 +699,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_ltrim_keep_tail()
     {
@@ -665,6 +717,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lremove_remove_b_one()
@@ -684,6 +737,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lremove_remove_b_all()
     {
@@ -701,6 +755,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lremove_remove_c()
@@ -721,6 +776,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lremove_remove_d()
     {
@@ -738,6 +794,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lrem_remove_b_one()
@@ -757,6 +814,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lrem_remove_b_all()
     {
@@ -774,6 +832,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lrem_remove_c()
@@ -794,6 +853,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lrem_remove_d()
     {
@@ -811,6 +871,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lgetrange()
@@ -830,6 +891,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lrange()
     {
@@ -848,6 +910,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpushx_float()
     {
@@ -861,6 +924,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lpushx_int()
@@ -876,6 +940,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpushx_string()
     {
@@ -890,6 +955,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpush_float()
     {
@@ -903,6 +969,7 @@ EOF
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_lists_lpush_int()
     {
@@ -915,6 +982,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
 
     /** @test */
     public function redis_lists_lpush_string()

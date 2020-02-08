@@ -25,6 +25,7 @@ trait Lists
         return $this->redis->blPop($keys, $timeout);
     }
 
+
     /**
      * Is a blocking rPop primitive. If at least one of the lists contains at
      * least one element, the element will be popped from the head of the list
@@ -44,6 +45,7 @@ trait Lists
         return $this->redis->brPop($keys, $timeout);
     }
 
+
     /**
      * A blocking version of rPopLPush, with an integral timeout in the third
      * parameter.
@@ -60,6 +62,7 @@ trait Lists
     {
         return $this->redis->bRPopLPush($sourceKey, $destinationKey, $timeout);
     }
+
 
     /**
      * Return the specified element of the list stored at the specified key.
@@ -81,6 +84,7 @@ trait Lists
     {
         return $this->redis->lIndex($key, $index);
     }
+
 
     /**
      * Return the specified element of the list stored at the specified key.
@@ -104,6 +108,7 @@ trait Lists
     {
         return $this->redis->lIndex($key, $index);
     }
+
 
     /**
      * Insert value in the list before or after the pivot value.
@@ -131,6 +136,7 @@ trait Lists
         }
     }
 
+
     /**
      * Returns the size of a list identified by Key.
      * If the list didn't exist or is empty, the command returns 0. If the data
@@ -147,6 +153,7 @@ trait Lists
     {
         return $this->redis->lLen($key);
     }
+
 
     /**
      * Returns the size of a list identified by Key.
@@ -167,6 +174,7 @@ trait Lists
         return $this->redis->lLen($key);
     }
 
+
     /**
      * Return and remove the first element of the list.
      * See: https://redis.io/commands/lpop.
@@ -180,6 +188,7 @@ trait Lists
     {
         return $this->redis->lPop($key);
     }
+
 
     /**
      * Adds the string value to the head (left) of the list. Creates the list
@@ -198,6 +207,7 @@ trait Lists
         return $this->redis->lPush($key, $value);
     }
 
+
     /**
      * Adds the string value to the head (left) of the list if the list exists.
      * See: https://redis.io/commands/lpushx.
@@ -212,6 +222,7 @@ trait Lists
     {
         return $this->redis->lPushx($key, $value);
     }
+
 
     /**
      * Returns the specified elements of the list stored at the specified key
@@ -230,6 +241,7 @@ trait Lists
     {
         return $this->redis->lRange($key, $start, $end);
     }
+
 
     /**
      * Returns the specified elements of the list stored at the specified key
@@ -251,6 +263,7 @@ trait Lists
         return $this->redis->lRange($key, $start, $end);
     }
 
+
     /**
      * Removes the first count occurrences of the value element from the list.
      * If count is zero, all the matching elements are removed. If count is
@@ -271,6 +284,7 @@ trait Lists
     {
         return $this->redis->lRem($key, $value, $count);
     }
+
 
     /**
      * Removes the first count occurrences of the value element from the list.
@@ -295,6 +309,7 @@ trait Lists
         return $this->redis->lRem($key, $value, $count);
     }
 
+
     /**
      * Set the list at index with the new value.
      *
@@ -311,6 +326,7 @@ trait Lists
         return $this->redis->lSet($key, $index, $value);
     }
 
+
     /**
      * Trims an existing list so that it will contain only a specified range
      * of elements.
@@ -326,6 +342,7 @@ trait Lists
     {
         return $this->redis->lTrim($key, $start, $stop);
     }
+
 
     /**
      * Trims an existing list so that it will contain only a specified range
@@ -345,6 +362,7 @@ trait Lists
         return $this->redis->lTrim($key, $start, $stop);
     }
 
+
     /**
      * Returns and removes the last element of the list.
      * See: https://redis.io/commands/rpop.
@@ -358,6 +376,7 @@ trait Lists
     {
         return $this->redis->rPop($key);
     }
+
 
     /**
      * Pops a value from the tail of a list, and pushes it to the front of
@@ -375,6 +394,7 @@ trait Lists
         return $this->redis->rPopLPush($sourceKey, $destinationKey);
     }
 
+
     /**
      * Adds the string value to the tail (right) of the list. Creates the list
      * if the key didn't exist. If the key exists and is not a list, FALSE is
@@ -391,6 +411,7 @@ trait Lists
     {
         return $this->redis->rPush($key, $value);
     }
+    
 
     /**
      * Adds the string value to the tail (right) of the list if the list exists.

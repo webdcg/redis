@@ -3,7 +3,7 @@
 
 |Command                                    |Description                                                                                |Supported  |Tested     |Class/Trait    |Method             |
 |---                                        |---                                                                                        |:-:        |:-:        |---            |---                |
-|[bzPop](#bzPop)                            |Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.     |:x:        |:x:        |SortedSets     |bzPop              |
+|[bzPop](#bzPop)                            |Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.     |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |bzPop              |
 |[zAdd](#zAdd)                              |Add one or more members to a sorted set or update its score if it already exists.          |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zAdd               |
 |[zCard](#zCard)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zCard              |
 |[zSize](#zSize)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zSize              |
@@ -30,4 +30,4 @@
 |[zScore](#zScore)                          |Get the score associated with the given member in a sorted set.                            |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zScore             |
 |[zunionstore](#zunionstore)                |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zunionstore        |
 |[zUnion](#zUnion)                          |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zUnion             |
-|[zScan](#zScan)                            |Scan a sorted set for members.                                                             |:x:        |:x:        |SortedSets     |zScan              |
+|[zScan](#zScan)                            |Scan a sorted set for members.                                                             |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zScan              |
