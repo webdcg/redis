@@ -310,7 +310,7 @@ trait Sets
      * Scan a set for members.
      * See: https://redis.io/commands/sscan.
      *
-     * @param  string      $keys        The set to search.
+     * @param  string      $key        The set to search.
      * @param  int         $iterator    LONG (reference) to the iterator as we go.
      * @param  string      $pattern     String, optional pattern to match against.
      * @param  int|integer $count       How many members to return at a time
