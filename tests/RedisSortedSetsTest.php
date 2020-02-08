@@ -20,7 +20,7 @@ class RedisSortedSetsTest extends TestCase
         $this->key = 'SortedSets';
         $this->keyOptional = 'SortedSets:Optional';
     }
-    
+
 
     /** @test */
     public function redis_sorted_sets_zAdd()
