@@ -411,7 +411,7 @@ trait Lists
     {
         return $this->redis->rPush($key, $value);
     }
-    
+
 
     /**
      * Adds the string value to the tail (right) of the list if the list exists.
