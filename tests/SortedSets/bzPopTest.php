@@ -30,7 +30,7 @@ class bzPopTest extends TestCase
      * Redis | Sorted Sets | bzPop =>  Block until Redis can pop the highest or lowest scoring members from one or more ZSETs.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_bzPop_max()
