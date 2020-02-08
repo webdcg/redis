@@ -18,6 +18,7 @@ trait SortedSets
         return false;
     }
 
+
     /**
      * Add one or more members to a sorted set or update its score if it
      * already exists.
@@ -35,6 +36,7 @@ trait SortedSets
         return $this->redis->zAdd($key, $score, $member);
     }
 
+
     /**
      * Get the number of members in a sorted set.
      * See: https://redis.io/commands/zcard.
@@ -47,6 +49,7 @@ trait SortedSets
     {
         return $this->redis->zCard($key);
     }
+
 
     /**
      * Get the number of members in a sorted set.
@@ -64,6 +67,7 @@ trait SortedSets
     {
         return $this->redis->zCard($key);
     }
+
 
     /**
      * Returns the number of elements of the sorted set stored at the specified
@@ -84,6 +88,7 @@ trait SortedSets
         return $this->redis->zCount($key, $start, $end);
     }
 
+
     /**
      * Increments the score of a member from a sorted set by a given amount.
      *
@@ -100,6 +105,7 @@ trait SortedSets
     {
         return $this->redis->zIncrBy($key, $value, $member);
     }
+
 
     /**
      * Creates an intersection of sorted sets given in second argument.
@@ -150,6 +156,7 @@ trait SortedSets
         // Make simplest call just with the required params
         return $this->redis->zInterStore($keyOutput, $arrayZSetKeys);
     }
+
 
     /**
      * Creates an intersection of sorted sets given in second argument.
@@ -204,6 +211,7 @@ trait SortedSets
         return $this->redis->zInterStore($keyOutput, $arrayZSetKeys);
     }
 
+
     /**
      * Can pop the highest or lowest scoring members from one ZSETs.
      * There are two commands (ZPOPMIN and ZPOPMAX for popping the lowest and
@@ -226,6 +234,7 @@ trait SortedSets
         return $max ? $this->redis->zPopMax($key, $count) : $this->redis->zPopMin($key, $count);
     }
 
+
     /**
      * Can pop the lowest scoring members from one ZSETs.
      *
@@ -244,6 +253,7 @@ trait SortedSets
         return $this->redis->zPopMin($key, $count);
     }
 
+
     /**
      * Can pop the highest scoring members from one ZSETs.
      *
@@ -261,6 +271,7 @@ trait SortedSets
     {
         return $this->redis->zPopMax($key, $count);
     }
+
 
     /**
      * Returns a range of elements from the ordered set stored at the specified
@@ -283,6 +294,7 @@ trait SortedSets
     {
         return $this->redis->zRange($key, $start, $end, $withScores);
     }
+
 
     /**
      * Returns the elements of the sorted set stored at the specified key which
@@ -315,6 +327,7 @@ trait SortedSets
 
         return $this->redis->zRangeByScore($key, $start, $end, $options);
     }
+
 
     /**
      * Returns the elements of the sorted set stored at the specified key which
@@ -350,6 +363,7 @@ trait SortedSets
 
         return $this->redis->zRevRangeByScore($key, $start, $end, $options);
     }
+
 
     /**
      * Returns a lexicographical range of members in a sorted set, assuming the
@@ -390,6 +404,7 @@ trait SortedSets
         throw new InvalidArgumentException("The provided parameters do not match the required.", 1);
     }
 
+
     /**
      * Returns the rank of a given member in the specified sorted set, starting
      * at 0 for the item with the smallest score.
@@ -405,6 +420,7 @@ trait SortedSets
     {
         return $this->redis->zRank($key, $member);
     }
+
 
     /**
      * Returns the rank of a given member in the specified sorted set, starting
@@ -424,6 +440,7 @@ trait SortedSets
         return $this->redis->zRevRank($key, $member);
     }
 
+
     /**
      * Delete one or more members from a sorted set.
      *
@@ -438,6 +455,7 @@ trait SortedSets
     {
         return $this->redis->zRem($key, ...$members);
     }
+
 
     /**
      * Delete one or more members from a sorted set.
@@ -457,6 +475,7 @@ trait SortedSets
         return $this->redis->zRem($key, ...$members);
     }
 
+
     /**
      * Delete one or more members from a sorted set.
      *
@@ -474,6 +493,7 @@ trait SortedSets
     {
         return $this->redis->zRem($key, ...$members);
     }
+
 
     /**
      * Deletes the elements of the sorted set stored at the specified key which
@@ -495,6 +515,7 @@ trait SortedSets
 
         return $this->redis->zRemRangeByRank($key, $start, $end);
     }
+
 
     /**
      * Deletes the elements of the sorted set stored at the specified key which
@@ -520,6 +541,7 @@ trait SortedSets
         return $this->redis->zRemRangeByRank($key, $start, $end);
     }
 
+
     /**
      * Deletes the elements of the sorted set stored at the specified key which
      * have scores in the range [start,end].
@@ -544,6 +566,7 @@ trait SortedSets
 
         return $this->redis->zRemRangeByScore($key, $start, $end);
     }
+
 
     /**
      * Deletes the elements of the sorted set stored at the specified key which
@@ -573,6 +596,7 @@ trait SortedSets
         return $this->redis->zRemRangeByScore($key, $start, $end);
     }
 
+
     /**
      * Deletes the elements of the sorted set stored at the specified key which
      * have scores in the range [start,end].
@@ -601,6 +625,7 @@ trait SortedSets
         return $this->redis->zRemRangeByScore($key, $start, $end);
     }
 
+
     /**
      * Returns the elements of the sorted set stored at the specified key in
      * the range [start, end] in reverse order. start and stop are interpreted
@@ -622,6 +647,20 @@ trait SortedSets
     public function zRevRange(string $key, int $start = 0, int $end = -1, bool $withScores = false): array
     {
         return $this->redis->zRevRange($key, $start, $end, $withScores);
+    }
+
+
+    /**
+     * Returns the score of a given member in the specified sorted set.
+     *
+     * @param  string $key                      The ZSET you wish to run against.
+     * @param  mixed|string|float|int $member
+     *
+     * @return float                            The Score associated with the Member.
+     */
+    public function zScore(string $key, $member): float
+    {
+        return $this->redis->zScore($key, $member);
     }
 
 
@@ -655,10 +694,7 @@ trait SortedSets
 
 
 
-    public function zScore(): bool
-    {
-        return false;
-    }
+    
 
     public function zunionstore(): bool
     {
