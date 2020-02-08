@@ -549,7 +549,7 @@ EOF
         // Cleanup used keys
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
-    
+
 
     /** @test */
     public function redis_lists_rpush_float()

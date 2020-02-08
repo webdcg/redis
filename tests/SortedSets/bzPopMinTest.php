@@ -30,7 +30,7 @@ class bzPopMinTest extends TestCase
      * Redis | Sorted Sets | bzPopMin => Scan a sorted set for members, with optional pattern and count.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_sorted_sets_bzPopMin()
@@ -45,12 +45,12 @@ class bzPopMinTest extends TestCase
     }
 
 
-     /**
-     * ========================================================================
-     * H E L P E R   M E T H O D S
-     * ========================================================================
-     */
-    
+    /**
+    * ========================================================================
+    * H E L P E R   M E T H O D S
+    * ========================================================================
+    */
+
     private function produce()
     {
         $redis = new Redis();
