@@ -675,6 +675,8 @@ trait SortedSets
      *  forth argument defines the AGGREGATE option which specify how the
      *  results of the union are aggregated.
      *
+     * See: https://redis.io/commands/zunionstore.
+     *
      * @param  string $keyOutput            The ZSET you wish to store the result.
      * @param  array  $arrayZSetKeys
      * @param  array  $arrayWeights
@@ -711,10 +713,57 @@ trait SortedSets
     }
 
 
-    public function zUnion(): bool
-    {
-        return false;
+    /**
+     * Creates an union of sorted sets given in second argument.
+     * The result of the union will be stored in the sorted set defined by the
+     * first argument.
+     *
+     * The third optional argument defines weights to apply to the sorted sets
+     *  in input. In this case, the weights will be multiplied by the score of
+     *  each element in the sorted set before applying the aggregation. The
+     *  forth argument defines the AGGREGATE option which specify how the
+     *  results of the union are aggregated.
+     *
+     * Note: zUnion is an alias for zunionstore and will be removed in future
+     *       versions of phpredis.
+     *
+     * See: https://redis.io/commands/zunionstore.
+     *
+     * @param  string $keyOutput            The ZSET you wish to store the result.
+     * @param  array  $arrayZSetKeys
+     * @param  array  $arrayWeights
+     * @param  string $aggregateFunction    Either "SUM", "MIN", or "MAX":
+     *                                      defines the behaviour to use on
+     *                                      duplicate entries during the
+     *                                      zunionstore.
+     *
+     * @return [type]
+     */
+    public function zUnion(
+        string $keyOutput,
+        array $arrayZSetKeys,
+        ?array $arrayWeights = null,
+        ?string $aggregateFunction = null
+    ): int {
+        // Validate Aggregate Function
+        if (!is_null($aggregateFunction) && !is_null($arrayWeights)) {
+            $operation = strtoupper($aggregateFunction);
+
+            if (!in_array($operation, $this->SET_OPERATIONS)) {
+                throw new SetOperationException('Operation not supported', 1);
+            }
+
+            return $this->redis->zUnionStore($keyOutput, $arrayZSetKeys, $arrayWeights, $operation);
+        }
+
+        // Call using Weights
+        if (!is_null($arrayWeights)) {
+            return $this->redis->zUnionStore($keyOutput, $arrayZSetKeys, $arrayWeights);
+        }
+
+        return $this->redis->zUnionStore($keyOutput, $arrayZSetKeys);
     }
+
 
     public function zScan(): bool
     {
