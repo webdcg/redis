@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\PhpProcess;
 use Webdcg\Redis\Redis;
 
-class bzPopMinTest extends TestCase
+class bzPopMaxTest extends TestCase
 {
     protected $redis;
     protected $key;
@@ -18,39 +18,39 @@ class bzPopMinTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'SortedSets:bzPopMin';
-        $this->keyOptional = 'SortedSets:bzPopMin:Optional';
+        $this->key = 'SortedSets:bzPopMax';
+        $this->keyOptional = 'SortedSets:bzPopMax:Optional';
     }
 
 
     /*
      * ========================================================================
-     * bzPopMin
+     * bzPopMax
      *
-     * Redis | Sorted Sets | bzPopMin => Block until Redis can pop the lowest scoring members from one or more ZSETs.
+     * Redis | Sorted Sets | bzPopMax => Block until Redis can pop the lowest scoring members from one or more ZSETs.
      * ========================================================================
      */
-
+    
 
     /** @test */
-    public function redis_sorted_sets_bzPopMin()
+    public function redis_sorted_sets_bzPopMax()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->produceKeyValue();
         // --------------------  T E S T  --------------------
-        $this->assertEquals([$this->key, 'A', 1.1], $this->redis->bzPopMin([$this->key], 1));
+        $this->assertEquals([$this->key, 'B', 2.2], $this->redis->bzPopMax([$this->key], 1));
         $this->assertEquals(1, $this->redis->exists($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
 
-    /**
-    * ========================================================================
-    * H E L P E R   M E T H O D S
-    * ========================================================================
-    */
-
+     /**
+     * ========================================================================
+     * H E L P E R   M E T H O D S
+     * ========================================================================
+     */
+    
     private function produce()
     {
         $redis = new Redis();
