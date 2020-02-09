@@ -16,9 +16,15 @@ trait Introspection
         return $this->redis->isConnected();
     }
 
-    public function getHost(): bool
+
+    /**
+     * Retrieve our host or unix socket that we're connected to
+     *
+     * @return string
+     */
+    public function getHost(): string
     {
-        return false;
+        return $this->redis->getHost();
     }
 
     public function getPort(): bool

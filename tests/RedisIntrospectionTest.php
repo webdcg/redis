@@ -21,9 +21,17 @@ class RedisIntrospectionTest extends TestCase
         $this->keyOptional = 'Introspection:Optional';
     }
 
+
     /** @test */
-    public function redis_introspection_isconnected()
+    public function redis_introspection_isConnected()
     {
         $this->assertTrue($this->redis->isConnected());
+    }
+
+    // Redis | Introspection | getHost => Retrieve our host or unix socket that we're connected to
+    /** @test */
+    public function redis_introspection_getHost()
+    {
+        $this->assertEquals('127.0.0.1', $this->redis->getHost());
     }
 }
