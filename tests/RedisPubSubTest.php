@@ -38,7 +38,7 @@ class RedisPubSubTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->produceMessage();
 
-        $reply = $this->redis->subscribe([$this->key]);
+        // $reply = $this->redis->subscribe([$this->key]);
 
         // $this->assertEquals(0, $this->redis->publish($this->key, 'Hello Redis..!'));
 
