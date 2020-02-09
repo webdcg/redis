@@ -41,21 +41,21 @@ class RedisPubSubTest extends TestCase
         $reply = $this->redis->subscribe([$this->key]);
 
         // $this->assertEquals(0, $this->redis->publish($this->key, 'Hello Redis..!'));
-        
+
         // $redis = new \Redis();
         // $redis->connect('localhost');
         // $response = $redis->subscribe([$this->key]);
         // dump($response);
     }
 
-    
+
 
     /**
     * ========================================================================
     * H E L P E R   M E T H O D S
     * ========================================================================
     */
-       /**
+    /**
      * Using the Symfony Process component, we connect to Redis and create
      * a single element on a Queue.
      * See: https://symfony.com/doc/current/index.html#gsc.tab=0.
