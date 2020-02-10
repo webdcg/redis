@@ -61,9 +61,16 @@ trait Introspection
         return $this->redis->getTimeout();
     }
 
-    public function getReadTimeout(): bool
+    /**
+     * Get the read timeout specified to phpredis or FALSE if we're not connected
+     *
+     * @return int          Returns the read timeout (which can be set using
+     *                      setOption and Redis::OPT_READ_TIMEOUT) or FALSE if
+     *                      we're not connected.
+     */
+    public function getReadTimeout(): int
     {
-        return false;
+        return $this->redis->getReadTimeout();
     }
 
     public function getPersistentID(): bool
