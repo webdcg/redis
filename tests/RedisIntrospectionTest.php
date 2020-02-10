@@ -109,10 +109,7 @@ class RedisIntrospectionTest extends TestCase
         $this->redis = new Redis();
         $this->assertFalse($this->redis->getPersistentID());
         $this->assertTrue($this->redis->pconnect('127.0.0.1', 6379, 0, 'x'));
-        $this->assertTrue($this->redis->set($this->key, 'value'));
-        $this->assertEquals('value', $this->redis->get($this->key));
         $this->assertEquals('x', $this->redis->getPersistentID());
-        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
 
