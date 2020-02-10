@@ -51,4 +51,15 @@ class RedisIntrospectionTest extends TestCase
         $this->redis->select(1);
         $this->assertEquals(1, $this->redis->getDbNum());
     }
+
+
+    // Redis | Introspection | getTimeout => Retrieve our host or unix socket that we're connected to
+    /** @test */
+    public function redis_introspection_getTimeout()
+    {
+        $this->assertEquals(false, $this->redis->getTimeout());
+        $this->redis->close();
+        $this->assertTrue($this->redis->connect('127.0.0.1', 6379, 0.5));
+        $this->assertEquals(0.5, $this->redis->getTimeout());
+    }
 }

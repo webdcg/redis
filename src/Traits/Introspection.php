@@ -50,9 +50,15 @@ trait Introspection
         return $this->redis->getDbNum();
     }
 
-    public function getTimeout(): bool
+    /**
+     * Get the (write) timeout in use for phpredis
+     *
+     * @return float        The timeout (DOUBLE) specified in our connect call
+     *                      or FALSE if we're not connected.
+     */
+    public function getTimeout(): float
     {
-        return false;
+        return $this->redis->getTimeout();
     }
 
     public function getReadTimeout(): bool
