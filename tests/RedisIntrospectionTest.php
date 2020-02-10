@@ -17,6 +17,7 @@ class RedisIntrospectionTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
+        $this->redis->select(0);
         $this->key = 'Introspection';
         $this->keyOptional = 'Introspection:Optional';
     }
@@ -40,5 +41,14 @@ class RedisIntrospectionTest extends TestCase
     public function redis_introspection_getPort()
     {
         $this->assertEquals(6379, $this->redis->getPort());
+    }
+
+    // Redis | Introspection | getDbNum => Get the database number phpredis is pointed to
+    /** @test */
+    public function redis_introspection_getDbNum()
+    {
+        $this->assertEquals(0, $this->redis->getDbNum());
+        $this->redis->select(1);
+        $this->assertEquals(1, $this->redis->getDbNum());
     }
 }

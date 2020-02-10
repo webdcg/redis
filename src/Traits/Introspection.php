@@ -20,7 +20,8 @@ trait Introspection
     /**
      * Retrieve our host or unix socket that we're connected to
      *
-     * @return string
+     * @return string       The host or unix socket we're connected to or FALSE
+     *                      if we're not connected
      */
     public function getHost(): string
     {
@@ -30,16 +31,23 @@ trait Introspection
     /**
      * Get the port we're connected to
      *
-     * @return int
+     * @return int          Returns the port we're connected to or FALSE if
+     *                      we're not connected
      */
     public function getPort(): int
     {
         return $this->redis->getPort();
     }
 
-    public function getDbNum(): bool
+    /**
+     * Get the database number phpredis is pointed to
+     *
+     * @return int          Returns the database number (LONG) phpredis thinks
+     *                      it's pointing to or FALSE if we're not connected.
+     */
+    public function getDbNum(): int
     {
-        return false;
+        return $this->redis->getDbNum();
     }
 
     public function getTimeout(): bool
