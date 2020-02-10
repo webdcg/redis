@@ -1,5 +1,15 @@
 <?php
 
+/**
+ *  #     #               ######   #####   #####
+ *  #  #  # ###### #####  #     # #     # #     #
+ *  #  #  # #      #    # #     # #       #
+ *  #  #  # #####  #####  #     # #       #  ####
+ *  #  #  # #      #    # #     # #       #     #
+ *  #  #  # #      #    # #     # #     # #     #
+ *   ## ##  ###### #####  ######   #####   #####
+ */
+
 namespace Webdcg\Redis\Traits;
 
 trait Introspection
@@ -16,38 +26,94 @@ trait Introspection
         return $this->redis->isConnected();
     }
 
-    public function getHost(): bool
+
+    /**
+     * Retrieve our host or unix socket that we're connected to
+     *
+     * @return mixed|string|bool    The host or unix socket we're connected to
+     *                              or FALSE if we're not connected.
+     */
+    public function getHost()
     {
-        return false;
+        return $this->redis->getHost();
     }
 
-    public function getPort(): bool
+
+    /**
+     * Get the port we're connected to
+     *
+     * @return mixed|int|bool       Returns the port we're connected to or
+     *                              FALSE if we're not connected.
+     */
+    public function getPort()
     {
-        return false;
+        return $this->redis->getPort();
     }
 
-    public function getDbNum(): bool
+
+    /**
+     * Get the database number phpredis is pointed to
+     *
+     * @return mixed|int|bool          Returns the database number (LONG)
+     *                                 phpredis thinks it's pointing to or
+     *                                 FALSE if we're not connected.
+     */
+    public function getDbNum()
     {
-        return false;
+        return $this->redis->getDbNum();
     }
 
-    public function getTimeout(): bool
+
+    /**
+     * Get the (write) timeout in use for phpredis
+     *
+     * @return mixed|float|bool     The timeout (DOUBLE) specified in our
+     *                              connect call or FALSE if we're not
+     *                              connected.
+     */
+    public function getTimeout()
     {
-        return false;
+        return $this->redis->getTimeout();
     }
 
-    public function getReadTimeout(): bool
+
+    /**
+     * Get the read timeout specified to phpredis or FALSE if we're not connected
+     *
+     * @return mixed|int|bool       Returns the read timeout (which can be set
+     *                              using setOption and Redis::OPT_READ_TIMEOUT)
+     *                              or FALSE if we're not connected.
+     */
+    public function getReadTimeout()
     {
-        return false;
+        return $this->redis->getReadTimeout();
     }
 
-    public function getPersistentID(): bool
+
+    /**
+     * Gets the persistent ID that phpredis is using.
+     *
+     * @return mixed|int|null|bool  Returns the persistent id phpredis is using
+     *                              (which will only be set if connected with
+     *                              pconnect), NULL if we're not using a
+     *                              persistent ID, and FALSE if we're not
+     *                              connected.
+     */
+    public function getPersistentID()
     {
-        return false;
+        return $this->redis->getPersistentID();
     }
 
-    public function getAuth(): bool
+
+    /**
+     * Get the password used to authenticate the phpredis connection.
+     *
+     * @return mixed|string|null|bool   Returns the password used to authenticate
+     *                                  a phpredis session or NULL if none was
+     *                                  used, and FALSE if we're not connected.
+     */
+    public function getAuth()
     {
-        return false;
+        return $this->redis->getAuth();
     }
 }
