@@ -34,4 +34,11 @@ class RedisIntrospectionTest extends TestCase
     {
         $this->assertEquals('127.0.0.1', $this->redis->getHost());
     }
+
+    // Redis | Introspection | getPort => Retrieve our host or unix socket that we're connected to
+    /** @test */
+    public function redis_introspection_getPort()
+    {
+        $this->assertEquals(6379, $this->redis->getPort());
+    }
 }

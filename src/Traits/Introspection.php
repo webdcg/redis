@@ -27,9 +27,14 @@ trait Introspection
         return $this->redis->getHost();
     }
 
-    public function getPort(): bool
+    /**
+     * Get the port we're connected to
+     *
+     * @return int
+     */
+    public function getPort(): int
     {
-        return false;
+        return $this->redis->getPort();
     }
 
     public function getDbNum(): bool
