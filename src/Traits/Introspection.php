@@ -93,10 +93,6 @@ trait Introspection
     /**
      * Gets the persistent ID that phpredis is using.
      *
-     * ToDo: The tests verify that this method is not working properly using
-     *       PHPRedis when there's an actual persistent connection open, the
-     *       rest of the tests were successful.
-     *
      * @return mixed|int|null|bool  Returns the persistent id phpredis is using
      *                              (which will only be set if connected with
      *                              pconnect), NULL if we're not using a
@@ -105,11 +101,19 @@ trait Introspection
      */
     public function getPersistentID()
     {
-        return false;
+        return $this->redis->getPersistentID();
     }
 
-    public function getAuth(): bool
+
+    /**
+     * Get the password used to authenticate the phpredis connection.
+     *
+     * @return mixed|string|null|bool   Returns the password used to authenticate
+     *                                  a phpredis session or NULL if none was
+     *                                  used, and FALSE if we're not connected.
+     */
+    public function getAuth()
     {
-        return false;
+        return $this->redis->getAuth();
     }
 }

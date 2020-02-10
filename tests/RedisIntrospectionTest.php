@@ -111,10 +111,21 @@ class RedisIntrospectionTest extends TestCase
         $this->assertTrue($this->redis->pconnect('127.0.0.1', 6379, 0, 'x'));
         $this->assertTrue($this->redis->set($this->key, 'value'));
         $this->assertEquals('value', $this->redis->get($this->key));
-        /**
-         * ToDo: Fix and Retest getPersistentID when there's a connection
-         */
-        // $this->assertEquals('x', $this->redis->getPersistentID());
+        $this->assertEquals('x', $this->redis->getPersistentID());
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+
+    // Redis | Introspection | getAuth => Retrieve our host or unix socket that we're connected to
+    /** @test */
+    public function redis_introspection_getAuth()
+    {
+        $this->assertEquals(null, $this->redis->getAuth());
+        $this->assertTrue($this->redis->close());
+        $this->redis = new Redis();
+        $this->assertFalse($this->redis->getAuth());
+        $this->assertTrue($this->redis->connect('127.0.0.1', 6380, 0.5));
+        $this->assertTrue($this->redis->auth('secret'));
+        $this->assertEquals('secret', $this->redis->getAuth());
     }
 }
