@@ -22,7 +22,7 @@ class RedisScriptingTest extends TestCase
     }
 
     /** @test */
-    public function redis_Scripting_eval_simple()
+    public function redis_Scripting_eval()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));

@@ -6,14 +6,15 @@ trait Scripting
 {
     /**
      * Evaluate a LUA script serverside.
+     *
      * See: https://redis.io/commands/eval.
      *
      * @param  string      $script
      * @param  array       $arguments
      * @param  int|integer $numKeys
      *
-     * @return mixed                    What is returned depends on what the LUA
-     *                     script itself returns, which could be a scalar value
+     * @return mixed       What is returned depends on what the LUA script
+     *                     itself returns, which could be a scalar value
      *                     (int/string), or an array. Arrays that are returned
      *                     can also contain other arrays, if that's how it was
      *                     set up in your LUA script. If there is an error
