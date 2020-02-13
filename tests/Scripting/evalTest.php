@@ -46,10 +46,14 @@ class evalTest extends TestCase
     }
 
     /** @test */
-    public function redis_Scripting_eval_getset()
+    public function redis_Scripting_eval_lrange()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        $this->assertEquals([1, 2, 3], $this->redis->eval('return {1,2,3}'));
+        $this->assertEquals(1, $this->redis->rPush($this->key, 'a'));
+        $this->assertEquals(2, $this->redis->rPush($this->key, 'b'));
+        $this->assertEquals(3, $this->redis->rPush($this->key, 'c'));
+        $script = "return redis.call('lrange', '{$this->key}', 0, -1)";
+        $this->assertEquals(['a', 'b', 'c'], $this->redis->eval($script));
     }
 }
