@@ -27,7 +27,7 @@ trait Scripting
         if (!is_null($arguments) && !is_null($numKeys)) {
             return $this->redis->eval($script, $arguments, $numKeys);
         }
-        
+
         return $this->redis->eval($script);
     }
 
