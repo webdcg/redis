@@ -55,5 +55,27 @@ class evalTest extends TestCase
         $this->assertEquals(3, $this->redis->rPush($this->key, 'c'));
         $script = "return redis.call('lrange', '{$this->key}', 0, -1)";
         $this->assertEquals(['a', 'b', 'c'], $this->redis->eval($script));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_Scripting_eval_copykey()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+        $this->assertTrue($this->redis->set($this->key, 'value'));
+        $this->assertEquals('value', $this->redis->get($this->key));
+        $copyKey = <<<EOF
+local s = KEYS[1]
+local d = KEYS[2] 
+redis.call("RESTORE", d, 0, redis.call("DUMP", s))
+return {"OK"}
+EOF;
+        $this->assertEquals(["OK"], $this->redis->eval($copyKey, [$this->key, $this->keyOptional], 2));
+        $this->assertEquals('value', $this->redis->get($this->keyOptional));
+        // Cleanup
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
     }
 }

@@ -22,8 +22,12 @@ trait Scripting
      *                     function can tell you the message that came back
      *                     from Redis (e.g. compile error).
      */
-    public function eval(string $script, array $arguments = [], int $numKeys = 0)
+    public function eval(string $script, ?array $arguments = null, ?int $numKeys = null)
     {
+        if (!is_null($arguments) && !is_null($numKeys)) {
+            return $this->redis->eval($script, $arguments, $numKeys);
+        }
+        
         return $this->redis->eval($script);
     }
 
