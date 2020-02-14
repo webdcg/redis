@@ -124,7 +124,7 @@ EOF;
         $this->assertEquals($this->sha1, $this->redis->script('load', $this->slowCopyKey));
         $this->assertTrue($this->redis->set($this->key, 'value'));
         $this->assertEquals('value', $this->redis->get($this->key));
-        
+
         // $this->assertEquals(['OK'], $this->redis->evalSha($this->sha1, [$this->key, $this->keyOptional], 2));
         // $this->assertEquals('value', $this->redis->get($this->keyOptional));
 

@@ -104,7 +104,7 @@ trait Scripting
                 }
 
                 return $this->redis->script($command, $scripts[0]);
-            
+
             case 'EXISTS':
                 return $this->redis->script($command, ...$scripts);
         }
