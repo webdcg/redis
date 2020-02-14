@@ -69,7 +69,7 @@ EOF;
     }
 
 
-        /** @test */
+    /** @test */
     public function redis_Scripting_script_load_run()
     {
         // Start from scratch
