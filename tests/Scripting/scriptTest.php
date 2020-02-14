@@ -22,10 +22,8 @@ return {"OK"}
 EOF;
 
     protected $slowCopyKey = <<<EOF
-local posix = require 'posix'
 local s = KEYS[1]
 local d = KEYS[2] 
-posix.sleep(1)
 redis.call("RESTORE", d, 0, redis.call("DUMP", s))
 return {"OK"}
 EOF;
@@ -65,6 +63,18 @@ EOF;
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->sha1 = sha1($this->copyKey);
         $this->assertEquals($this->sha1, $this->redis->script('load', $this->copyKey));
+        $this->assertTrue($this->redis->script('flush'));
+    }
+
+
+    /** @test */
+    public function redis_Scripting_script_load_exception()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->sha1 = sha1($this->copyKey);
+        $this->expectException(ScriptCommandException::class);
+        $this->assertEquals($this->sha1, $this->redis->script('load', $this->copyKey, $this->key));
         $this->assertTrue($this->redis->script('flush'));
     }
 
