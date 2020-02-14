@@ -93,21 +93,19 @@ trait Scripting
             throw new ScriptCommandException('Script Command not supported', 1);
         }
 
-        switch ($command) {
-            case 'FLUSH':
-            case 'KILL':
-                return $this->redis->script($command);
-
-            case 'LOAD':
-                if (count($scripts) != 1) {
-                    throw new ScriptCommandException('Invalid Number of Scripts to Load', 1);
-                }
-
-                return $this->redis->script($command, $scripts[0]);
-
-            case 'EXISTS':
-                return $this->redis->script($command, ...$scripts);
+        if ($command == 'FLUSH' || $command == 'KILL') {
+            return $this->redis->script($command);
         }
+
+        if ($command == 'EXISTS') {
+            return $this->redis->script($command, ...$scripts);
+        }
+
+        if (count($scripts) != 1) {
+            throw new ScriptCommandException('Invalid Number of Scripts to Load', 1);
+        }
+
+        return $this->redis->script($command, $scripts[0]);
     }
 
     public function getLastError(): bool
