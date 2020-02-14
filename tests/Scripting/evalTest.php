@@ -12,6 +12,13 @@ class evalTest extends TestCase
     protected $keyOptional;
     protected $producer;
 
+    protected $copyKey = <<<EOF
+local s = KEYS[1]
+local d = KEYS[2] 
+redis.call("RESTORE", d, 0, redis.call("DUMP", s))
+return {"OK"}
+EOF;
+
     protected function setUp(): void
     {
         $this->redis = new Redis();
@@ -29,6 +36,7 @@ class evalTest extends TestCase
      * ========================================================================
      */
 
+
     /** @test */
     public function redis_Scripting_eval_simple()
     {
@@ -37,6 +45,7 @@ class evalTest extends TestCase
         $this->assertEquals(1, $this->redis->eval('return 1'));
     }
 
+
     /** @test */
     public function redis_Scripting_eval_array()
     {
@@ -44,6 +53,7 @@ class evalTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertEquals([1, 2, 3], $this->redis->eval('return {1,2,3}'));
     }
+
 
     /** @test */
     public function redis_Scripting_eval_lrange()
@@ -58,6 +68,7 @@ class evalTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
+
     /** @test */
     public function redis_Scripting_eval_copykey()
     {
@@ -66,13 +77,7 @@ class evalTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
         $this->assertTrue($this->redis->set($this->key, 'value'));
         $this->assertEquals('value', $this->redis->get($this->key));
-        $copyKey = <<<EOF
-local s = KEYS[1]
-local d = KEYS[2] 
-redis.call("RESTORE", d, 0, redis.call("DUMP", s))
-return {"OK"}
-EOF;
-        $this->assertEquals(["OK"], $this->redis->eval($copyKey, [$this->key, $this->keyOptional], 2));
+        $this->assertEquals(["OK"], $this->redis->eval($this->copyKey, [$this->key, $this->keyOptional], 2));
         $this->assertEquals('value', $this->redis->get($this->keyOptional));
         // Cleanup
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
