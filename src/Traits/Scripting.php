@@ -108,9 +108,17 @@ trait Scripting
         return $this->redis->script($command, $scripts[0]);
     }
 
-    public function getLastError(): bool
+    /**
+     * The last error message (if any)
+     *
+     *
+     * @return mixed|string|null    A string with the last returned script
+     *                              based error message, or NULL if there
+     *                              is no error.
+     */
+    public function getLastError(): ?string
     {
-        return false;
+        return $this->redis->getLastError();
     }
 
     public function clearLastError(): bool

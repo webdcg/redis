@@ -47,6 +47,14 @@ EOF;
 
 
     /** @test */
+    public function redis_Scripting_getLastError()
+    {
+        $this->redis->eval('this-is-not-lua');
+        $error = $this->redis->getLastError();
+        $this->assertContains('ERR Error compiling script', $error);
+    }
+
+    /** @test */
     public function redis_Scripting_script_invalid_command()
     {
         // Start from scratch
