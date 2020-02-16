@@ -108,6 +108,7 @@ trait Scripting
         return $this->redis->script($command, $scripts[0]);
     }
 
+
     /**
      * The last error message (if any)
      *
@@ -121,9 +122,15 @@ trait Scripting
         return $this->redis->getLastError();
     }
 
+
+    /**
+     * Clear the last error message
+     *
+     * @return bool     true
+     */
     public function clearLastError(): bool
     {
-        return false;
+        return $this->redis->clearLastError();
     }
 
     public function prefix(): bool

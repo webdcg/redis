@@ -44,6 +44,20 @@ EOF;
      * Redis | Scripting | script => Execute the Redis SCRIPT command to perform various operations on the scripting subsystem.
      * ========================================================================
      */
+    
+
+        /** @test */
+    public function redis_Scripting_clearLastError()
+    {
+        $this->redis->eval('this-is-not-lua');
+        $error = $this->redis->getLastError();
+        $this->assertContains('ERR Error compiling script', $error);
+        $clear = $this->redis->clearLastError();
+        $this->assertTrue($clear);
+        $this->assertIsBool($clear);
+        $error = $this->redis->getLastError();
+        $this->assertNull($error);
+    }
 
 
     /** @test */
@@ -52,6 +66,8 @@ EOF;
         $this->redis->eval('this-is-not-lua');
         $error = $this->redis->getLastError();
         $this->assertContains('ERR Error compiling script', $error);
+        $clear = $this->redis->clearLastError();
+        $this->assertTrue($clear);
     }
 
     /** @test */
