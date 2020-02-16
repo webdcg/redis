@@ -46,7 +46,7 @@ EOF;
      * Redis | Scripting | script => Execute the Redis SCRIPT command to perform various operations on the scripting subsystem.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_Scripting__prefix()
