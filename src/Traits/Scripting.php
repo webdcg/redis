@@ -133,9 +133,19 @@ trait Scripting
         return $this->redis->clearLastError();
     }
 
-    public function prefix(): bool
+
+    /**
+     * A utility method to prefix the value with the prefix setting for phpredis.
+     *
+     * @param  string $key  The value you wish to prefix
+     *
+     * @return string       If a prefix is set up, the value now prefixed.
+     *                      If there is no prefix, the value will be returned
+     *                      unchanged.
+     */
+    public function _prefix(string $key): string
     {
-        return false;
+        return $this->redis->_prefix($key);
     }
 
     public function unserialize(): bool

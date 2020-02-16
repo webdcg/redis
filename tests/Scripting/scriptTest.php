@@ -28,6 +28,7 @@ redis.call("RESTORE", d, 0, redis.call("DUMP", s))
 return {"OK"}
 EOF;
 
+
     protected function setUp(): void
     {
         $this->redis = new Redis();
@@ -37,6 +38,7 @@ EOF;
         $this->keyOptional = 'Scripting:script:Optional';
     }
 
+
     /*
      * ========================================================================
      * script
@@ -44,6 +46,15 @@ EOF;
      * Redis | Scripting | script => Execute the Redis SCRIPT command to perform various operations on the scripting subsystem.
      * ========================================================================
      */
+    
+
+    /** @test */
+    public function redis_Scripting__prefix()
+    {
+        $this->redis->setOption(\Redis::OPT_PREFIX, 'tswift:');
+        $prefix = $this->redis->_prefix('miss-americana');
+        $this->assertEquals('tswift:miss-americana', $prefix);
+    }
 
 
     /** @test */
