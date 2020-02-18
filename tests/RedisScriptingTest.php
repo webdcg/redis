@@ -28,7 +28,7 @@ class RedisScriptingTest extends TestCase
      * Redis | Scripting | _serialize => A utility method to serialize values manually.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_Scripting__serialize_PHP()
@@ -48,7 +48,7 @@ class RedisScriptingTest extends TestCase
         $this->assertEquals('Array', $this->redis->_serialize([])); // Returns "Array"
         $this->assertEquals('Object', $this->redis->_serialize(new \stdClass())); // Returns "Object"
     }
-    
+
 
     /** @test */
     public function redis_Scripting__prefix()
