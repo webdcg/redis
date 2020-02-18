@@ -21,14 +21,23 @@ class RedisScriptingTest extends TestCase
         $this->keyOptional = 'Scripting:Optional';
     }
 
+
     /*
      * ========================================================================
      * script
      *
-     * Redis | Scripting | _serialize => A utility method to serialize values manually.
+     * Redis | Scripting | _unserialize => A utility method to unserialize data with whatever serializer is set up.
      * ========================================================================
      */
 
+
+    /** @test */
+    public function redis_Scripting__unserialize_PHP()
+    {
+        $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_PHP);
+        $this->assertEquals('foo', $this->redis->_unserialize('s:3:"foo";')); // Returns 's:3:"foo";'
+        $this->assertEquals([1, 2, 3], $this->redis->_unserialize('a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}')); // Returns 'a:0:{}'
+    }
 
     /** @test */
     public function redis_Scripting__serialize_PHP()

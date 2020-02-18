@@ -166,8 +166,22 @@ trait Scripting
         return $this->redis->_serialize($value);
     }
 
-    public function _unserialize(): bool
+
+    /**
+     * A utility method to unserialize data with whatever serializer is set up.
+     *
+     * If there is no serializer set, the value will be returned unchanged.
+     * If there is a serializer set up, and the data passed in is malformed,
+     * an exception will be thrown. This can be useful if phpredis is
+     * serializing values, and you return something from redis in a LUA script
+     * that is serialized.
+     *
+     * @param  string $value    The value to be unserialized
+     *
+     * @return mixed            Unserialized value
+     */
+    public function _unserialize(string $value)
     {
-        return false;
+        return $this->redis->_unserialize($value);
     }
 }
