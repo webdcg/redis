@@ -49,39 +49,6 @@ EOF;
 
 
     /** @test */
-    public function redis_Scripting__prefix()
-    {
-        $this->redis->setOption(\Redis::OPT_PREFIX, 'tswift:');
-        $prefix = $this->redis->_prefix('miss-americana');
-        $this->assertEquals('tswift:miss-americana', $prefix);
-    }
-
-
-    /** @test */
-    public function redis_Scripting_clearLastError()
-    {
-        $this->redis->eval('this-is-not-lua');
-        $error = $this->redis->getLastError();
-        $this->assertContains('ERR Error compiling script', $error);
-        $clear = $this->redis->clearLastError();
-        $this->assertTrue($clear);
-        $this->assertIsBool($clear);
-        $error = $this->redis->getLastError();
-        $this->assertNull($error);
-    }
-
-
-    /** @test */
-    public function redis_Scripting_getLastError()
-    {
-        $this->redis->eval('this-is-not-lua');
-        $error = $this->redis->getLastError();
-        $this->assertContains('ERR Error compiling script', $error);
-        $clear = $this->redis->clearLastError();
-        $this->assertTrue($clear);
-    }
-
-    /** @test */
     public function redis_Scripting_script_invalid_command()
     {
         // Start from scratch

@@ -148,12 +148,25 @@ trait Scripting
         return $this->redis->_prefix($key);
     }
 
-    public function unserialize(): bool
+    /**
+     * A utility method to serialize values manually.
+     *
+     * This method allows you to serialize a value with whatever serializer is
+     * configured, manually. This can be useful for serialization/unserialization
+     * of data going in and out of EVAL commands as phpredis can't automatically
+     * do this itself. Note that if no serializer is set, phpredis will change
+     * Array values to 'Array', and Objects to 'Object'.
+     *
+     * @param  mixed|string|array|obhect    $value  The value to be serialized.
+     *
+     * @return mixed                        The serialized value.
+     */
+    public function _serialize($value)
     {
-        return false;
+        return $this->redis->_serialize($value);
     }
 
-    public function serialize(): bool
+    public function _unserialize(): bool
     {
         return false;
     }
