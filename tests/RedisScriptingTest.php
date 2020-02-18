@@ -21,8 +21,80 @@ class RedisScriptingTest extends TestCase
         $this->keyOptional = 'Scripting:Optional';
     }
 
+
+    /*
+     * ========================================================================
+     * script
+     *
+     * Redis | Scripting | _unserialize => A utility method to unserialize data with whatever serializer is set up.
+     * ========================================================================
+     */
+
+
     /** @test */
-    public function redis_Scripting_eval_simple()
+    public function redis_Scripting__unserialize_PHP()
+    {
+        $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_PHP);
+        $this->assertEquals('foo', $this->redis->_unserialize('s:3:"foo";')); // Returns 's:3:"foo";'
+        $this->assertEquals([1, 2, 3], $this->redis->_unserialize('a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}')); // Returns 'a:0:{}'
+    }
+
+    /** @test */
+    public function redis_Scripting__serialize_PHP()
+    {
+        $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_PHP);
+        $this->assertEquals('s:3:"foo";', $this->redis->_serialize('foo')); // Returns 's:3:"foo";'
+        $this->assertEquals('a:0:{}', $this->redis->_serialize([])); // Returns 'a:0:{}'
+        $this->assertEquals('O:8:"stdClass":0:{}', $this->redis->_serialize(new \stdClass())); // Returns 'O:8:"stdClass":0:{}'
+    }
+
+
+    /** @test */
+    public function redis_Scripting__serialize_none()
+    {
+        $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
+        $this->assertEquals('foo', $this->redis->_serialize('foo')); // returns "foo"
+        $this->assertEquals('Array', $this->redis->_serialize([])); // Returns "Array"
+        $this->assertEquals('Object', $this->redis->_serialize(new \stdClass())); // Returns "Object"
+    }
+
+
+    /** @test */
+    public function redis_Scripting__prefix()
+    {
+        $this->redis->setOption(\Redis::OPT_PREFIX, 'tswift:');
+        $prefix = $this->redis->_prefix('miss-americana');
+        $this->assertEquals('tswift:miss-americana', $prefix);
+    }
+
+
+    /** @test */
+    public function redis_Scripting_clearLastError()
+    {
+        $this->redis->eval('this-is-not-lua');
+        $error = $this->redis->getLastError();
+        $this->assertContains('ERR Error compiling script', $error);
+        $clear = $this->redis->clearLastError();
+        $this->assertTrue($clear);
+        $this->assertIsBool($clear);
+        $error = $this->redis->getLastError();
+        $this->assertNull($error);
+    }
+
+
+    /** @test */
+    public function redis_Scripting_getLastError()
+    {
+        $this->redis->eval('this-is-not-lua');
+        $error = $this->redis->getLastError();
+        $this->assertContains('ERR Error compiling script', $error);
+        $clear = $this->redis->clearLastError();
+        $this->assertTrue($clear);
+    }
+
+
+    /** @test */
+    public function redis_Scripting_eval()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
