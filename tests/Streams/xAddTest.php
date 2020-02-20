@@ -5,7 +5,7 @@ namespace Webdcg\Redis\Tests;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
 
-class RedisStreamsTest extends TestCase
+class xAddTest extends TestCase
 {
     protected $redis;
     protected $key;
@@ -17,12 +17,22 @@ class RedisStreamsTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'Streams';
-        $this->keyOptional = 'Streams:Optional';
+        $this->key = 'Streams:xAddTest';
+        $this->keyOptional = 'Streams:xAddTest:Optional';
     }
 
+
+    /*
+     * ========================================================================
+     * xAdd
+     *
+     * Redis | Sorted Sets | xAdd => Appends the specified stream entry to the stream at the specified key.
+     * ========================================================================
+     */
+    
+
     /** @test */
-    public function redis_streams_xadd()
+    public function redis_streams_xadd_simple()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
