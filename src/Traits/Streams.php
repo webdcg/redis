@@ -202,9 +202,22 @@ trait Streams
             $this->redis->xPending($stream, $group, $start, $end, $count, $consumer);
     }
 
-    public function xRange(): bool
+
+    /**
+     * Get a range of messages from a given stream.
+     *
+     * @param  string   $stream
+     * @param  string   $start
+     * @param  string   $end
+     * @param  int|null $count
+     *
+     * @return array            The messages in the stream within the requested range.
+     */
+    public function xRange(string $stream, string $start, string $end, ?int $count = null): array
     {
-        return false;
+        return is_null($count) ?
+            $this->redis->xRange($stream, $start, $end) :
+            $this->redis->xRange($stream, $start, $end, $count);
     }
 
     public function xRead(): bool
