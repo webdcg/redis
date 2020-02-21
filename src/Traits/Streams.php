@@ -7,6 +7,8 @@ trait Streams
     /**
      * Acknowledge one or more pending messages.
      *
+     * See: https://redis.io/commands/xack.
+     *
      * @param  string $stream
      * @param  string $group
      * @param  array  $messages
@@ -23,6 +25,7 @@ trait Streams
      * Appends the specified stream entry to the stream at the specified key.
      * If the key does not exist, as a side effect of running this command the
      * key is created with a stream value.
+     *
      * See: https://redis.io/commands/xadd.
      *
      * @param  string      $key
@@ -52,6 +55,8 @@ trait Streams
 
     /**
      * Claim ownership of one or more pending messages.
+     *
+     * See: https://redis.io/commands/xclaim.
      *
      * @param  string     $stream
      * @param  string     $group
@@ -85,6 +90,8 @@ trait Streams
     /**
      * Delete one or more messages from a stream.
      *
+     * See: https://redis.io/commands/xdel.
+     *
      * @param  string $stream
      * @param  array  $messageIds
      *
@@ -98,6 +105,8 @@ trait Streams
 
     /**
      * This command is used in order to create, destroy, or manage consumer groups.
+     *
+     * See: https://redis.io/commands/xgroup.
      *
      * @param  string       $command                [description]
      * @param  string|null  $stream                 [description]
@@ -122,6 +131,8 @@ trait Streams
 
     /**
      * Get information about a stream or consumer groups.
+     *
+     * See: https://redis.io/commands/xinfo.
      *
      * @param  string $command
      * @param  string $stream
@@ -150,6 +161,8 @@ trait Streams
     /**
      * Get the length of a given stream.
      *
+     * See: https://redis.io/commands/xlen.
+     *
      * @param  string $stream
      *
      * @return The number of messages in the stream.
@@ -159,9 +172,34 @@ trait Streams
         return $this->redis->xLen($stream);
     }
 
-    public function xPending(): bool
-    {
-        return false;
+
+    /**
+     * Get information about pending messages in a given stream.
+     *
+     * See: https://redis.io/commands/xpending.
+     *
+     * @param  string      $stream
+     * @param  string      $group
+     * @param  string|null $start
+     * @param  string|null $end
+     * @param  int|null    $count
+     * @param  string|null $consumer
+     *
+     * @return array                    Information about the pending messages,
+     *                                  in various forms depending on the specific
+     *                                  invocation of XPENDING.
+     */
+    public function xPending(
+        string $stream,
+        string $group,
+        ?string $start = null,
+        ?string $end = null,
+        ?int $count = null,
+        ?string $consumer = null
+    ): array {
+        return (is_null($start) || is_null($end) || is_null($count) || is_null($consumer)) ?
+            $this->redis->xPending($stream, $group) :
+            $this->redis->xPending($stream, $group, $start, $end, $count, $consumer);
     }
 
     public function xRange(): bool
