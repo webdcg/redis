@@ -132,7 +132,7 @@ trait Streams
     public function xInfo(string $command, ?string $stream = null, ?string $group = null)
     {
         $command = strtoupper($command);
-        
+
         if (!$this->_checkInfoCommands($command)) {
             throw new \Exception("Bad Info Command", 1);
         }
@@ -207,7 +207,7 @@ trait Streams
     private function _checkClaimOptions(array $options): bool
     {
         $available = ['IDLE', 'TIME', 'RETRYCOUNT', 'FORCE', 'JUSTID'];
-        
+
         foreach ($options as $key => $value) {
             $check = is_numeric($key) ? $value : $key;
             if (!in_array($check, $available)) {
@@ -226,7 +226,7 @@ trait Streams
      *
      * @return bool
      */
-    private function _checkInfoCommands(string $command) : bool
+    private function _checkInfoCommands(string $command): bool
     {
         $available = ['CONSUMERS', 'GROUPS', 'STREAM', 'HELP'];
 
