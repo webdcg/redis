@@ -192,9 +192,6 @@ trait Streams
                 return false;
             }
         }
-        if (in_array('IDLE', $options) && in_array('TIME', $options)) {
-            return false;
-        }
-        return true;
+        return !(array_key_exists('IDLE', $options) && array_key_exists('TIME', $options));
     }
 }

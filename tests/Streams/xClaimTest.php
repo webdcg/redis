@@ -49,8 +49,8 @@ class xClaimTest extends TestCase
         // dump($messageId);
         // dump($end);
 
-        // $messageIds = [$start, $messageId, $end];
-        $messageIds = [$messageId];
+        $messageIds = [$start, $messageId, $end];
+        // $messageIds = [$messageId];
 
         $xClaim = $this->redis->xClaim(
             $this->key,
@@ -77,12 +77,6 @@ class xClaimTest extends TestCase
         $start = $expected . '-0';
         $end = ($expected + 100) . '-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
-
-        // dump($start);
-        // dump($messageId);
-        // dump($end);
-        // sleep(1);
-
         $this->assertEquals([$messageId], $this->redis->xClaim(
             $this->key,
             $this->group,
@@ -94,6 +88,62 @@ class xClaimTest extends TestCase
                 'RETRYCOUNT' => 5,
                 'FORCE',
                 'JUSTID'
+            ]
+        ));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_streams_xClaim_invalid_time_and_idle()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $start = $expected . '-0';
+        $end = ($expected + 100) . '-10';
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->expectException(\Exception::class);
+        $this->assertEquals([$messageId], $this->redis->xClaim(
+            $this->key,
+            $this->group,
+            'consumer',
+            0,
+            [$start, $messageId, $end],
+            [
+                'IDLE' => time() * 1000,
+                'TIME' => 5,
+                'FORCE',
+                'JUSTID'
+            ]
+        ));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_streams_xClaim_bad_options()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $start = $expected . '-0';
+        $end = ($expected + 100) . '-10';
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->expectException(\Exception::class);
+        $this->assertEquals([$messageId], $this->redis->xClaim(
+            $this->key,
+            $this->group,
+            'consumer',
+            0,
+            [$start, $messageId, $end],
+            [
+                'IDLE' => time() * 1000,
+                'RETRYCOUNT' => 5,
+                'FORCE',
+                'JUSTIDS'
             ]
         ));
         $this->assertEquals(1, $this->redis->delete($this->key));
