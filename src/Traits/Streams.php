@@ -206,6 +206,8 @@ trait Streams
     /**
      * Get a range of messages from a given stream.
      *
+     * See: https://redis.io/commands/xrange.
+     *
      * @param  string   $stream
      * @param  string   $start
      * @param  string   $end
@@ -220,7 +222,19 @@ trait Streams
             $this->redis->xRange($stream, $start, $end, $count);
     }
 
-    public function xRead(): bool
+
+    /**
+     * Read data from one or more streams and only return IDs greater than sent in the command.
+     *
+     * See: https://redis.io/commands/xread.
+     *
+     * @param  array    $streams
+     * @param  int|null $count
+     * @param  int|null $block
+     *
+     * @return array            The messages in the stream newer than the IDs passed to Redis (if any).
+     */
+    public function xRead(array $streams, ?int $count = null, ?int $block = null): array
     {
         return false;
     }
