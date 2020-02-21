@@ -236,8 +236,13 @@ trait Streams
      */
     public function xRead(array $streams, ?int $count = null, ?int $block = null): array
     {
-        return false;
+        if (!is_null($count) && !is_null($block)) {
+            return $this->redis->xRead($streams, $count, $block);
+        }
+
+        return is_null($count) ? $this->redis->xRead($streams) : $this->redis->xRead($streams, $count);
     }
+
 
     public function xReadGroup(): array
     {
