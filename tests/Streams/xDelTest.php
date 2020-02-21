@@ -23,6 +23,11 @@ class xDelTest extends TestCase
         $this->group = $this->key . ':Group';
     }
 
+    protected function tearDown(): void
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
 
     /*
      * ========================================================================
@@ -49,6 +54,5 @@ class xDelTest extends TestCase
         $this->assertIsNumeric($xDel);
         $this->assertIsInt($xDel);
         $this->assertEquals(1, $xDel);
-        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }

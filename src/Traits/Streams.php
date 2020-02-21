@@ -44,11 +44,9 @@ trait Streams
             return $this->redis->xAdd($key, $id, $message);
         }
 
-        if (is_null($approximate)) {
-            return $this->redis->xAdd($key, $id, $message, $maxLenght);
-        }
-
-        return $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
+        return is_null($approximate) ?
+            $this->redis->xAdd($key, $id, $message, $maxLenght) :
+            $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
     }
 
 
@@ -77,11 +75,10 @@ trait Streams
         if (!is_null($options) && !$this->_checkClaimOptions($options)) {
             throw new \Exception("Bad Claim Options", 1);
         }
-        if (is_null($options)) {
-            return $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds);
-        } else {
-            return $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds, $options);
-        }
+
+        return is_null($options) ?
+            $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds):
+            $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds, $options);
     }
 
 
@@ -122,9 +119,31 @@ trait Streams
         return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
     }
 
-    public function xInfo(): bool
+
+    /**
+     * Get information about a stream or consumer groups.
+     *
+     * @param  string $command
+     * @param  string $stream
+     * @param  string $group
+     *
+     * @return mixed            This command returns different types depending on which subcommand is used.
+     */
+    public function xInfo(string $command, ?string $stream = null, ?string $group = null)
     {
-        return false;
+        $command = strtoupper($command);
+        
+        if (!$this->_checkInfoCommands($command)) {
+            throw new \Exception("Bad Info Command", 1);
+        }
+
+        if (is_null($stream) && is_null($group)) {
+            return $this->redis->xInfo($command);
+        }
+
+        return is_null($group) ?
+            $this->redis->xInfo($command, $stream) :
+            $this->redis->xInfo($command, $stream, $group);
     }
 
     public function xLen(): bool
@@ -147,9 +166,9 @@ trait Streams
         return false;
     }
 
-    public function xReadGroup(): bool
+    public function xReadGroup(): array
     {
-        return false;
+        return [];
     }
 
     public function xRevRange(): bool
@@ -162,11 +181,13 @@ trait Streams
         return false;
     }
 
+
     /**
      * ************************************************************************
      * H E L P E R    F U N C T I O N S
      * ************************************************************************
      */
+
 
     /**
      * Claim Options available
@@ -186,12 +207,29 @@ trait Streams
     private function _checkClaimOptions(array $options): bool
     {
         $available = ['IDLE', 'TIME', 'RETRYCOUNT', 'FORCE', 'JUSTID'];
+        
         foreach ($options as $key => $value) {
             $check = is_numeric($key) ? $value : $key;
             if (!in_array($check, $available)) {
                 return false;
             }
         }
+
         return !(array_key_exists('IDLE', $options) && array_key_exists('TIME', $options));
+    }
+
+
+    /**
+     * [_checkInfoCommands description]
+     *
+     * @param  string $command
+     *
+     * @return bool
+     */
+    private function _checkInfoCommands(string $command) : bool
+    {
+        $available = ['CONSUMERS', 'GROUPS', 'STREAM', 'HELP'];
+
+        return in_array($command, $available, true);
     }
 }

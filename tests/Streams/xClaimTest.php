@@ -23,6 +23,11 @@ class xClaimTest extends TestCase
         $this->group = $this->key . ':Group';
     }
 
+    protected function tearDown(): void
+    {
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+
 
     /*
      * ========================================================================
@@ -45,12 +50,7 @@ class xClaimTest extends TestCase
         $end = ($expected + 100) . '-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
 
-        // dump($start);
-        // dump($messageId);
-        // dump($end);
-
         $messageIds = [$start, $messageId, $end];
-        // $messageIds = [$messageId];
 
         $xClaim = $this->redis->xClaim(
             $this->key,
@@ -60,10 +60,7 @@ class xClaimTest extends TestCase
             $messageIds
         );
 
-        // dump($xClaim);
-
         $this->assertEquals([], $xClaim);
-        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
@@ -90,7 +87,6 @@ class xClaimTest extends TestCase
                 'JUSTID'
             ]
         ));
-        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
@@ -118,7 +114,6 @@ class xClaimTest extends TestCase
                 'JUSTID'
             ]
         ));
-        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 
     /** @test */
@@ -146,6 +141,5 @@ class xClaimTest extends TestCase
                 'JUSTIDS'
             ]
         ));
-        $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }
