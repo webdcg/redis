@@ -45,11 +45,11 @@ class xTrimTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(10, 20);
         $trim = random_int(1, 5);
-        
+
         for ($i = 0; $i < $total; $i++) {
             $this->redis->xAdd($this->key, '*', ['key' => $i]);
         }
-        
+
         $xLen = $this->redis->xLen($this->key);
         $this->assertIsScalar($xLen);
         $this->assertIsNumeric($xLen);
@@ -78,11 +78,11 @@ class xTrimTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $total = random_int(999, 1099);
         $trim = random_int(1, 5);
-        
+
         for ($i = 0; $i < $total; $i++) {
             $this->redis->xAdd($this->key, '*', ['key' => $i]);
         }
-        
+
         $xLen = $this->redis->xLen($this->key);
         $this->assertIsScalar($xLen);
         $this->assertIsNumeric($xLen);
