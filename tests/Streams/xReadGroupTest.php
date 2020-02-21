@@ -146,8 +146,6 @@ class xReadGroupTest extends TestCase
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
         $this->assertTrue($this->redis->xGroup('SETID', $this->key, $this->group, 0));
 
-        $expected = (int) floor(microtime(true) * 1000) - 1;
-
         $this->produceStreamEvents(10);
 
         $xReadGroup = $this->redis->xReadGroup($this->group, $this->consumer, [$this->key => '>'], 2, 0);
