@@ -61,4 +61,23 @@ class xPendingTest extends TestCase
         $this->assertEquals($pending, $xPending);
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
+
+    /** @test */
+    public function redis_streams_xPending_params()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+
+        $pending = [];
+
+        $xPending = $this->redis->xPending($this->key, $this->group, '-', '+', 1, 'consumer');
+        $this->assertIsIterable($xPending);
+        $this->assertIsArray($xPending);
+        $this->assertEquals($pending, $xPending);
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
 }
