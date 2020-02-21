@@ -106,7 +106,7 @@ class xReadTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $total = random_int(6, 10);
-        
+
         for ($i = 0; $i < $total; $i++) {
             $messageId = $this->redis->xAdd($this->key, '*', ['key' => $i]);
             $messages[$messageId] = ['key' => $i];
