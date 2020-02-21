@@ -2,6 +2,12 @@
 
 namespace Webdcg\Redis\Traits;
 
+/**
+ * Support for Redis Stream Data Structure
+ *
+ * See: https://redis.io/topics/streams-intro
+ * See: https://university.redislabs.com/courses
+ */
 trait Streams
 {
     /**
@@ -57,6 +63,14 @@ trait Streams
      * Claim ownership of one or more pending messages.
      *
      * See: https://redis.io/commands/xclaim.
+     *
+     * Note:  'TIME', and 'IDLE' are mutually exclusive
+     *
+     * 'IDLE' => $value, Set the idle time to $value ms
+     * 'TIME' => $value, Set the idle time to now - $value
+     * 'RETRYCOUNT' => $value, Update message retrycount to $value
+     * 'FORCE', Claim the message(s) even if they're not pending anywhere
+     * 'JUSTID',Instruct Redis to only return IDs
      *
      * @param  string     $stream
      * @param  string     $group
@@ -311,9 +325,25 @@ trait Streams
             $this->redis->xRevRange($stream, $end, $start, $count);
     }
 
-    public function xTrim(): bool
+
+    /**
+     * Trim the stream length to a given maximum. If the "approximate" flag is
+     * pasesed, Redis will use your size as a hint but only trim trees in whole
+     * nodes (this is more efficient).
+     *
+     * See: https://redis.io/commands/xtrim.
+     *
+     * @param  string    $stream
+     * @param  int       $maxLenght
+     * @param  bool|null $approximate
+     *
+     * @return int                      The number of messages trimmed from the stream.
+     */
+    public function xTrim(string $stream, int $maxLenght, ?bool $approximate = null): int
     {
-        return false;
+        return is_null($approximate) ?
+            $this->redis->xTrim($stream, $maxLenght) :
+            $this->redis->xTrim($stream, $maxLenght, $approximate);
     }
 
 
