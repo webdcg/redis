@@ -4,9 +4,18 @@ namespace Webdcg\Redis\Traits;
 
 trait Streams
 {
-    public function xAck(): bool
+    /**
+     * Acknowledge one or more pending messages.
+     *
+     * @param  string $stream
+     * @param  string $group
+     * @param  array  $messages
+     *
+     * @return int              The number of messages Redis reports as acknowledged.
+     */
+    public function xAck(string $stream, string $group, array $messages): int
     {
-        return false;
+        return $this->redis->xAck($stream, $group, $messages);
     }
 
     /**
@@ -47,9 +56,22 @@ trait Streams
         return false;
     }
 
-    public function xGroup(): bool
+    /**
+     * This command is used in order to create, destroy, or manage consumer groups.
+     *
+     * @param  string       $command                [description]
+     * @param  string|null  $stream                 [description]
+     * @param  string|null  $group                  [description]
+     * @param  [type]       $messageId_consumerName [description]
+     * @param  bool|boolean $makeStream             [description]
+     *
+     * @return mixed                                This command returns different
+     *                                              types depending on the specific
+     *                                              XGROUP command executed.
+     */
+    public function xGroup(string $command, ?string $stream = null, ?string $group = null, $messageId_consumerName = null, bool $makeStream = false)
     {
-        return false;
+        return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
     }
 
     public function xInfo(): bool
