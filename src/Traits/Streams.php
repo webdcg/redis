@@ -148,7 +148,7 @@ trait Streams
      * H E L P E R    F U N C T I O N S
      * ************************************************************************
      */
-    
+
     /**
      * Claim Options available
      *
