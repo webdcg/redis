@@ -19,7 +19,7 @@ class xAckTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Streams:xAckTest';
-        $this->keyOptional = 'Streams:xAckTest:Optional';
+        $this->keyOptional = $this->key.':Optional';
         $this->group = $this->key.':Group';
     }
 
@@ -38,13 +38,13 @@ class xAckTest extends TestCase
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
-        $expected = (int) floor(microtime(true) * 1000) - 15;
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
         $start = $expected.'-0';
         $end = ($expected + 10).'-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
-        $this->assertEquals(0, $this->redis->xAck($this->key, $this->group, [$start, $end]));
+        $this->assertEquals(0, $this->redis->xAck($this->key, $this->group, [$start, $messageId, $end]));
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }

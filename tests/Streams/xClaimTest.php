@@ -19,7 +19,7 @@ class xClaimTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Streams:xClaimTest';
-        $this->keyOptional = 'Streams:xClaimTest:Optional';
+        $this->keyOptional = $this->key.':Optional';
         $this->group = $this->key.':Group';
     }
 
@@ -38,27 +38,57 @@ class xClaimTest extends TestCase
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
-        $expected = (int) floor(microtime(true) * 1000) - 15;
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
         $start = $expected.'-0';
-        $end = ($expected + 10).'-10';
+        $end = ($expected + 100).'-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
 
-        $this->assertEquals([], $this->redis->xClaim(
-            $this->key,
-            $this->group,
-            'consumer',
-            0,
-            [$start, $end]
-        ));
+        // dump($start);
+        // dump($messageId);
+        // dump($end);
 
-        $this->assertEquals([], $this->redis->xClaim(
+        // $messageIds = [$start, $messageId, $end];
+        $messageIds = [$messageId];
+
+        $xClaim = $this->redis->xClaim(
             $this->key,
             $this->group,
             'consumer',
             0,
-            [$start, $end],
+            $messageIds
+        );
+
+        // dump($xClaim);
+
+        $this->assertEquals([], $xClaim);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_streams_xClaim_options()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $start = $expected.'-0';
+        $end = ($expected + 100).'-10';
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+
+        // dump($start);
+        // dump($messageId);
+        // dump($end);
+        // sleep(1);
+
+        $this->assertEquals([$messageId], $this->redis->xClaim(
+            $this->key,
+            $this->group,
+            'consumer',
+            0,
+            [$start, $messageId, $end],
             [
                 'IDLE' => time() * 1000,
                 'RETRYCOUNT' => 5,

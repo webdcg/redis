@@ -5,11 +5,12 @@ namespace Webdcg\Redis\Tests;
 use PHPUnit\Framework\TestCase;
 use Webdcg\Redis\Redis;
 
-class xAddTest extends TestCase
+class xDelTest extends TestCase
 {
     protected $redis;
     protected $key;
     protected $keyOptional;
+    protected $group;
     protected $producer;
 
     protected function setUp(): void
@@ -17,28 +18,37 @@ class xAddTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'Streams:xAddTest';
+        $this->key = 'Streams:xDelTest';
         $this->keyOptional = $this->key.':Optional';
+        $this->group = $this->key.':Group';
     }
 
 
     /*
      * ========================================================================
-     * xAdd
+     * xDel
      *
-     * Redis | Sorted Sets | xAdd => Appends the specified stream entry to the stream at the specified key.
+     * Redis | Sorted Sets | xDel => Delete one or more messages from a stream.
      * ========================================================================
      */
 
 
     /** @test */
-    public function redis_streams_xadd_simple()
+    public function redis_streams_xDel_simple()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
-        $expected = (int) floor(microtime(true) * 1000) - 15;
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $start = $expected.'-0';
+        $end = ($expected + 10).'-10';
+        $messageIds = [$start, $messageId, $end];
+        $xDel = $this->redis->xDel($this->key, $messageIds);
+        $this->assertIsScalar($xDel);
+        $this->assertIsNumeric($xDel);
+        $this->assertIsInt($xDel);
+        $this->assertEquals(1, $xDel);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }

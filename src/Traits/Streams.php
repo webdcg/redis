@@ -80,10 +80,20 @@ trait Streams
         }
     }
 
-    public function xDel(): bool
+
+    /**
+     * Delete one or more messages from a stream.
+     *
+     * @param  string $stream
+     * @param  array  $messageIds
+     *
+     * @return int                  The number of messages removed.
+     */
+    public function xDel(string $stream, array $messageIds): int
     {
-        return false;
+        return $this->redis->xDel($stream, $messageIds);
     }
+
 
     /**
      * This command is used in order to create, destroy, or manage consumer groups.
@@ -98,8 +108,13 @@ trait Streams
      *                                              types depending on the specific
      *                                              XGROUP command executed.
      */
-    public function xGroup(string $command, ?string $stream = null, ?string $group = null, $messageId_consumerName = null, bool $makeStream = false)
-    {
+    public function xGroup(
+        string $command,
+        ?string $stream = null,
+        ?string $group = null,
+        $messageId_consumerName = null,
+        bool $makeStream = false
+    ) {
         return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
     }
 
