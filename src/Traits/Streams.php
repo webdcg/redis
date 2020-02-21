@@ -18,6 +18,7 @@ trait Streams
         return $this->redis->xAck($stream, $group, $messages);
     }
 
+
     /**
      * Appends the specified stream entry to the stream at the specified key.
      * If the key does not exist, as a side effect of running this command the
@@ -46,9 +47,37 @@ trait Streams
         return $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
     }
 
-    public function xClaim(): bool
-    {
-        return false;
+
+    /**
+     * Claim ownership of one or more pending messages.
+     *
+     * @param  string     $stream
+     * @param  string     $group
+     * @param  string     $consumer
+     * @param  int        $minIdleTime
+     * @param  array      $messageIds
+     * @param  array|null $options
+     *
+     * @return array                    Either an array of message IDs along with
+     *                                  corresponding data, or just an array of
+     *                                  IDs (if the 'JUSTID' option was passed).
+     */
+    public function xClaim(
+        string $stream,
+        string $group,
+        string $consumer,
+        int $minIdleTime,
+        array $messageIds,
+        ?array $options = null
+    ): array {
+        if (!is_null($options) && !$this->_checkClaimOptions($options)) {
+            throw new \Exception("Bad Claim Options", 1);
+        }
+        if (is_null($options)) {
+            return $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds);
+        } else {
+            return $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds, $options);
+        }
     }
 
     public function xDel(): bool
@@ -112,5 +141,41 @@ trait Streams
     public function xTrim(): bool
     {
         return false;
+    }
+
+    /**
+     * ************************************************************************
+     * H E L P E R    F U N C T I O N S
+     * ************************************************************************
+     */
+    
+    /**
+     * Claim Options available
+     *
+     * Note:  'TIME', and 'IDLE' are mutually exclusive
+     *
+     * 'IDLE' => $value, Set the idle time to $value ms
+     * 'TIME' => $value, Set the idle time to now - $value
+     * 'RETRYCOUNT' => $value, Update message retrycount to $value
+     * 'FORCE', Claim the message(s) even if they're not pending anywhere
+     * 'JUSTID',Instruct Redis to only return IDs
+     *
+     * @param  array  $options
+     *
+     * @return bool
+     */
+    private function _checkClaimOptions(array $options): bool
+    {
+        $available = ['IDLE', 'TIME', 'RETRYCOUNT', 'FORCE', 'JUSTID'];
+        foreach ($options as $key => $value) {
+            $check = is_numeric($key) ? $value : $key;
+            if (!in_array($check, $available)) {
+                return false;
+            }
+        }
+        if (in_array('IDLE', $options) && in_array('TIME', $options)) {
+            return false;
+        }
+        return true;
     }
 }
