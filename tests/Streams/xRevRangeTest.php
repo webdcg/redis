@@ -82,7 +82,7 @@ class xRevRangeTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $total = random_int(6, 10);
-        
+
         for ($i = 0; $i < $total; $i++) {
             $messageId = $this->redis->xAdd($this->key, '*', ['key' => $i]);
             $messages[$messageId] = ['key' => $i];
@@ -91,7 +91,7 @@ class xRevRangeTest extends TestCase
 
         $xRevRange = $this->redis->xRevRange($this->key, '+', '-', 2);
         $slice = array_slice($messages, -2, 2, true);
-        
+
         $this->assertIsIterable($xRevRange);
         $this->assertIsArray($xRevRange);
         $this->assertEquals($slice, $xRevRange);
