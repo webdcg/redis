@@ -22,7 +22,7 @@ class RedisStreamsTest extends TestCase
     }
 
     /** @test */
-    public function redis_streams_xadd_single()
+    public function redis_streams_xadd()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
