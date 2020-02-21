@@ -46,16 +46,19 @@ class xPendingTest extends TestCase
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
 
-        /*
-        $start = $expected . '-0';
-        $end = ($expected + 10) . '-10';
-        $messageIds = [$start, $messageId, $end];
-        $xPending = $this->redis->xPending($this->key, $messageIds);
-        $this->assertIsScalar($xPending);
-        $this->assertIsNumeric($xPending);
-        $this->assertIsInt($xPending);
-        $this->assertEquals(1, $xPending);
-        */
+        $pending = [
+            0 => 0,
+            1 => false,
+            2 => false,
+            3 => []
+        ];
+
+        $xPending = $this->redis->xPending($this->key, $this->group);
+        $this->assertIsIterable($xPending);
+        $this->assertIsArray($xPending);
+        $this->assertEquals($pending, $xPending);
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 }
