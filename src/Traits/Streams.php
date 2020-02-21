@@ -197,7 +197,7 @@ trait Streams
         ?int $count = null,
         ?string $consumer = null
     ): array {
-        return (is_null($start) || is_null($end) || is_null($count) || is_null($consumer)) ?
+        return is_null($start) || is_null($end) || is_null($count) || is_null($consumer) ?
             $this->redis->xPending($stream, $group) :
             $this->redis->xPending($stream, $group, $start, $end, $count, $consumer);
     }
