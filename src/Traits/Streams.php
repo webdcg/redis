@@ -77,7 +77,7 @@ trait Streams
         }
 
         return is_null($options) ?
-            $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds):
+            $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds) :
             $this->redis->xClaim($stream, $group, $consumer, $minIdleTime, $messageIds, $options);
     }
 
