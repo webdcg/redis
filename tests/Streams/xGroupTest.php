@@ -38,6 +38,15 @@ class xGroupTest extends TestCase
      * Redis | Streams | xGroup => This command is used in order to create, destroy, or manage consumer groups.
      * ========================================================================
      */
+    
+    /** @test */
+    public function redis_streams_xGroup_Exception()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->expectException(\Exception::class);
+        $this->assertTrue($this->redis->xGroup('UPDATE', $this->key, $this->group, 0, true));
+    }
 
 
     /** @test */

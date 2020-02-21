@@ -132,8 +132,6 @@ trait Streams
         }
 
         switch ($command) {
-            case 'HELP':
-                return $this->redis->xGroup($command);
             case 'CREATE':
                 return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
             case 'SETID':
@@ -143,6 +141,8 @@ trait Streams
             case 'DELCONSUMER':
                 return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName);
         }
+
+        return $this->redis->xGroup($command);
     }
 
 
