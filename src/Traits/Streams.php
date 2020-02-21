@@ -291,9 +291,24 @@ trait Streams
     }
 
 
-    public function xRevRange(): bool
+    /**
+     * This is identical to xRange except the results come back in reverse order.
+     * Also note that Redis reverses the order of "start" and "end".
+     *
+     * See: https://redis.io/commands/xrevrange.
+     *
+     * @param  string $stream
+     * @param  string $end
+     * @param  string $start
+     * @param  int|null $count
+     *
+     * @return array            The messages in the range specified.
+     */
+    public function xRevRange(string $stream, string $end, string $start, ?int $count = null): array
     {
-        return false;
+        return is_null($count) ?
+            $this->redis->xRevRange($stream, $end, $start) :
+            $this->redis->xRevRange($stream, $end, $start, $count);
     }
 
     public function xTrim(): bool
