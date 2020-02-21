@@ -41,4 +41,26 @@ class xAddTest extends TestCase
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
+
+    /** @test */
+    public function redis_streams_xadd_maxLenght()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value'], 1000);
+        $expected = (int) floor(microtime(true) * 1000) - 15;
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+    /** @test */
+    public function redis_streams_xadd_maxLenght_approximate()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value'], 1000, true);
+        $expected = (int) floor(microtime(true) * 1000) - 15;
+        $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 }

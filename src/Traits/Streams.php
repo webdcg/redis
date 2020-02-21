@@ -44,6 +44,10 @@ trait Streams
             return $this->redis->xAdd($key, $id, $message);
         }
 
+        if (is_null($approximate)) {
+            return $this->redis->xAdd($key, $id, $message, $maxLenght);
+        }
+
         return $this->redis->xAdd($key, $id, $message, $maxLenght, $approximate);
     }
 
