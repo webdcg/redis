@@ -146,9 +146,17 @@ trait Streams
             $this->redis->xInfo($command, $stream, $group);
     }
 
-    public function xLen(): bool
+
+    /**
+     * Get the length of a given stream.
+     *
+     * @param  string $stream
+     *
+     * @return The number of messages in the stream.
+     */
+    public function xLen(string $stream): int
     {
-        return false;
+        return $this->redis->xLen($stream);
     }
 
     public function xPending(): bool
