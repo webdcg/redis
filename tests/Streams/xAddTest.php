@@ -18,7 +18,7 @@ class xAddTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Streams:xAddTest';
-        $this->keyOptional = $this->key.':Optional';
+        $this->keyOptional = $this->key . ':Optional';
     }
 
 

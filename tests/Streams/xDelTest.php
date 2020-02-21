@@ -19,8 +19,8 @@ class xDelTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Streams:xDelTest';
-        $this->keyOptional = $this->key.':Optional';
-        $this->group = $this->key.':Group';
+        $this->keyOptional = $this->key . ':Optional';
+        $this->group = $this->key . ':Group';
     }
 
 
@@ -41,8 +41,8 @@ class xDelTest extends TestCase
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
-        $start = $expected.'-0';
-        $end = ($expected + 10).'-10';
+        $start = $expected . '-0';
+        $end = ($expected + 10) . '-10';
         $messageIds = [$start, $messageId, $end];
         $xDel = $this->redis->xDel($this->key, $messageIds);
         $this->assertIsScalar($xDel);

@@ -19,8 +19,8 @@ class xClaimTest extends TestCase
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
         $this->key = 'Streams:xClaimTest';
-        $this->keyOptional = $this->key.':Optional';
-        $this->group = $this->key.':Group';
+        $this->keyOptional = $this->key . ':Optional';
+        $this->group = $this->key . ':Group';
     }
 
 
@@ -41,8 +41,8 @@ class xClaimTest extends TestCase
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
-        $start = $expected.'-0';
-        $end = ($expected + 100).'-10';
+        $start = $expected . '-0';
+        $end = ($expected + 100) . '-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
 
         // dump($start);
@@ -74,8 +74,8 @@ class xClaimTest extends TestCase
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
-        $start = $expected.'-0';
-        $end = ($expected + 100).'-10';
+        $start = $expected . '-0';
+        $end = ($expected + 100) . '-10';
         $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
 
         // dump($start);
