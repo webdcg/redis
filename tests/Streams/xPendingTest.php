@@ -33,7 +33,7 @@ class xPendingTest extends TestCase
      * ========================================================================
      * xPending
      *
-     * Redis | Sorted Sets | xPending => Get information about pending messages in a given stream.
+     * Redis | Streams | xPending => Get information about pending messages in a given stream.
      * ========================================================================
      */
 

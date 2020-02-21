@@ -108,11 +108,11 @@ trait Streams
      *
      * See: https://redis.io/commands/xgroup.
      *
-     * @param  string       $command                [description]
-     * @param  string|null  $stream                 [description]
-     * @param  string|null  $group                  [description]
-     * @param  [type]       $messageId_consumerName [description]
-     * @param  bool|boolean $makeStream             [description]
+     * @param  string       $command
+     * @param  string|null  $stream
+     * @param  string|null  $group
+     * @param  string|null  $messageId_consumerName
+     * @param  bool|boolean $makeStream
      *
      * @return mixed                                This command returns different
      *                                              types depending on the specific
@@ -122,10 +122,27 @@ trait Streams
         string $command,
         ?string $stream = null,
         ?string $group = null,
-        $messageId_consumerName = null,
+        ?string $messageId_consumerName = null,
         bool $makeStream = false
     ) {
-        return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
+        $command = strtoupper($command);
+
+        if (!$this->_checkGroupCommands($command)) {
+            throw new \Exception("Bad Group Command", 1);
+        }
+
+        switch ($command) {
+            case 'HELP':
+                return $this->redis->xGroup($command);
+            case 'CREATE':
+                return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName, $makeStream);
+            case 'SETID':
+                return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName);
+            case 'DESTROY':
+                return $this->redis->xGroup($command, $stream, $group);
+            case 'DELCONSUMER':
+                return $this->redis->xGroup($command, $stream, $group, $messageId_consumerName);
+        }
     }
 
 
@@ -244,10 +261,35 @@ trait Streams
     }
 
 
-    public function xReadGroup(): array
-    {
-        return [];
+    /**
+     * This method is similar to xRead except that it supports reading messages for a specific consumer group.
+     *
+     * See: https://redis.io/commands/xreadgroup.
+     *
+     * @param  string   $group
+     * @param  string   $consumer
+     * @param  array    $streams
+     * @param  int|null $count
+     * @param  int|null $block
+     *
+     * @return array                The messages delivered to this consumer group (if any).
+     */
+    public function xReadGroup(
+        string $group,
+        string $consumer,
+        array $streams,
+        ?int $count = null,
+        ?int $block = null
+    ): array {
+        if (!is_null($count) && !is_null($block)) {
+            return $this->redis->xReadGroup($group, $consumer, $streams, $count, $block);
+        }
+
+        return is_null($count) ?
+            $this->redis->xReadGroup($group, $consumer, $streams) :
+            $this->redis->xReadGroup($group, $consumer, $streams, $count);
     }
+
 
     public function xRevRange(): bool
     {
@@ -284,11 +326,9 @@ trait Streams
      */
     private function _checkClaimOptions(array $options): bool
     {
-        $available = ['IDLE', 'TIME', 'RETRYCOUNT', 'FORCE', 'JUSTID'];
-
         foreach ($options as $key => $value) {
             $check = is_numeric($key) ? $value : $key;
-            if (!in_array($check, $available)) {
+            if (!in_array($check, ['IDLE', 'TIME', 'RETRYCOUNT', 'FORCE', 'JUSTID'])) {
                 return false;
             }
         }
@@ -306,8 +346,18 @@ trait Streams
      */
     private function _checkInfoCommands(string $command): bool
     {
-        $available = ['CONSUMERS', 'GROUPS', 'STREAM', 'HELP'];
+        return in_array($command, ['CONSUMERS', 'GROUPS', 'STREAM', 'HELP'], true);
+    }
 
-        return in_array($command, $available, true);
+    /**
+     * [_checkGroupCommands description]
+     *
+     * @param  string $command
+     *
+     * @return bool
+     */
+    private function _checkGroupCommands(string $command): bool
+    {
+        return in_array($command, ['HELP', 'CREATE', 'SETID', 'DESTROY', 'DELCONSUMER'], true);
     }
 }

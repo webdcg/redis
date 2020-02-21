@@ -33,7 +33,7 @@ class xDelTest extends TestCase
      * ========================================================================
      * xDel
      *
-     * Redis | Sorted Sets | xDel => Delete one or more messages from a stream.
+     * Redis | Streams | xDel => Delete one or more messages from a stream.
      * ========================================================================
      */
 

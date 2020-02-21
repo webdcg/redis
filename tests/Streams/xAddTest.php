@@ -26,7 +26,7 @@ class xAddTest extends TestCase
      * ========================================================================
      * xAdd
      *
-     * Redis | Sorted Sets | xAdd => Appends the specified stream entry to the stream at the specified key.
+     * Redis | Streams | xAdd => Appends the specified stream entry to the stream at the specified key.
      * ========================================================================
      */
 

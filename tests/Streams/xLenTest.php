@@ -33,7 +33,7 @@ class xLenTest extends TestCase
      * ========================================================================
      * xLen
      *
-     * Redis | Sorted Sets | xLen => Get the length of a given stream.
+     * Redis | Streams | xLen => Get the length of a given stream.
      * ========================================================================
      */
 

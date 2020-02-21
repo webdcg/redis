@@ -33,7 +33,7 @@ class xRangeTest extends TestCase
      * ========================================================================
      * xRange
      *
-     * Redis | Sorted Sets | xRange => Get a range of messages from a given stream.
+     * Redis | Streams | xRange => Get a range of messages from a given stream.
      * ========================================================================
      */
 

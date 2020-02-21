@@ -33,7 +33,7 @@ class xClaimTest extends TestCase
      * ========================================================================
      * xClaim
      *
-     * Redis | Sorted Sets | xClaim => Claim ownership of one or more pending messages.
+     * Redis | Streams | xClaim => Claim ownership of one or more pending messages.
      * ========================================================================
      */
 

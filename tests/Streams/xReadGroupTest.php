@@ -6,12 +6,13 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\PhpProcess;
 use Webdcg\Redis\Redis;
 
-class xReadTest extends TestCase
+class xReadGroupTest extends TestCase
 {
     protected $redis;
     protected $key;
     protected $keyOptional;
     protected $group;
+    protected $consumer;
     protected $producer;
 
     protected function setUp(): void
@@ -19,9 +20,10 @@ class xReadTest extends TestCase
         $this->redis = new Redis();
         $this->redis->connect();
         $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE);
-        $this->key = 'Streams:xReadTest';
+        $this->key = 'Streams:xReadGroupTest';
         $this->keyOptional = $this->key . ':Optional';
         $this->group = $this->key . ':Group';
+        $this->consumer = $this->key . ':Consumer';
     }
 
     protected function tearDown(): void
@@ -32,18 +34,22 @@ class xReadTest extends TestCase
 
     /*
      * ========================================================================
-     * xRead
+     * xReadGroup
      *
-     * Redis | Streams | xRead => Read data from one or more streams and only return IDs greater than sent in the command.
+     * Redis | Streams | xReadGroup => This method is similar to xRead except that it supports reading messages for a specific consumer group.
      * ========================================================================
      */
 
 
     /** @test */
-    public function redis_streams_xRead_single_Stream()
+    public function redis_streams_xReadGroup_single_Stream()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->assertTrue($this->redis->xGroup('SETID', $this->key, $this->group, 0));
+
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $messageId = $this->redis->xAdd($this->key, '*', ['key' => 'value']);
         $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
@@ -54,20 +60,26 @@ class xReadTest extends TestCase
             ]
         ];
 
-        $xRead = $this->redis->xRead([$this->key => $expected . '-0']);
-        $this->assertIsIterable($xRead);
-        $this->assertIsArray($xRead);
-        $this->assertEquals($messages, $xRead);
+        $xReadGroup = $this->redis->xReadGroup($this->group, $this->consumer, [$this->key => '>']);
+        $this->assertIsIterable($xReadGroup);
+        $this->assertIsArray($xReadGroup);
+        $this->assertEquals($messages, $xReadGroup);
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
 
     /** @test */
-    public function redis_streams_xRead_multiple_Streams()
+    public function redis_streams_xReadGroup_multiple_Streams()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
+
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->assertTrue($this->redis->xGroup('SETID', $this->key, $this->group, 0));
+
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->keyOptional, $this->group, 0, true));
+        $this->assertTrue($this->redis->xGroup('SETID', $this->keyOptional, $this->group, 0));
 
         $expected = (int) floor(microtime(true) * 1000) - 1;
 
@@ -85,14 +97,12 @@ class xReadTest extends TestCase
             ],
         ];
 
-        $xRead = $this->redis->xRead([
-            $this->key => $expected . '-0',
-            $this->keyOptional => $expected . '-0',
-        ]);
+        $streams = [ $this->key => '>', $this->keyOptional => '>' ];
+        $xReadGroup = $this->redis->xReadGroup($this->group, $this->consumer, $streams);
 
-        $this->assertIsIterable($xRead);
-        $this->assertIsArray($xRead);
-        $this->assertEquals($messages, $xRead);
+        $this->assertIsIterable($xReadGroup);
+        $this->assertIsArray($xReadGroup);
+        $this->assertEquals($messages, $xReadGroup);
 
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->keyOptional));
@@ -104,6 +114,10 @@ class xReadTest extends TestCase
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->assertTrue($this->redis->xGroup('SETID', $this->key, $this->group, 0));
+
         $expected = (int) floor(microtime(true) * 1000) - 1;
         $total = random_int(6, 10);
 
@@ -113,29 +127,34 @@ class xReadTest extends TestCase
             $this->assertGreaterThanOrEqual($expected, explode('-', $messageId)[0]);
         }
 
-        $messages = [
-            $this->key => array_slice($messages, 0, 5, true),
-        ];
-        $xRead = $this->redis->xRead([$this->key => $expected . '-0'], 5);
+        $messages = [ $this->key => array_slice($messages, 0, 5, true) ];
+        $xReadGroup = $this->redis->xReadGroup($this->group, $this->consumer, [$this->key => '>'], 5);
 
-        $this->assertIsIterable($xRead);
-        $this->assertIsArray($xRead);
-        $this->assertEquals($messages, $xRead);
+        $this->assertIsIterable($xReadGroup);
+        $this->assertIsArray($xReadGroup);
+        $this->assertEquals($messages, $xReadGroup);
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 
 
     /** @test */
-    public function redis_streams_xRead_Blocking_Stream()
+    public function redis_streams_xReadGroup_Blocking_Stream()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+
+        $this->assertTrue($this->redis->xGroup('CREATE', $this->key, $this->group, 0, true));
+        $this->assertTrue($this->redis->xGroup('SETID', $this->key, $this->group, 0));
+
         $expected = (int) floor(microtime(true) * 1000) - 1;
+
         $this->produceStreamEvents(10);
-        $xRead = $this->redis->xRead([$this->key => $expected . '-0'], 2, 0);
-        $this->assertIsIterable($xRead);
-        $this->assertIsArray($xRead);
-        $this->assertEquals(2, count($xRead[$this->key]));
+
+        $xReadGroup = $this->redis->xReadGroup($this->group, $this->consumer, [$this->key => '>'], 2, 0);
+
+        $this->assertIsIterable($xReadGroup);
+        $this->assertIsArray($xReadGroup);
+        $this->assertEquals(2, count($xReadGroup[$this->key]));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
 

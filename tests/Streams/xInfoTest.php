@@ -33,7 +33,7 @@ class xInfoTest extends TestCase
      * ========================================================================
      * xInfo
      *
-     * Redis | Sorted Sets | xInfo => Get information about a stream or consumer groups.
+     * Redis | Streams | xInfo => Get information about a stream or consumer groups.
      * ========================================================================
      */
 

@@ -28,7 +28,7 @@ class xAckTest extends TestCase
      * ========================================================================
      * xAck
      *
-     * Redis | Sorted Sets | xAck => Acknowledge one or more pending messages.
+     * Redis | Streams | xAck => Acknowledge one or more pending messages.
      * ========================================================================
      */
 
