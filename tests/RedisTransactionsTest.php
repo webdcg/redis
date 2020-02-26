@@ -26,7 +26,7 @@ class RedisTransactionsTest extends TestCase
      * Redis | Transactions | unwatch => Flushes all the previously watched keys for a transaction.
      * ========================================================================
      */
-    
+
 
     /** @test */
     public function redis_transactions_multi_unwatch_sucseed()
