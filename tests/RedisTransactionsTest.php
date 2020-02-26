@@ -27,7 +27,7 @@ class RedisTransactionsTest extends TestCase
      * ========================================================================
      */
 
-     /** @test */
+    /** @test */
     public function redis_transactions_multi_watch_sucseed()
     {
         // Start from scratch
@@ -83,7 +83,7 @@ class RedisTransactionsTest extends TestCase
         $this->assertFalse($this->redis->get($this->key));
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
-    
+
     /** @test */
     public function redis_transactions_multi_local_exec()
     {
