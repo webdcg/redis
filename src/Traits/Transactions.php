@@ -24,9 +24,9 @@ trait Transactions
      * @return array    each element being the reply to each of the commands
      *                  in the atomic transaction.
      */
-    public function exec(): array
+    public function exec($multi): array
     {
-        return $this->redis->exec();
+        return $multi->exec();
     }
 
     public function discard(): bool
