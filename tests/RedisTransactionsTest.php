@@ -23,13 +23,52 @@ class RedisTransactionsTest extends TestCase
 
     /*
      * ========================================================================
-     * Redis | Transactions | discard => Flushes all previously queued commands in a transaction and restores the connection state to normal.
+     * Redis | Transactions | watch => Marks the given keys to be watched for conditional execution of a transaction.
      * ========================================================================
      */
-<<<<<<< HEAD
 
-=======
-    
+     /** @test */
+    public function redis_transactions_multi_watch_sucseed()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 1));
+        $this->assertEquals(1, $this->redis->get($this->key));
+        // Start watching a key
+        $this->assertTrue($this->redis->watch($this->key));
+        // If we try to use the same key it the transaction should fail
+        $multi = $this->redis->multi();
+        $multi->incr($this->key);
+        $multi->get($this->key);
+        $transaction = $multi->exec();
+        $this->assertEquals([2, 2], $transaction);
+        $this->assertEquals(2, $this->redis->get($this->key));
+        // Use the key after its released by a transaction
+        $this->assertEquals(3, $this->redis->incr($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
+
+    /** @test */
+    public function redis_transactions_multi_watch_discards()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $this->assertTrue($this->redis->set($this->key, 1));
+        $this->assertEquals(1, $this->redis->get($this->key));
+        // Start watching a key
+        $this->assertTrue($this->redis->watch($this->key));
+        // Use the key before its released by a transaction
+        $this->assertEquals(2, $this->redis->incr($this->key));
+        // If we try to use the same key it the transaction should fail
+        $multi = $this->redis->multi();
+        $multi->incr($this->key);
+        $multi->get($this->key);
+        $transaction = $multi->exec();
+        $this->assertFalse($transaction);
+        $this->assertEquals(2, $this->redis->get($this->key));
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
 
     /** @test */
     public function redis_transactions_multi_discard()
@@ -45,7 +84,6 @@ class RedisTransactionsTest extends TestCase
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
     }
     
->>>>>>> Redis | Transactions | discard => Flushes all previously queued commands in a transaction and restores the connection state to normal.
     /** @test */
     public function redis_transactions_multi_local_exec()
     {
@@ -69,6 +107,7 @@ class RedisTransactionsTest extends TestCase
         $multi->get($this->key);
         $transaction = $multi->exec();
         $this->assertEquals([true, 1], $transaction);
+        $this->assertEquals(1, $this->redis->get($this->key));
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 

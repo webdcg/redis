@@ -16,9 +16,11 @@ trait Transactions
         return $this->redis->multi();
     }
 
+
     /**
      * Executes all previously queued commands in a transaction and restores
      * the connection state to normal.
+     *
      * See: https://redis.io/commands/exec.
      *
      * @return array    each element being the reply to each of the commands
@@ -29,19 +31,36 @@ trait Transactions
         return $multi->exec();
     }
 
+
     /**
-     * [discard description]
-     * @param  [type] $multi [description]
-     * @return [type]        [description]
+     * Flushes all previously queued commands in a transaction and restores the
+     * connection state to normal.
+     *
+     * See: https://redis.io/commands/discard.
+     *
+     * @param   $multi
+     *
+     * @return bool
      */
-    public function discard($multi): bool
+    public function discard(\Redis $multi): bool
     {
         return $multi->discard();
     }
 
-    public function watch(): bool
+
+    /**
+     * Marks the given keys to be watched for conditional execution of a
+     * transaction.
+     *
+     * See: https://redis.io/commands/watch.
+     *
+     * @param  splat $keys
+     *
+     * @return mixed
+     */
+    public function watch(...$keys)
     {
-        return false;
+        return $this->redis->watch(...$keys);
     }
 
     public function unwatch(): bool
