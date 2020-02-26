@@ -29,9 +29,14 @@ trait Transactions
         return $multi->exec();
     }
 
-    public function discard(): bool
+    /**
+     * [discard description]
+     * @param  [type] $multi [description]
+     * @return [type]        [description]
+     */
+    public function discard($multi): bool
     {
-        return false;
+        return $multi->discard();
     }
 
     public function watch(): bool

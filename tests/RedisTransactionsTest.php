@@ -23,11 +23,29 @@ class RedisTransactionsTest extends TestCase
 
     /*
      * ========================================================================
-     *
-     * Redis | Transactions | exec => Executes all previously queued commands in a transaction and restores the connection state to normal.
+     * Redis | Transactions | discard => Flushes all previously queued commands in a transaction and restores the connection state to normal.
      * ========================================================================
      */
+<<<<<<< HEAD
 
+=======
+    
+
+    /** @test */
+    public function redis_transactions_multi_discard()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $multi = $this->redis->multi();
+        $multi->set($this->key, 1);
+        $multi->get($this->key);
+        $transaction = $this->redis->discard($multi);
+        $this->assertEquals(true, $transaction);
+        $this->assertFalse($this->redis->get($this->key));
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+    }
+    
+>>>>>>> Redis | Transactions | discard => Flushes all previously queued commands in a transaction and restores the connection state to normal.
     /** @test */
     public function redis_transactions_multi_local_exec()
     {
@@ -65,6 +83,7 @@ class RedisTransactionsTest extends TestCase
                         ->get($this->key)
                         ->exec();
         $this->assertEquals([true, 1], $transaction);
+        $this->assertEquals(1, $this->redis->get($this->key));
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }
