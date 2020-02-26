@@ -56,15 +56,26 @@ trait Transactions
      *
      * @param  splat $keys
      *
-     * @return mixed
+     * @return bool
      */
-    public function watch(...$keys)
+    public function watch(...$keys): bool
     {
         return $this->redis->watch(...$keys);
     }
 
-    public function unwatch(): bool
+
+    /**
+     * Flushes all the previously watched keys for a transaction.
+     * If you call EXEC or DISCARD, there's no need to manually call UNWATCH.
+     *
+     * See: https://redis.io/commands/unwatch.
+     *
+     * @param  splat $keys
+     *
+     * @return bool
+     */
+    public function unwatch(...$keys): bool
     {
-        return false;
+        return $this->redis->unwatch(...$keys);
     }
 }
