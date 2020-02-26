@@ -21,12 +21,37 @@ class RedisTransactionsTest extends TestCase
         $this->keyOptional = 'Transactions:Optional';
     }
 
+    /*
+     * ========================================================================
+     *
+     * Redis | Transactions | multi => Marks the start of a transaction block. Subsequent commands will be queued for atomic execution using EXEC.
+     * ========================================================================
+     */
+
+    /** @test */
+    public function redis_transactions_multi_step_exec()
+    {
+        // Start from scratch
+        $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
+        $multi = $this->redis->multi()
+                        ->set($this->key, 1)
+                        ->get($this->key);
+        $transaction = $multi->exec();
+        $this->assertEquals([true, 1], $transaction);
+        $this->assertEquals(1, $this->redis->delete($this->key));
+    }
+
     /** @test */
     public function redis_transactions_multi_exec()
     {
         // Start from scratch
         $this->assertGreaterThanOrEqual(0, $this->redis->delete($this->key));
-        $this->assertEquals([true, 1], $this->redis->multi()->set($this->key, 1)->get($this->key)->exec());
+        $transaction = $this->redis
+                        ->multi()
+                        ->set($this->key, 1)
+                        ->get($this->key)
+                        ->exec();
+        $this->assertEquals([true, 1], $transaction);
         $this->assertEquals(1, $this->redis->delete($this->key));
     }
 }
