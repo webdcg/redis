@@ -16,31 +16,66 @@ trait Transactions
         return $this->redis->multi();
     }
 
+
     /**
      * Executes all previously queued commands in a transaction and restores
      * the connection state to normal.
+     *
      * See: https://redis.io/commands/exec.
      *
      * @return array    each element being the reply to each of the commands
      *                  in the atomic transaction.
      */
-    public function exec(): array
+    public function exec($multi): array
     {
-        return $this->redis->exec();
+        return $multi->exec();
     }
 
-    public function discard(): bool
+
+    /**
+     * Flushes all previously queued commands in a transaction and restores the
+     * connection state to normal.
+     *
+     * See: https://redis.io/commands/discard.
+     *
+     * @param   $multi
+     *
+     * @return bool
+     */
+    public function discard(\Redis $multi): bool
     {
-        return false;
+        return $multi->discard();
     }
 
-    public function watch(): bool
+
+    /**
+     * Marks the given keys to be watched for conditional execution of a
+     * transaction.
+     *
+     * See: https://redis.io/commands/watch.
+     *
+     * @param  splat $keys
+     *
+     * @return bool
+     */
+    public function watch(...$keys): bool
     {
-        return false;
+        return $this->redis->watch(...$keys);
     }
 
-    public function unwatch(): bool
+
+    /**
+     * Flushes all the previously watched keys for a transaction.
+     * If you call EXEC or DISCARD, there's no need to manually call UNWATCH.
+     *
+     * See: https://redis.io/commands/unwatch.
+     *
+     * @param  splat $keys
+     *
+     * @return bool
+     */
+    public function unwatch(...$keys): bool
     {
-        return false;
+        return $this->redis->unwatch(...$keys);
     }
 }
