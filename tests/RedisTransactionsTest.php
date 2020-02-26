@@ -27,7 +27,7 @@ class RedisTransactionsTest extends TestCase
      * Redis | Transactions | exec => Executes all previously queued commands in a transaction and restores the connection state to normal.
      * ========================================================================
      */
-    
+
     /** @test */
     public function redis_transactions_multi_local_exec()
     {
